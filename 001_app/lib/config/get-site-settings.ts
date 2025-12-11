@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import type { SiteSettings } from '@/types/site'
-import { siteDefaults } from './site-defaults'
+import { siteDefaults, defaultFilms } from './site-defaults'
+import { createDefaultWorksForSite } from './get-works-server'
 
 /**
  * Récupère les settings du site de l'utilisateur
@@ -75,6 +76,11 @@ export async function createUserSite(userId: string): Promise<{ success: boolean
 
   if (error) {
     return { success: false, error: error.message }
+  }
+
+  // Créer les works par défaut dans la table works
+  if (defaultFilms && defaultFilms.length > 0) {
+    await createDefaultWorksForSite(data.id, defaultFilms)
   }
 
   return { success: true, siteId: data.id }

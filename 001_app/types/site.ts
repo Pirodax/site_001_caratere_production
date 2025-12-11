@@ -79,7 +79,6 @@ export interface SiteSettings {
   // Sections
   hero: HeroSettings
   about: AboutSettings
-  films: Film[]
   inProduction?: {
     title?: string
     film: InProductionFilm

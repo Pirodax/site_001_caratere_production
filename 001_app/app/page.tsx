@@ -17,25 +17,45 @@ export default async function Home() {
   // Récupérer les settings du site (le premier site pour l'instant)
   const { data: site } = await supabase
     .from('sites')
-    .select('settings')
+    .select('settings, id')
     .limit(1)
     .maybeSingle()
 
   // Utiliser les settings de la DB ou les defaults
   const settings: SiteSettings = site?.settings as SiteSettings || siteDefaults
+  const siteId = site?.id
 
-  // Données pour Works - utilise les films des settings
-  const worksData = {
+  // Récupérer les works depuis la table works
+  let worksData = {
     title: 'Nos Films',
-    items: settings.films.map(film => ({
-      title: film.title,
-      year: String(film.year),
-      image: film.poster,
-      description: film.description,
-      director: film.director,
-      slug: film.slug
-    }))
-  };
+    items: [] as Array<{
+      id: string
+      title: string
+      year: string
+      image: string
+      description?: string
+      director?: string
+    }>
+  }
+
+  if (siteId) {
+    const { data: works } = await supabase
+      .from('works')
+      .select('*')
+      .eq('site_id', siteId)
+      .order('created_at', { ascending: false })
+
+    if (works && works.length > 0) {
+      worksData.items = works.map(work => ({
+        id: work.id,
+        title: work.settings.title,
+        year: String(work.settings.year),
+        image: work.settings.poster,
+        description: work.settings.description,
+        director: work.settings.director
+      }))
+    }
+  }
 
   return (
     <main className="relative bg-black flex justify-center items-center flex-col mx-auto overflow-clip">

@@ -1,36 +1,89 @@
 'use client'
 
-import { Films, FilmsDetails } from '../../../data/films'
 import { motion } from 'framer-motion'
-import { useState, use } from 'react'
+import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
+import { createClient } from '../../../lib/supabase/client'
+import type { Film } from '../../../types/site'
+
+interface Work {
+  id: string
+  site_id: string
+  settings: Film
+  created_at: string
+  updated_at: string
+}
 
 export default function FilmPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Unwrap params Promise avec use()
   const { slug } = use(params)
+
+  const [work, setWork] = useState<Work | null>(null)
+  const [theme, setTheme] = useState({
+    primary: '#0a0a0a',
+    accent: '#ffffff',
+    text: '#ffffff'
+  })
   const [showTrailer, setShowTrailer] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  // Trouver le film correspondant au slug
-  const film = Films.find(f => f.slug === slug)
-  const filmDetails = FilmsDetails.find(fd => fd.slug === slug)
+  useEffect(() => {
+    async function loadWork() {
+      const supabase = createClient()
 
-  if (!film) {
+      // Récupérer le work
+      const { data: workData, error } = await supabase
+        .from('works')
+        .select('*')
+        .eq('id', slug)
+        .maybeSingle()
+
+      if (error || !workData) {
+        setLoading(false)
+        return
+      }
+
+      setWork(workData as Work)
+
+      // Récupérer le thème du site
+      const { data: siteData } = await supabase
+        .from('sites')
+        .select('settings')
+        .eq('id', workData.site_id)
+        .maybeSingle()
+
+      if (siteData?.settings?.theme) {
+        setTheme(siteData.settings.theme)
+      }
+
+      setLoading(false)
+    }
+
+    loadWork()
+  }, [slug])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-xl">Chargement...</div>
+      </div>
+    )
+  }
+
+  if (!work) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl text-white mb-4">Film non trouv�</h1>
+          <h1 className="text-4xl text-white mb-4">Film non trouvé</h1>
           <Link href="/" className="text-white hover:opacity-70 underline">
-            Retour � l'accueil
+            Retour à l'accueil
           </Link>
         </div>
       </div>
     )
   }
 
-  const theme = {
-    primary: '#0a0a0a',
-    accent: '#ffffff',
-    text: '#ffffff'
-  }
+  const film = work.settings
 
   return (
     <div className="min-h-screen bg-black">
@@ -69,7 +122,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
         />
 
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
         {/* Contenu */}
         <div className="relative h-full flex flex-col justify-end pb-20 px-8 lg:px-16 max-w-7xl mx-auto">
@@ -88,13 +141,13 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
               {film.year && <span className="text-lg">{film.year}</span>}
               {film.duration && (
                 <>
-                  <span>"</span>
+                  <span>•</span>
                   <span className="text-lg">{film.duration}</span>
                 </>
               )}
               {film.genre && (
                 <>
-                  <span>"</span>
+                  <span>•</span>
                   <span className="text-lg">{film.genre}</span>
                 </>
               )}
@@ -139,14 +192,14 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           </p>
           {film.director && (
             <p className="text-lg text-white/60 mt-6">
-              R�alis� par <span className="text-white font-medium">{film.director}</span>
+              Réalisé par <span className="text-white font-medium">{film.director}</span>
             </p>
           )}
         </motion.div>
       </section>
 
       {/* Section Contributeurs */}
-      {filmDetails && filmDetails.crew && filmDetails.crew.length > 0 && (
+      {film.crew && film.crew.length > 0 && (
         <section className="py-20 lg:py-32 px-8 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -158,7 +211,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
             {/* Grille de contributeurs */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
-              {filmDetails.crew.map((member, index) => (
+              {film.crew.map((member, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
@@ -181,7 +234,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                     {member.name}
                   </h3>
 
-                  {/* R�le */}
+                  {/* Rôle */}
                   <p className="text-white/60 text-sm">{member.role}</p>
                 </motion.div>
               ))}
@@ -211,10 +264,10 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
               onClick={() => setShowTrailer(false)}
               className="absolute -top-12 right-0 text-white text-4xl hover:opacity-70 transition-opacity z-10"
             >
-              �
+              ✕
             </button>
 
-            {/* Vid�o */}
+            {/* Vidéo */}
             <video
               src={film.trailer}
               controls

@@ -18,6 +18,7 @@ interface CrewMember {
 }
 
 interface WorkItem {
+  id?: string
   title: string
   year: string
   image: string
@@ -25,7 +26,6 @@ interface WorkItem {
   trailer?: string
   director?: string
   crew?: CrewMember[]
-  slug?: string
 }
 
 interface WorksData {
@@ -139,10 +139,10 @@ export function Works({ data, theme }: WorksProps) {
                 </motion.div>
               )
 
-              // Si le film a un slug, on crée un lien vers la page de détail
-              if (item.slug) {
+              // Si le film a un ID, on crée un lien vers la page de détail
+              if (item.id) {
                 return (
-                  <Link key={index} href={`/films/${item.slug}`}>
+                  <Link key={index} href={`/films/${item.id}`}>
                     {filmContent}
                   </Link>
                 )
