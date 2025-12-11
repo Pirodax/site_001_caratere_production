@@ -68,6 +68,11 @@ export interface SocialLinks {
   linkedin?: string
 }
 
+export interface GallerySettings {
+  title?: string
+  images?: string[]
+}
+
 export interface SiteSettings {
   // Informations générales
   siteName: string
@@ -80,6 +85,7 @@ export interface SiteSettings {
   hero: HeroSettings
   about: AboutSettings
   films: Film[]
+  gallery?: GallerySettings
   inProduction?: {
     title?: string
     film: InProductionFilm
@@ -95,6 +101,7 @@ export interface SiteSettings {
 export interface Site {
   id: string
   owner_id: string
+  domain?: string
   settings: SiteSettings
   created_at: string
   updated_at: string
