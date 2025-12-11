@@ -5,6 +5,7 @@ import { Works } from "../components/template_cinema/Works";
 import { InProduction } from "../components/template_cinema/InProduction";
 import { ContactCinema } from "../components/template_cinema/ContactCinema";
 import { FooterCinema } from "../components/template_cinema/FooterCinema";
+import { Films } from "../data/films";
 
 export default function Home() {
   // Configuration du thème
@@ -17,7 +18,7 @@ export default function Home() {
   // Données pour HeroVideo
   const heroData = {
     videoUrl: '',
-    imageUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1920&q=80',
+    imageUrl: 'http://caracteresproductions.com/wp-content/uploads/2025/01/SliderLe-Pacte-dAlep-1.jpg',
     overlayText: 'Productions Cinématographiques',
     title: 'CARACTÈRE'
   };
@@ -29,25 +30,17 @@ export default function Home() {
     image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80'
   };
 
-  // Données pour Works
+  // Données pour Works - utilise les données du fichier films.ts
   const worksData = {
     title: 'Nos Films',
-    items: [
-      {
-        title: 'Film 1',
-        year: '2024',
-        image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80',
-        description: 'Description du film 1',
-        director: 'Réalisateur 1'
-      },
-      {
-        title: 'Film 2',
-        year: '2023',
-        image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80',
-        description: 'Description du film 2',
-        director: 'Réalisateur 2'
-      }
-    ]
+    items: Films.map(film => ({
+      title: film.title,
+      year: String(film.year),
+      image: film.poster,
+      description: film.description,
+      director: film.director,
+      slug: film.slug
+    }))
   };
 
   

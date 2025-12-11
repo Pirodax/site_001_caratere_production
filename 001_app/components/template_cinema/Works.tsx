@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { FilmDetail } from './FilmDetail'
+import Link from 'next/link'
 
 interface CrewMember {
   name: string
@@ -24,6 +25,7 @@ interface WorkItem {
   trailer?: string
   director?: string
   crew?: CrewMember[]
+  slug?: string
 }
 
 interface WorksData {
@@ -86,56 +88,73 @@ export function Works({ data, theme }: WorksProps) {
 
           {/* Works grid - Reduced gap for tighter spacing */}
           <div className="grid gap-4 md:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {validItems.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group cursor-pointer"
-                onClick={() => setSelectedFilm(item)}
-              >
-                {/* Image */}
-                <div className="relative mb-3 aspect-[3/4] overflow-hidden bg-gray-100">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                  />
+            {validItems.map((item, index) => {
+              const filmContent = (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative mb-3 aspect-[3/4] overflow-hidden bg-gray-100">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                    />
 
-                  {/* Overlay on hover */}
-                  <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/40 flex items-center justify-center">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileHover={{ opacity: 1, scale: 1 }}
-                      className="text-white text-sm font-semibold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      VOIR DÉTAILS
-                    </motion.div>
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/40 flex items-center justify-center">
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileHover={{ opacity: 1, scale: 1 }}
+                        className="text-white text-sm font-semibold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      >
+                        VOIR DÉTAILS
+                      </motion.div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Info */}
-                <div className="space-y-1">
-                  <h3
-                    className="text-lg font-light tracking-wide"
-                    style={{
-                      color: theme?.text || '#111111',
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p
-                    className="text-sm tracking-wider"
-                    style={{
-                      color: theme?.primary || '#C0A060',
-                    }}
-                  >
-                    {item.year}
-                  </p>
+                  {/* Info */}
+                  <div className="space-y-1">
+                    <h3
+                      className="text-lg font-light tracking-wide"
+                      style={{
+                        color: theme?.text || '#111111',
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p
+                      className="text-sm tracking-wider"
+                      style={{
+                        color: theme?.primary || '#C0A060',
+                      }}
+                    >
+                      {item.year}
+                    </p>
+                  </div>
+                </motion.div>
+              )
+
+              // Si le film a un slug, on crée un lien vers la page de détail
+              if (item.slug) {
+                return (
+                  <Link key={index} href={`/films/${item.slug}`}>
+                    {filmContent}
+                  </Link>
+                )
+              }
+
+              // Sinon, on garde l'ancien comportement avec le modal
+              return (
+                <div key={index} onClick={() => setSelectedFilm(item)}>
+                  {filmContent}
                 </div>
-              </motion.div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
