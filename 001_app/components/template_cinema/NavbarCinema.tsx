@@ -65,12 +65,21 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.div
-            className="text-2xl font-bold tracking-tight cursor-pointer"
-            style={{ color: theme.accent }}
+            className="cursor-pointer"
             onClick={() => scrollToSection('home')}
             whileHover={{ scale: 1.05 }}
           >
-            {logo || 'CINEMA'}
+            {logo?.startsWith('http') || logo?.startsWith('/') ? (
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-12 w-auto object-contain"
+              />
+            ) : (
+              <div className="text-2xl font-bold tracking-tight" style={{ color: theme.accent }}>
+                {logo || 'CINEMA'}
+              </div>
+            )}
           </motion.div>
 
           {/* Desktop Navigation */}

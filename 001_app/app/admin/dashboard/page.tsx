@@ -9,6 +9,7 @@ import type { User } from '@supabase/supabase-js'
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [siteId, setSiteId] = useState<string | null>(null)
   const router = useRouter()
   const supabase = createClient()
 
@@ -22,6 +23,32 @@ export default function AdminDashboard() {
       }
 
       setUser(user)
+
+      // Vérifier si l'utilisateur a un site, sinon en créer un
+      const { data: site } = await supabase
+        .from('sites')
+        .select('id')
+        .eq('owner_id', user.id)
+        .maybeSingle()
+
+      if (!site) {
+        // Créer un site avec les valeurs par défaut
+        const { data: newSite } = await supabase
+          .from('sites')
+          .insert({
+            owner_id: user.id,
+            settings: {} // Les defaults seront appliqués lors de la lecture
+          })
+          .select('id')
+          .single()
+
+        if (newSite) {
+          setSiteId(newSite.id)
+        }
+      } else {
+        setSiteId(site.id)
+      }
+
       setLoading(false)
     }
 
@@ -193,6 +220,31 @@ export default function AdminDashboard() {
           <div className="mt-12">
             <h3 className="text-xl font-bold text-white mb-6">Actions rapides</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => router.push('/admin/editor')}
+                className="p-4 bg-white text-black border border-white/10 rounded-lg hover:bg-white/90 transition-all text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
+                  </svg>
+                  <span className="font-bold">Éditer le site</span>
+                </div>
+              </motion.button>
+
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

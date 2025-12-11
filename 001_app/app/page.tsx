@@ -5,35 +5,29 @@ import { Works } from "../components/template_cinema/Works";
 import { InProduction } from "../components/template_cinema/InProduction";
 import { ContactCinema } from "../components/template_cinema/ContactCinema";
 import { FooterCinema } from "../components/template_cinema/FooterCinema";
-import { Films } from "../data/films";
+import { createClient } from "../lib/supabase/server";
+import { siteDefaults } from "../lib/config/site-defaults";
+import type { SiteSettings } from "../types/site";
 
-export default function Home() {
-  // Configuration du thème
-  const theme = {
-    primary: '#0a0a0a',
-    accent: '#ffffff',
-    text: '#ffffff'
-  };
+export const dynamic = 'force-dynamic'
 
-  // Données pour HeroVideo
-  const heroData = {
-    videoUrl: '',
-    imageUrl: 'http://caracteresproductions.com/wp-content/uploads/2025/01/SliderLe-Pacte-dAlep-1.jpg',
-    overlayText: 'Productions Cinématographiques',
-    title: 'CARACTÈRE'
-  };
+export default async function Home() {
+  const supabase = await createClient()
 
-  // Données pour About
-  const aboutData = {
-    title: 'À propos',
-    text: 'Caractère Productions est une société de production cinématographique dédiée à la création de contenus originaux et innovants.\n\nNotre mission est de raconter des histoires qui touchent et inspirent le public.',
-    image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80'
-  };
+  // Récupérer les settings du site (le premier site pour l'instant)
+  const { data: site } = await supabase
+    .from('sites')
+    .select('settings')
+    .limit(1)
+    .maybeSingle()
 
-  // Données pour Works - utilise les données du fichier films.ts
+  // Utiliser les settings de la DB ou les defaults
+  const settings: SiteSettings = site?.settings as SiteSettings || siteDefaults
+
+  // Données pour Works - utilise les films des settings
   const worksData = {
     title: 'Nos Films',
-    items: Films.map(film => ({
+    items: settings.films.map(film => ({
       title: film.title,
       year: String(film.year),
       image: film.poster,
@@ -43,45 +37,19 @@ export default function Home() {
     }))
   };
 
-  
-
-  // Données pour InProduction
-  const inProductionData = {
-    title: 'En Production',
-    film: {
-      title: 'Nouveau Projet',
-      directors: 'Réalisateur Principal',
-      poster: 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=600&q=80',
-      synopsis: 'Synopsis du film en cours de production...',
-      trailer: ''
-    }
-  };
-
-  // Données pour Contact
-  const contactData = {
-    email: 'contact@caractere-productions.fr',
-    address: 'Paris, France',
-    phone: '+33 1 23 45 67 89',
-    mapEmbed: ''
-  };
-
-  // Données pour Footer
-  const footerData = {
-    copyright: '© 2025 Caractères Productions — Site propulsé par Sosoft',
-    links: []
-  };
-
   return (
     <main className="relative bg-black flex justify-center items-center flex-col mx-auto overflow-clip">
       <div className="w-full">
-        <NavbarCinema theme={theme} logo="CARACTÈRE" />
-        <HeroVideo data={heroData} theme={theme} />
-        <AboutCinema data={aboutData} theme={theme} />
-        <Works data={worksData} theme={theme} />
-        <InProduction data={inProductionData} theme={theme} />
-        <ContactCinema data={contactData} theme={theme} />
+        <NavbarCinema theme={settings.theme} logo={settings.logo || settings.siteName} />
+        <HeroVideo data={settings.hero} theme={settings.theme} />
+        <AboutCinema data={settings.about} theme={settings.theme} />
+        <Works data={worksData} theme={settings.theme} />
+        {settings.inProduction && (
+          <InProduction data={settings.inProduction} theme={settings.theme} />
+        )}
+        <ContactCinema data={settings.contact} theme={settings.theme} />
       </div>
-      <FooterCinema data={footerData} theme={theme} />
+      <FooterCinema data={settings.footer} theme={settings.theme} />
     </main>
   );
 }
