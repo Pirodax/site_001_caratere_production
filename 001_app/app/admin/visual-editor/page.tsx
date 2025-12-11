@@ -120,7 +120,7 @@ export default function VisualEditorPage() {
       onSettingsChange={handleSettingsChange}
     >
       {/* Preview du site */}
-      <div className="bg-black overflow-auto flex-1">
+      <div className="bg-black">
         <NavbarCinema theme={settings.theme} logo={settings.logo || settings.siteName} />
         <HeroVideo data={settings.hero} theme={settings.theme} />
         <AboutCinema data={settings.about} theme={settings.theme} />
