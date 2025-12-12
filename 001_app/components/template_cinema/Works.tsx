@@ -7,8 +7,7 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { FilmDetail } from './FilmDetail'
+import { useRef } from 'react'
 import Link from 'next/link'
 
 interface CrewMember {
@@ -49,19 +48,17 @@ export function Works({ data, theme }: WorksProps) {
   const validItems = items.filter(item => item.image && item.image.trim() !== '')
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [selectedFilm, setSelectedFilm] = useState<WorkItem | null>(null)
 
   return (
-    <>
-      <section
-        id="films"
-        ref={ref}
-        className="relative py-24 md:py-32"
-        style={{
-          backgroundColor: theme?.background || '#FFFFFF',
-        }}
-      >
-        <div className="mx-auto max-w-7xl px-4">
+    <section
+      id="films"
+      ref={ref}
+      className="relative py-24 md:py-32"
+      style={{
+        backgroundColor: theme?.background || '#FFFFFF',
+      }}
+    >
+      <div className="mx-auto max-w-7xl px-4">
           {/* Section title */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -86,19 +83,18 @@ export function Works({ data, theme }: WorksProps) {
             />
           </motion.div>
 
-          {/* Works grid - Reduced gap for tighter spacing */}
-          <div className="grid gap-4 md:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {validItems.map((item, index) => {
-              const filmContent = (
+          {/* Works grid - 2 columns on mobile, 4 on desktop */}
+          <div className="grid gap-4 md:gap-5 grid-cols-2 lg:grid-cols-4">
+            {validItems.map((item, index) => (
+              <Link key={index} href={`/films/${item.id}`}>
                 <motion.div
-                  key={index}
                   initial={{ opacity: 0, y: 50 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group cursor-pointer"
                 >
                   {/* Image */}
-                  <div className="relative mb-3 aspect-[3/4] overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -116,59 +112,11 @@ export function Works({ data, theme }: WorksProps) {
                       </motion.div>
                     </div>
                   </div>
-
-                  {/* Info */}
-                  <div className="space-y-1">
-                    <h3
-                      className="text-lg font-light tracking-wide"
-                      style={{
-                        color: theme?.text || '#111111',
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className="text-sm tracking-wider"
-                      style={{
-                        color: theme?.primary || '#C0A060',
-                      }}
-                    >
-                      {item.year}
-                    </p>
-                  </div>
                 </motion.div>
-              )
-
-              // Si le film a un ID, on crée un lien vers la page de détail
-              if (item.id) {
-                return (
-                  <Link key={index} href={`/films/${item.id}`}>
-                    {filmContent}
-                  </Link>
-                )
-              }
-
-              // Sinon, on garde l'ancien comportement avec le modal
-              return (
-                <div key={index} onClick={() => setSelectedFilm(item)}>
-                  {filmContent}
-                </div>
-              )
-            })}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* Film Detail Modal */}
-      <FilmDetail
-        film={selectedFilm}
-        onClose={() => setSelectedFilm(null)}
-        theme={{
-          primary: theme?.primary || '#C0A060',
-          accent: theme?.accent || theme?.primary || '#C0A060',
-          text: theme?.text || '#FFFFFF',
-        }}
-      />
-    </>
   )
 }

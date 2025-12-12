@@ -40,12 +40,8 @@ export interface AboutSettings {
   image?: string
 }
 
-export interface InProductionFilm {
-  title: string
-  directors: string
-  poster: string
-  synopsis?: string
-  trailer?: string
+export interface WorksSettings {
+  title?: string
 }
 
 export interface ContactSettings {
@@ -79,10 +75,7 @@ export interface SiteSettings {
   // Sections
   hero: HeroSettings
   about: AboutSettings
-  inProduction?: {
-    title?: string
-    film: InProductionFilm
-  }
+  works?: WorksSettings
   contact: ContactSettings
   footer: FooterSettings
 

@@ -56,16 +56,9 @@ export const siteDefaults: SiteSettings = {
     image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80'
   },
 
-  // En production
-  inProduction: {
-    title: 'En Production',
-    film: {
-      title: 'Nouveau Projet',
-      directors: 'Réalisateur Principal',
-      poster: 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=600&q=80',
-      synopsis: 'Synopsis du film en cours de production...',
-      trailer: ''
-    }
+  // Section Films
+  works: {
+    title: 'Nos Films'
   },
 
   // Contact
@@ -78,7 +71,7 @@ export const siteDefaults: SiteSettings = {
 
   // Footer
   footer: {
-    copyright: '© 2025 Caractères Productions — Site propulsé par Sosoft',
+    copyright: '© 2025 Caractères Productions — Site propulsé par Ludovic Bergeron',
     links: []
   },
 

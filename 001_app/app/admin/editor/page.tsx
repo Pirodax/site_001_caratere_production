@@ -81,6 +81,9 @@ export default function EditorPage() {
       let current: any = newSettings
 
       for (let i = 0; i < path.length - 1; i++) {
+        if (!current[path[i]]) {
+          current[path[i]] = {}
+        }
         current = current[path[i]]
       }
 
@@ -417,6 +420,18 @@ export default function EditorPage() {
                         >
                           + Ajouter un film
                         </motion.button>
+                      </div>
+
+                      {/* Titre de la section Films */}
+                      <div className="mb-6">
+                        <label className="block text-sm text-white/60 mb-2">Titre de la section</label>
+                        <input
+                          type="text"
+                          value={settings.works?.title || ''}
+                          onChange={(e) => updateSettings(['works', 'title'], e.target.value)}
+                          placeholder="Nos Films"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        />
                       </div>
 
                       {works.length === 0 ? (

@@ -2,7 +2,6 @@ import { NavbarCinema } from "../components/template_cinema/NavbarCinema";
 import { HeroVideo } from "../components/template_cinema/HeroVideo";
 import { AboutCinema } from "../components/template_cinema/AboutCinema";
 import { Works } from "../components/template_cinema/Works";
-import { InProduction } from "../components/template_cinema/InProduction";
 import { ContactCinema } from "../components/template_cinema/ContactCinema";
 import { FooterCinema } from "../components/template_cinema/FooterCinema";
 import { createClient } from "../lib/supabase/server";
@@ -27,7 +26,7 @@ export default async function Home() {
 
   // Récupérer les works depuis la table works
   let worksData = {
-    title: 'Nos Films',
+    title: settings.works?.title || 'Nos Films',
     items: [] as Array<{
       id: string
       title: string
@@ -64,9 +63,6 @@ export default async function Home() {
         <HeroVideo data={settings.hero} theme={settings.theme} />
         <AboutCinema data={settings.about} theme={settings.theme} />
         <Works data={worksData} theme={settings.theme} />
-        {settings.inProduction && (
-          <InProduction data={settings.inProduction} theme={settings.theme} />
-        )}
         <ContactCinema data={settings.contact} theme={settings.theme} />
       </div>
       <FooterCinema data={settings.footer} theme={settings.theme} />

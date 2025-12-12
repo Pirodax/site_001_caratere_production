@@ -26,6 +26,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   })
   const [showTrailer, setShowTrailer] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [showFullSynopsis, setShowFullSynopsis] = useState(false)
 
   useEffect(() => {
     async function loadWork() {
@@ -89,7 +90,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
     <div className="min-h-screen bg-black">
       {/* Bouton retour */}
       <div className="fixed top-6 left-6 z-50">
-        <Link href="/">
+        <Link href="/#films">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -187,9 +188,21 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">Synopsis</h2>
-          <p className="text-lg lg:text-xl text-white/80 leading-relaxed max-w-4xl">
-            {film.synopsis}
-          </p>
+          <div className="max-w-4xl">
+            <p className="text-lg lg:text-xl text-white/80 leading-relaxed">
+              {film.synopsis && film.synopsis.length > 300 && !showFullSynopsis
+                ? `${film.synopsis.substring(0, 300)}...`
+                : film.synopsis}
+            </p>
+            {film.synopsis && film.synopsis.length > 300 && (
+              <button
+                onClick={() => setShowFullSynopsis(!showFullSynopsis)}
+                className="mt-4 text-white/60 hover:text-white transition-colors underline"
+              >
+                {showFullSynopsis ? 'Voir moins' : 'Lire la suite'}
+              </button>
+            )}
+          </div>
           {film.director && (
             <p className="text-lg text-white/60 mt-6">
               Réalisé par <span className="text-white font-medium">{film.director}</span>
@@ -209,8 +222,8 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">Contributeurs</h2>
 
-            {/* Grille de contributeurs */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+            {/* Grille de contributeurs - Images réduites */}
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
               {film.crew.map((member, index) => (
                 <motion.div
                   key={index}
@@ -220,8 +233,8 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group cursor-pointer"
                 >
-                  {/* Portrait */}
-                  <div className="relative aspect-square mb-4 overflow-hidden rounded-lg">
+                  {/* Portrait - Taille réduite */}
+                  <div className="relative aspect-square mb-3 overflow-hidden rounded-lg">
                     <img
                       src={member.image}
                       alt={member.name}
@@ -230,12 +243,12 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                   </div>
 
                   {/* Nom */}
-                  <h3 className="text-white font-medium text-base mb-1 group-hover:text-white/80 transition-colors">
+                  <h3 className="text-white font-medium text-sm mb-1 group-hover:text-white/80 transition-colors">
                     {member.name}
                   </h3>
 
                   {/* Rôle */}
-                  <p className="text-white/60 text-sm">{member.role}</p>
+                  <p className="text-white/60 text-xs">{member.role}</p>
                 </motion.div>
               ))}
             </div>

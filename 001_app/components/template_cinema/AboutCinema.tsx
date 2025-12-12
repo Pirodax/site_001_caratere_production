@@ -42,30 +42,32 @@ export function AboutCinema({ data, theme }: AboutCinemaProps) {
           {title}
         </motion.h2>
 
-        {/* Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Image */}
+        {/* Content Grid - Image at 1/3 width on desktop, full width on mobile */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+          {/* Image - Reduced size: max-w-sm (~384px) on desktop */}
           {data.image && data.image.trim() !== '' && (
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative aspect-[3/4] overflow-hidden"
+              className="relative w-full lg:w-auto lg:max-w-sm flex-shrink-0"
             >
-              <img
-                src={data.image}
-                alt={title}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              />
+              <div className="aspect-[3/4] overflow-hidden">
+                <img
+                  src={data.image}
+                  alt={title}
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
             </motion.div>
           )}
 
-          {/* Text Content */}
+          {/* Text Content - Takes remaining space */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
+            className="space-y-6 flex-1"
           >
             {paragraphs.map((paragraph, index) => (
               <motion.p
