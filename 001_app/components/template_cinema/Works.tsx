@@ -58,30 +58,17 @@ export function Works({ data, theme }: WorksProps) {
         backgroundColor: theme?.background || '#FFFFFF',
       }}
     >
-      <div className="mx-auto max-w-7xl px-4">
-          {/* Section title */}
-          <motion.div
+      <div className="container mx-auto px-4 lg:px-8">
+          {/* Section title - Same style as About section, aligned left */}
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8 }}
-            className="mb-16 text-center"
+            className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20"
+            style={{ color: theme?.accent || theme?.text || '#FFFFFF' }}
           >
-            <h2
-              className="text-4xl font-light tracking-wide md:text-5xl"
-              style={{
-                color: theme?.text || '#111111',
-                fontFamily: 'Playfair Display, serif',
-              }}
-            >
-              {title}
-            </h2>
-            <div
-              className="mx-auto mt-6 h-1 w-24"
-              style={{
-                backgroundColor: theme?.primary || '#C0A060',
-              }}
-            />
-          </motion.div>
+            {title}
+          </motion.h2>
 
           {/* Works grid - 2 columns on mobile, 4 on desktop */}
           <div className="grid gap-4 md:gap-5 grid-cols-2 lg:grid-cols-4">

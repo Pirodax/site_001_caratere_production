@@ -8,6 +8,7 @@ import type { User } from '@supabase/supabase-js'
 import type { SiteSettings, Film, CrewMember } from '@/types/site'
 import { siteDefaults } from '@/lib/config/site-defaults'
 import { getWorksBySiteIdClient, createWork, updateWork, deleteWork, type Work } from '@/lib/config/get-works'
+import { ImageUpload } from '@/components/ImageUpload'
 
 export default function EditorPage() {
   const [user, setUser] = useState<User | null>(null)
@@ -616,43 +617,46 @@ export default function EditorPage() {
                             <div className="space-y-4">
                               {editingWork.settings.crew.map((member, index) => (
                                 <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
-                                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                      <label className="block text-xs text-white/60 mb-2">Nom</label>
-                                      <input
-                                        type="text"
-                                        value={member.name}
-                                        onChange={(e) => updateCrewMember(index, 'name', e.target.value)}
-                                        className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
-                                      />
-                                    </div>
-                                    <div>
-                                      <label className="block text-xs text-white/60 mb-2">Rôle</label>
-                                      <input
-                                        type="text"
-                                        value={member.role}
-                                        onChange={(e) => updateCrewMember(index, 'role', e.target.value)}
-                                        className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
-                                      />
-                                    </div>
-                                    <div>
-                                      <label className="block text-xs text-white/60 mb-2">URL Image</label>
-                                      <div className="flex gap-2">
-                                        <input
-                                          type="text"
-                                          value={member.image}
-                                          onChange={(e) => updateCrewMember(index, 'image', e.target.value)}
-                                          className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
-                                          placeholder="https://..."
-                                        />
-                                        <button
-                                          onClick={() => deleteCrewMember(index)}
-                                          className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all"
-                                        >
-                                          🗑
-                                        </button>
+                                  <div className="flex items-start gap-4">
+                                    {/* Informations du contributeur */}
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/60 mb-2">Nom</label>
+                                          <input
+                                            type="text"
+                                            value={member.name}
+                                            onChange={(e) => updateCrewMember(index, 'name', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/60 mb-2">Rôle</label>
+                                          <input
+                                            type="text"
+                                            value={member.role}
+                                            onChange={(e) => updateCrewMember(index, 'role', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
+                                          />
+                                        </div>
                                       </div>
+
+                                      {/* Upload d'image */}
+                                      <ImageUpload
+                                        currentImage={member.image}
+                                        onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
+                                        label="Photo du contributeur"
+                                      />
                                     </div>
+
+                                    {/* Bouton supprimer */}
+                                    <button
+                                      onClick={() => deleteCrewMember(index)}
+                                      className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all mt-6"
+                                      title="Supprimer ce contributeur"
+                                    >
+                                      🗑
+                                    </button>
                                   </div>
                                 </div>
                               ))}

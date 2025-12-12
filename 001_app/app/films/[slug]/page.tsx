@@ -86,6 +86,32 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
   const film = work.settings
 
+  // Fonction pour convertir une URL YouTube en URL embed
+  const getEmbedUrl = (url: string) => {
+    if (!url) return null
+
+    // YouTube
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+    const youtubeMatch = url.match(youtubeRegex)
+    if (youtubeMatch) {
+      return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=1`
+    }
+
+    // Vimeo
+    const vimeoRegex = /vimeo\.com\/(?:.*\/)?(\d+)/
+    const vimeoMatch = url.match(vimeoRegex)
+    if (vimeoMatch) {
+      return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`
+    }
+
+    // Si c'est déjà une URL embed ou un fichier vidéo direct
+    return url
+  }
+
+  const isDirectVideo = (url: string) => {
+    return url && (url.endsWith('.mp4') || url.endsWith('.webm') || url.endsWith('.ogg'))
+  }
+
   return (
     <div className="min-h-screen bg-black">
       {/* Bouton retour */}
@@ -234,12 +260,24 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                   className="group cursor-pointer"
                 >
                   {/* Portrait - Taille réduite */}
-                  <div className="relative aspect-square mb-3 overflow-hidden rounded-lg">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
-                    />
+                  <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-800">
+                    {member.image && member.image.trim() !== '' ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-900">
+                        <svg
+                          className="w-1/2 h-1/2 text-gray-500"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                      </div>
+                    )}
                   </div>
 
                   {/* Nom */}
@@ -280,13 +318,22 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
               ✕
             </button>
 
-            {/* Vidéo */}
-            <video
-              src={film.trailer}
-              controls
-              autoPlay
-              className="w-full h-full rounded-lg"
-            />
+            {/* Vidéo - Support YouTube, Vimeo et fichiers directs */}
+            {isDirectVideo(film.trailer) ? (
+              <video
+                src={film.trailer}
+                controls
+                autoPlay
+                className="w-full h-full rounded-lg"
+              />
+            ) : (
+              <iframe
+                src={getEmbedUrl(film.trailer) || ''}
+                className="w-full h-full rounded-lg"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+              />
+            )}
           </motion.div>
         </motion.div>
       )}
