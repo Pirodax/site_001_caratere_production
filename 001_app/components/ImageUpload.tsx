@@ -7,18 +7,24 @@ import { uploadImage } from '@/lib/supabase/upload-image'
 interface ImageUploadProps {
   currentImage?: string
   onImageUploaded: (url: string) => void
+  siteId: string
   label?: string
   className?: string
+  folder?: string
 }
 
 export function ImageUpload({
   currentImage,
   onImageUploaded,
+  siteId,
   label = 'Image',
-  className = ''
+  className = '',
+  folder = 'images'
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false)
   const [preview, setPreview] = useState<string | null>(currentImage || null)
+  const [useUrl, setUseUrl] = useState(false)
+  const [urlInput, setUrlInput] = useState(currentImage || '')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +53,10 @@ export function ImageUpload({
     // Upload vers Supabase
     setUploading(true)
     try {
-      const url = await uploadImage(file)
+      const url = await uploadImage(file, siteId, 'images', folder)
       if (url) {
         onImageUploaded(url)
+        setUrlInput(url)
       } else {
         alert('Erreur lors de l\'upload de l\'image')
         setPreview(currentImage || null)
@@ -63,13 +70,76 @@ export function ImageUpload({
     }
   }
 
+  const handleUrlSubmit = () => {
+    if (urlInput.trim()) {
+      onImageUploaded(urlInput.trim())
+      setPreview(urlInput.trim())
+    }
+  }
+
   return (
     <div className={className}>
-      <label className="block text-sm text-white/60 mb-2">{label}</label>
+      <div className="flex items-center justify-between mb-2">
+        <label className="block text-sm text-white/60">{label}</label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setUseUrl(false)}
+            className={`px-3 py-1 text-xs rounded transition-colors ${
+              !useUrl
+                ? 'bg-white/20 text-white'
+                : 'bg-white/5 text-white/60 hover:bg-white/10'
+            }`}
+          >
+            Upload
+          </button>
+          <button
+            type="button"
+            onClick={() => setUseUrl(true)}
+            className={`px-3 py-1 text-xs rounded transition-colors ${
+              useUrl
+                ? 'bg-white/20 text-white'
+                : 'bg-white/5 text-white/60 hover:bg-white/10'
+            }`}
+          >
+            URL
+          </button>
+        </div>
+      </div>
 
-      <div className="flex items-center gap-4">
-        {/* Aperçu de l'image */}
-        <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white/5 border border-white/20 flex-shrink-0">
+      {useUrl ? (
+        // Mode URL
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              onBlur={handleUrlSubmit}
+              placeholder="https://..."
+              className="flex-1 px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+            />
+            <motion.button
+              type="button"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleUrlSubmit}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg border border-white/20 transition-colors"
+            >
+              OK
+            </motion.button>
+          </div>
+          {preview && (
+            <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white/5 border border-white/20">
+              <img src={preview} alt="Aperçu" className="w-full h-full object-cover" />
+            </div>
+          )}
+        </div>
+      ) : (
+        // Mode Upload
+        <div className="flex items-center gap-4">
+          {/* Aperçu de l'image */}
+          <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-white/5 border border-white/20 shrink-0">
           {preview ? (
             <img
               src={preview}
@@ -134,11 +204,11 @@ export function ImageUpload({
             </motion.button>
           )}
         </div>
+        <p className="text-xs text-white/40 mt-2">
+          Format acceptés: JPG, PNG, GIF (max 5MB)
+        </p>
       </div>
-
-      <p className="text-xs text-white/40 mt-2">
-        Format acceptés: JPG, PNG, GIF (max 5MB)
-      </p>
+      )}
     </div>
   )
 }

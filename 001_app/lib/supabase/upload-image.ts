@@ -3,12 +3,14 @@ import { createClient } from './client'
 /**
  * Upload une image vers Supabase Storage et retourne l'URL publique
  * @param file - Le fichier image à uploader
+ * @param siteId - L'ID du site (pour lier l'image au site)
  * @param bucket - Le nom du bucket (défaut: 'images')
  * @param folder - Le dossier dans le bucket (défaut: 'crew')
  * @returns L'URL publique de l'image ou null en cas d'erreur
  */
 export async function uploadImage(
   file: File,
+  siteId: string,
   bucket: string = 'images',
   folder: string = 'crew'
 ): Promise<string | null> {
@@ -18,7 +20,8 @@ export async function uploadImage(
     // Générer un nom de fichier unique
     const fileExt = file.name.split('.').pop()
     const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
-    const filePath = `${folder}/${fileName}`
+    // Chemin: site_id/folder/filename
+    const filePath = `${siteId}/${folder}/${fileName}`
 
     // Upload du fichier
     const { data, error } = await supabase.storage

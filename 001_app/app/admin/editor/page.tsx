@@ -343,16 +343,13 @@ export default function EditorPage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm text-white/60 mb-2">URL de l'image</label>
-                    <input
-                      type="text"
-                      value={settings.hero.imageUrl || ''}
-                      onChange={(e) => updateSettings(['hero', 'imageUrl'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                      placeholder="https://..."
-                    />
-                  </div>
+                  <ImageUpload
+                    currentImage={settings.hero.imageUrl}
+                    onImageUploaded={(url) => updateSettings(['hero', 'imageUrl'], url)}
+                    siteId={siteId || ''}
+                    folder="hero"
+                    label="Image de fond"
+                  />
 
                   <div>
                     <label className="block text-sm text-white/60 mb-2">URL de la vidéo (optionnel)</label>
@@ -392,16 +389,13 @@ export default function EditorPage() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm text-white/60 mb-2">URL de l'image</label>
-                    <input
-                      type="text"
-                      value={settings.about.image || ''}
-                      onChange={(e) => updateSettings(['about', 'image'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                      placeholder="https://..."
-                    />
-                  </div>
+                  <ImageUpload
+                    currentImage={settings.about.image}
+                    onImageUploaded={(url) => updateSettings(['about', 'image'], url)}
+                    siteId={siteId || ''}
+                    folder="about"
+                    label="Image de la section"
+                  />
                 </div>
               )}
 
@@ -567,16 +561,13 @@ export default function EditorPage() {
                           </div>
                         </div>
 
-                        <div>
-                          <label className="block text-sm text-white/60 mb-2">URL de l'affiche</label>
-                          <input
-                            type="text"
-                            value={editingWork.settings.poster}
-                            onChange={(e) => updateWorkField('poster', e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                            placeholder="https://..."
-                          />
-                        </div>
+                        <ImageUpload
+                          currentImage={editingWork.settings.poster}
+                          onImageUploaded={(url) => updateWorkField('poster', url)}
+                          siteId={siteId || ''}
+                          folder="posters"
+                          label="Affiche du film"
+                        />
 
                         <div>
                           <label className="block text-sm text-white/60 mb-2">URL de la bande-annonce (optionnel)</label>
@@ -645,6 +636,8 @@ export default function EditorPage() {
                                       <ImageUpload
                                         currentImage={member.image}
                                         onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
+                                        siteId={siteId || ''}
+                                        folder="crew"
                                         label="Photo du contributeur"
                                       />
                                     </div>
