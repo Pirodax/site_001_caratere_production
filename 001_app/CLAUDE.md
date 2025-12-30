@@ -21,15 +21,28 @@ npm run lint    # Run ESLint
 
 ### Core Concept: Database-Driven Settings
 
-The entire site content is stored in a single JSONB column (`sites.settings`) in Supabase. Each authenticated user has their own site with customizable settings that merge with defaults.
+The site content is split between two main storage patterns:
+1. **Site Settings**: Stored in `sites.settings` JSONB column (theme, hero, about, contact, footer)
+2. **Works (Films)**: Stored in separate `works` table with their own JSONB `settings` column
 
-**Data Flow**:
+Each authenticated user has their own site with customizable settings that merge with defaults.
+
+**Data Flow - Site Settings**:
 ```
 Database (sites.settings JSONB)
   ↓ getSiteSettings() / updateSiteSettings()
 lib/config/get-site-settings.ts
   ↓
 Components receive settings as props
+```
+
+**Data Flow - Works (Films)**:
+```
+Database (works table)
+  ↓ Client-side: lib/config/get-works.ts (createWork, updateWork, deleteWork)
+  ↓ Server-side: lib/config/get-works-server.ts (getWorkById, createDefaultWorksForSite)
+  ↓
+Homepage & Film detail pages
 ```
 
 ### Directory Structure
@@ -48,8 +61,10 @@ Components receive settings as props
 - **`lib/`**
   - `supabase/server.ts` - Server-side Supabase client (cookies-based, for Server Components)
   - `supabase/client.ts` - Client-side Supabase client (browser, for Client Components)
-  - `config/site-defaults.ts` - Default site settings (merged with DB settings)
-  - `config/get-site-settings.ts` - CRUD operations for site settings
+  - `config/site-defaults.ts` - Default site settings + default films (merged with DB settings)
+  - `config/get-site-settings.ts` - CRUD operations for site settings (server-side)
+  - `config/get-works.ts` - CRUD operations for works/films (client-side)
+  - `config/get-works-server.ts` - Server-side works operations (used in Server Components)
 
 - **`types/site.ts`** - All TypeScript interfaces (SiteSettings, Theme, Film, etc.)
 
@@ -64,9 +79,13 @@ Components receive settings as props
 - `created_at`, `updated_at` (timestamptz)
 - RLS enabled: Users can only access their own site
 
-**Table: `works`**
-- `id`, `site_id`, `settings` (jsonb), timestamps
-- RLS enabled
+**Table: `works`** (formerly `films`)
+- `id` (uuid, PK)
+- `site_id` (uuid, FK → sites)
+- `settings` (jsonb) - Film object with title, year, poster, synopsis, director, genre, duration, trailer, crew[]
+- `created_at`, `updated_at` (timestamptz)
+- RLS enabled: Users can only access works of their sites
+- **Important**: Films are stored here, NOT in `sites.settings`
 
 **Table: `media`**
 - `id`, `user_id`, `url`, `filename`, metadata, timestamps
@@ -91,19 +110,38 @@ SiteSettings {
   theme: Theme
   hero: HeroSettings
   about: AboutSettings
-  films: Film[]
+  // NOTE: films array removed - now in works table
   inProduction?: { title?: string; film: InProductionFilm }
   contact: ContactSettings
   footer: FooterSettings
   social?: SocialLinks
 }
+
+Film {
+  slug: string  // Not used for routing (ID is used instead)
+  title: string
+  year: number | string
+  poster: string
+  synopsis: string
+  trailer?: string
+  duration?: string
+  genre?: string
+  director?: string
+  crew?: CrewMember[]  // Array of { name, role, image }
+}
 ```
 
-**When adding new editable fields**:
-1. Add type to [types/site.ts](types/site.ts)
-2. Add default value to [lib/config/site-defaults.ts](lib/config/site-defaults.ts)
-3. Add UI field to [app/admin/editor/page.tsx](app/admin/editor/page.tsx)
+**When adding new editable fields to site settings**:
+1. Add type to [types/site.ts](types/site.ts) SiteSettings interface
+2. Add default value to [lib/config/site-defaults.ts](lib/config/site-defaults.ts) siteDefaults
+3. Add UI field to [app/admin/editor/page.tsx](app/admin/editor/page.tsx) in appropriate tab
 4. Field automatically available in components via props
+
+**When adding new fields to films/works**:
+1. Add type to [types/site.ts](types/site.ts) Film interface
+2. Add field to [lib/config/site-defaults.ts](lib/config/site-defaults.ts) defaultFilms
+3. Add UI field to [app/admin/editor/page.tsx](app/admin/editor/page.tsx) in films tab work editor
+4. Field automatically saved to works.settings JSONB column
 
 ## Important Patterns
 
@@ -112,6 +150,10 @@ SiteSettings {
 - **Server Components**: Use `lib/supabase/server.ts` (e.g., public homepage)
 - **Client Components**: Use `lib/supabase/client.ts` (e.g., admin pages with `'use client'`)
 - Public homepage is `export const dynamic = 'force-dynamic'` to always fetch fresh data
+- **Works/Films separation**:
+  - Client-side operations: `lib/config/get-works.ts` (used in admin editor)
+  - Server-side operations: `lib/config/get-works-server.ts` (used in Server Components)
+  - This separation is **critical** - mixing them causes build errors with `next/headers`
 
 ### Settings Merge Pattern
 
@@ -134,17 +176,66 @@ Components use barrel exports via [components/index.ts](components/index.ts):
 export { NavbarCinema, HeroVideo, AboutCinema, ... } from './template_cinema/...'
 ```
 
+### Next.js 15+ Dynamic Routes
+
+**IMPORTANT**: In Next.js 15+, `params` in dynamic routes is a Promise:
+
+```typescript
+// ❌ OLD (Next.js 14)
+export default function Page({ params }: { params: { slug: string } }) {
+  const id = params.slug
+}
+
+// ✅ NEW (Next.js 15+)
+import { use } from 'react'
+
+export default function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params)  // Must unwrap Promise with use()
+  const id = slug
+}
+```
+
+See [app/films/[slug]/page.tsx](app/films/[slug]/page.tsx) for implementation example.
+
 ## Editor System
 
 The admin editor ([app/admin/editor/page.tsx](app/admin/editor/page.tsx)) provides a tabbed interface for editing:
+
+### Site Settings Tabs
 - **Hero**: Title, overlay text, background image/video
 - **About**: Title, description, image
 - **Contact**: Email, phone, address, map embed
-- **Theme**: Site name, primary/accent/text colors
+- **Theme**: Site name, logo, primary/accent/text colors
 
 Changes are saved to `sites.settings` JSONB column only when user clicks "Sauvegarder" (Save).
 
-See [EDITOR_README.md](EDITOR_README.md) for detailed French documentation on the editor architecture and how to extend it.
+### Films/Works Management Tab
+
+The **Films** tab provides complete CRUD operations for works:
+
+**List View**:
+- Grid of film cards with poster, title, year, director
+- "Ajouter un film" button to create new work
+
+**Edit View** (click on film card):
+- **Basic fields**: Title, Year, Director, Genre, Duration
+- **Media**: Poster URL, Trailer URL (optional)
+- **Content**: Synopsis (textarea)
+- **Crew Management**:
+  - Add/remove crew members
+  - Each member: Name, Role, Image URL
+  - Delete button (🗑) for each member
+- **Actions**: Save button, Delete film button
+
+**Data Flow**:
+1. Films fetched from `works` table on editor load
+2. Create/Update/Delete operations use `lib/config/get-works.ts` client-side functions
+3. All changes persist immediately to database (not batched with site settings save)
+4. Homepage automatically reflects changes (force-dynamic)
+
+**Routing**: Film detail pages use work ID, not slug (`/films/[id]`)
+
+See [EDITOR_README.md](EDITOR_README.md) for detailed French documentation on the editor architecture.
 
 ## Environment Variables
 
@@ -166,24 +257,46 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_MJLLubHepSpCHYs1wexLvg_Tz0FPov7
 
 When modifying functionality, these files are most important:
 
-1. [types/site.ts](types/site.ts) - All data model changes start here
-2. [lib/config/site-defaults.ts](lib/config/site-defaults.ts) - Default values for new fields
-3. [app/admin/editor/page.tsx](app/admin/editor/page.tsx) - Where UI fields are added
-4. [app/page.tsx](app/page.tsx) - Public site rendering
-5. [lib/config/get-site-settings.ts](lib/config/get-site-settings.ts) - Database operations
+**For Site Settings**:
+1. [types/site.ts](types/site.ts) - SiteSettings interface
+2. [lib/config/site-defaults.ts](lib/config/site-defaults.ts) - siteDefaults object
+3. [app/admin/editor/page.tsx](app/admin/editor/page.tsx) - Editor UI (Hero/About/Contact/Theme tabs)
+4. [lib/config/get-site-settings.ts](lib/config/get-site-settings.ts) - Server-side CRUD
+
+**For Films/Works**:
+1. [types/site.ts](types/site.ts) - Film interface
+2. [lib/config/site-defaults.ts](lib/config/site-defaults.ts) - defaultFilms array
+3. [app/admin/editor/page.tsx](app/admin/editor/page.tsx) - Films tab UI
+4. [lib/config/get-works.ts](lib/config/get-works.ts) - Client-side CRUD
+5. [lib/config/get-works-server.ts](lib/config/get-works-server.ts) - Server-side operations
+
+**Public Site Rendering**:
+1. [app/page.tsx](app/page.tsx) - Homepage (fetches works from DB)
+2. [app/films/[slug]/page.tsx](app/films/[slug]/page.tsx) - Film detail page
+3. [components/template_cinema/Works.tsx](components/template_cinema/Works.tsx) - Film cards with links
 
 ## Current Development Status
 
-**Working**:
-- Complete authentication flow
-- Database-driven site settings
-- Visual editor for hero, about, contact, theme sections
+**✅ Working**:
+- Complete authentication flow with Supabase Auth
+- Database-driven site settings (hero, about, contact, theme)
+- Visual editor with tabbed interface (Hero, About, Films, Contact, Theme)
+- **Films/Works management** - Full CRUD in editor:
+  - Create, edit, delete films
+  - Manage crew members with images
+  - All film metadata (title, year, genre, director, synopsis, etc.)
 - Public site rendering with force-dynamic freshness
+- Film detail pages with dynamic routes using work IDs
+- Homepage displays films from `works` table
 
-**Not Yet Implemented** (from EDITOR_README.md):
-- Films management UI in editor (films table exists, no UI yet)
-- Image/video upload via Supabase Storage (media table exists, no upload UI)
-- Real-time preview in editor
-- Modification history
+**🚧 Not Yet Implemented**:
+- Image/video upload via Supabase Storage (media table exists, manual URLs for now)
+- Real-time preview in editor (changes require page refresh)
+- Modification history / versioning
 - Import/export configurations
-- Multi-site support per user
+- Multi-site support per user (one site per user currently)
+
+**⚠️ Known Limitations**:
+- Film routing uses database ID in URL (not SEO-friendly slug)
+- No image upload UI - must paste URLs manually
+- Editor changes for films save immediately (not batched with site settings)

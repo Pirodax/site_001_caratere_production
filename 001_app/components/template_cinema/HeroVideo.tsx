@@ -2,13 +2,16 @@
 
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { t } from '@/lib/i18n/translate'
+import type { TranslatableText } from '@/types/site'
 
 interface HeroVideoProps {
   data: {
     videoUrl?: string
     imageUrl?: string
-    overlayText?: string
-    title?: string
+    overlayText?: TranslatableText | string
+    title?: TranslatableText | string
   }
   theme: {
     primary: string
@@ -18,6 +21,7 @@ interface HeroVideoProps {
 }
 
 export function HeroVideo({ data, theme }: HeroVideoProps) {
+  const { language } = useLanguage()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -69,7 +73,7 @@ export function HeroVideo({ data, theme }: HeroVideoProps) {
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
               style={{ color: theme.text }}
             >
-              {data.title}
+              {t(data.title, language)}
             </motion.h1>
           )}
 
@@ -81,7 +85,7 @@ export function HeroVideo({ data, theme }: HeroVideoProps) {
               className="text-lg md:text-xl lg:text-2xl font-light tracking-wide"
               style={{ color: theme.accent }}
             >
-              {data.overlayText}
+              {t(data.overlayText, language)}
             </motion.p>
           )}
         </motion.div>

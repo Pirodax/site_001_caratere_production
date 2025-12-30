@@ -7,6 +7,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { getUITranslation } from '@/lib/i18n/ui-translations'
 
 interface NavbarCinemaProps {
   theme: {
@@ -20,6 +22,7 @@ interface NavbarCinemaProps {
 export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { language, setLanguage } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,11 +42,10 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
   }
 
   const navItems = [
-    { label: 'Accueil', id: 'home' },
-    { label: 'À propos', id: 'about' },
-    { label: 'Films', id: 'films' },
-    { label: 'En production', id: 'in-production' },
-    { label: 'Contact', id: 'contact' },
+    { labelKey: 'home' as const, id: 'home' },
+    { labelKey: 'about' as const, id: 'about' },
+    { labelKey: 'films' as const, id: 'films' },
+    { labelKey: 'contact' as const, id: 'contact' },
   ]
 
   return (
@@ -91,9 +93,32 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
                 className="text-sm font-light tracking-wide transition-all duration-300 hover:opacity-70"
                 style={{ color: theme.text }}
               >
-                {item.label}
+                {getUITranslation(item.labelKey, language)}
               </button>
             ))}
+
+            {/* Language Selector */}
+            <div className="flex items-center gap-2 ml-4 border-l pl-4" style={{ borderColor: `${theme.accent}40` }}>
+              <button
+                onClick={() => setLanguage('fr')}
+                className={`text-sm font-light tracking-wide transition-all duration-300 ${
+                  language === 'fr' ? 'opacity-100 font-semibold' : 'opacity-50 hover:opacity-70'
+                }`}
+                style={{ color: theme.text }}
+              >
+                FR
+              </button>
+              <span style={{ color: theme.accent }}>|</span>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`text-sm font-light tracking-wide transition-all duration-300 ${
+                  language === 'en' ? 'opacity-100 font-semibold' : 'opacity-50 hover:opacity-70'
+                }`}
+                style={{ color: theme.text }}
+              >
+                EN
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -139,9 +164,44 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
               className="block w-full text-left text-base font-light tracking-wide py-2 transition-all duration-300 hover:opacity-70"
               style={{ color: theme.text }}
             >
-              {item.label}
+              {getUITranslation(item.labelKey, language)}
             </button>
           ))}
+
+          {/* Mobile Language Selector */}
+          <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: `${theme.accent}40` }}>
+            <span className="text-sm" style={{ color: theme.text }}>{getUITranslation('selectLanguage', language)}:</span>
+            <button
+              onClick={() => {
+                setLanguage('fr')
+                setIsMobileMenuOpen(false)
+              }}
+              className={`text-sm px-3 py-1 rounded transition-all duration-300 ${
+                language === 'fr' ? 'font-semibold' : 'opacity-50'
+              }`}
+              style={{
+                color: theme.text,
+                backgroundColor: language === 'fr' ? `${theme.accent}20` : 'transparent'
+              }}
+            >
+              FR
+            </button>
+            <button
+              onClick={() => {
+                setLanguage('en')
+                setIsMobileMenuOpen(false)
+              }}
+              className={`text-sm px-3 py-1 rounded transition-all duration-300 ${
+                language === 'en' ? 'font-semibold' : 'opacity-50'
+              }`}
+              style={{
+                color: theme.text,
+                backgroundColor: language === 'en' ? `${theme.accent}20` : 'transparent'
+              }}
+            >
+              EN
+            </button>
+          </div>
         </div>
       </motion.div>
     </motion.nav>

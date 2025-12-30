@@ -20,22 +20,22 @@ export function FooterCinema({ data, theme }: FooterCinemaProps) {
 
   return (
     <footer
-      className="py-12 lg:py-16 border-t"
+      className="w-full py-8 lg:py-12 border-t"
       style={{
         backgroundColor: theme.primary,
         borderColor: theme.accent,
       }}
     >
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="w-full px-4 lg:px-8">
         {/* Links (if any) */}
         {data.links && data.links.length > 0 && (
-          <div className="flex flex-wrap justify-center gap-8 mb-8">
+          <div className="flex flex-wrap justify-center gap-4 lg:gap-8 mb-6 lg:mb-8">
             {data.links.map((link, index) => (
               <motion.a
                 key={index}
                 href={link.href}
                 whileHover={{ y: -2 }}
-                className="text-sm lg:text-base hover:opacity-70 transition-opacity"
+                className="text-xs lg:text-sm hover:opacity-70 transition-opacity"
                 style={{ color: theme.text }}
               >
                 {link.label}
@@ -44,16 +44,16 @@ export function FooterCinema({ data, theme }: FooterCinemaProps) {
           </div>
         )}
 
-        {/* Copyright */}
+        {/* Copyright - Full width and responsive */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center"
+          className="text-center w-full"
         >
           <p
-            className="text-sm lg:text-base"
+            className="text-xs lg:text-sm leading-relaxed px-2"
             style={{ color: theme.text }}
           >
             {copyright}

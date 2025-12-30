@@ -7,9 +7,11 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { FilmDetail } from './FilmDetail'
+import { useRef } from 'react'
 import Link from 'next/link'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { t } from '@/lib/i18n/translate'
+import type { TranslatableText } from '@/types/site'
 
 interface CrewMember {
   name: string
@@ -29,7 +31,7 @@ interface WorkItem {
 }
 
 interface WorksData {
-  title?: string
+  title?: TranslatableText | string
   items: WorkItem[]
 }
 
@@ -44,61 +46,47 @@ interface WorksProps {
 }
 
 export function Works({ data, theme }: WorksProps) {
-  const { title = 'Films', items } = data
+  const { language } = useLanguage()
+  const translatedTitle = t(data.title, language) || 'Films'
+  const { items } = data
   // Filter out items with empty or invalid image URLs
   const validItems = items.filter(item => item.image && item.image.trim() !== '')
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [selectedFilm, setSelectedFilm] = useState<WorkItem | null>(null)
 
   return (
-    <>
-      <section
-        id="films"
-        ref={ref}
-        className="relative py-24 md:py-32"
-        style={{
-          backgroundColor: theme?.background || '#FFFFFF',
-        }}
-      >
-        <div className="mx-auto max-w-7xl px-4">
-          {/* Section title */}
-          <motion.div
+    <section
+      id="films"
+      ref={ref}
+      className="relative py-24 md:py-32"
+      style={{
+        backgroundColor: theme?.background || '#FFFFFF',
+      }}
+    >
+      <div className="container mx-auto px-4 lg:px-8">
+          {/* Section title - Same style as About section, aligned left */}
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8 }}
-            className="mb-16 text-center"
+            className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20"
+            style={{ color: theme?.accent || theme?.text || '#FFFFFF' }}
           >
-            <h2
-              className="text-4xl font-light tracking-wide md:text-5xl"
-              style={{
-                color: theme?.text || '#111111',
-                fontFamily: 'Playfair Display, serif',
-              }}
-            >
-              {title}
-            </h2>
-            <div
-              className="mx-auto mt-6 h-1 w-24"
-              style={{
-                backgroundColor: theme?.primary || '#C0A060',
-              }}
-            />
-          </motion.div>
+            {translatedTitle}
+          </motion.h2>
 
-          {/* Works grid - Reduced gap for tighter spacing */}
-          <div className="grid gap-4 md:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {validItems.map((item, index) => {
-              const filmContent = (
+          {/* Works grid - 2 columns on mobile, 4 on desktop */}
+          <div className="grid gap-4 md:gap-5 grid-cols-2 lg:grid-cols-4">
+            {validItems.map((item, index) => (
+              <Link key={index} href={`/films/${item.id}`}>
                 <motion.div
-                  key={index}
                   initial={{ opacity: 0, y: 50 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group cursor-pointer"
                 >
                   {/* Image */}
-                  <div className="relative mb-3 aspect-[3/4] overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -116,59 +104,11 @@ export function Works({ data, theme }: WorksProps) {
                       </motion.div>
                     </div>
                   </div>
-
-                  {/* Info */}
-                  <div className="space-y-1">
-                    <h3
-                      className="text-lg font-light tracking-wide"
-                      style={{
-                        color: theme?.text || '#111111',
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p
-                      className="text-sm tracking-wider"
-                      style={{
-                        color: theme?.primary || '#C0A060',
-                      }}
-                    >
-                      {item.year}
-                    </p>
-                  </div>
                 </motion.div>
-              )
-
-              // Si le film a un ID, on crée un lien vers la page de détail
-              if (item.id) {
-                return (
-                  <Link key={index} href={`/films/${item.id}`}>
-                    {filmContent}
-                  </Link>
-                )
-              }
-
-              // Sinon, on garde l'ancien comportement avec le modal
-              return (
-                <div key={index} onClick={() => setSelectedFilm(item)}>
-                  {filmContent}
-                </div>
-              )
-            })}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
-
-      {/* Film Detail Modal */}
-      <FilmDetail
-        film={selectedFilm}
-        onClose={() => setSelectedFilm(null)}
-        theme={{
-          primary: theme?.primary || '#C0A060',
-          accent: theme?.accent || theme?.primary || '#C0A060',
-          text: theme?.text || '#FFFFFF',
-        }}
-      />
-    </>
   )
 }
