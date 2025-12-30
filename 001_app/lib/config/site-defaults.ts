@@ -4,14 +4,26 @@ import type { SiteSettings, Film } from '@/types/site'
 export const defaultFilms: Film[] = [
   {
     slug: 'film-exemple-1',
-    title: 'Film Exemple 1',
+    title: {
+      fr: 'Film Exemple 1',
+      en: 'Sample Film 1'
+    },
     year: 2024,
     poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80',
-    description: 'Description du film exemple',
-    synopsis: 'Synopsis complet du film. Une histoire captivante qui explore les thèmes de la vie, de l\'amour et de la rédemption à travers les yeux de personnages profondément humains.',
+    description: {
+      fr: 'Description du film exemple',
+      en: 'Sample film description'
+    },
+    synopsis: {
+      fr: 'Synopsis complet du film. Une histoire captivante qui explore les thèmes de la vie, de l\'amour et de la rédemption à travers les yeux de personnages profondément humains.',
+      en: 'Complete film synopsis. A captivating story that explores themes of life, love, and redemption through the eyes of deeply human characters.'
+    },
     trailer: '',
     duration: '120 min',
-    genre: 'Drame',
+    genre: {
+      fr: 'Drame',
+      en: 'Drama'
+    },
     director: 'Réalisateur',
     crew: [
       {
@@ -38,27 +50,75 @@ export const siteDefaults: SiteSettings = {
     primary: '#0a0a0a',
     accent: '#ffffff',
     text: '#ffffff',
-    background: '#000000'
+    background: '#000000',
+    typography: {
+      fontFamily: 'Inter',
+      headingFont: 'Inter'
+    }
   },
 
   // Section Hero
   hero: {
     videoUrl: '',
     imageUrl: 'http://caracteresproductions.com/wp-content/uploads/2025/01/SliderLe-Pacte-dAlep-1.jpg',
-    overlayText: 'Productions Cinématographiques',
-    title: 'CARACTÈRE'
+    overlayText: {
+      fr: 'Productions Cinématographiques',
+      en: 'Film Productions'
+    },
+    title: {
+      fr: 'CARACTÈRE',
+      en: 'CHARACTER'
+    }
   },
 
   // Section À propos
   about: {
-    title: 'À propos',
-    text: 'Caractère Productions est une société de production cinématographique dédiée à la création de contenus originaux et innovants.\n\nNotre mission est de raconter des histoires qui touchent et inspirent le public.',
+    title: {
+      fr: 'À propos',
+      en: 'About'
+    },
+    text: {
+      fr: 'Caractère Productions est une société de production cinématographique dédiée à la création de contenus originaux et innovants.\n\nNotre mission est de raconter des histoires qui touchent et inspirent le public.',
+      en: 'Caractère Productions is a film production company dedicated to creating original and innovative content.\n\nOur mission is to tell stories that touch and inspire audiences.'
+    },
     image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80'
   },
 
   // Section Films
   works: {
-    title: 'Nos Films'
+    title: {
+      fr: 'Nos Films',
+      en: 'Our Films'
+    }
+  },
+
+  // Section Actualités
+  news: {
+    visible: true,
+    title: {
+      fr: 'Actualités',
+      en: 'News'
+    },
+    articles: [
+      {
+        id: '1',
+        title: {
+          fr: 'Premier article d\'actualité',
+          en: 'First news article'
+        },
+        excerpt: {
+          fr: 'Ceci est un extrait de notre première actualité. Découvrez les dernières nouvelles de Caractère Productions.',
+          en: 'This is an excerpt of our first news article. Discover the latest news from Caractère Productions.'
+        },
+        content: {
+          fr: 'Contenu complet de l\'article en français...',
+          en: 'Full article content in English...'
+        },
+        image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80',
+        date: new Date().toISOString(),
+        slug: 'premier-article'
+      }
+    ]
   },
 
   // Contact

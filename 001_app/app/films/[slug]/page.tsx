@@ -5,6 +5,9 @@ import { useState, useEffect, use } from 'react'
 import Link from 'next/link'
 import { createClient } from '../../../lib/supabase/client'
 import type { Film } from '../../../types/site'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { t } from '@/lib/i18n/translate'
+import { getUITranslation } from '@/lib/i18n/ui-translations'
 
 interface Work {
   id: string
@@ -17,13 +20,9 @@ interface Work {
 export default function FilmPage({ params }: { params: Promise<{ slug: string }> }) {
   // Unwrap params Promise avec use()
   const { slug } = use(params)
+  const { language } = useLanguage()
 
   const [work, setWork] = useState<Work | null>(null)
-  const [theme, setTheme] = useState({
-    primary: '#0a0a0a',
-    accent: '#ffffff',
-    text: '#ffffff'
-  })
   const [showTrailer, setShowTrailer] = useState(false)
   const [loading, setLoading] = useState(true)
   const [showFullSynopsis, setShowFullSynopsis] = useState(false)
@@ -45,18 +44,6 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       }
 
       setWork(workData as Work)
-
-      // Récupérer le thème du site
-      const { data: siteData } = await supabase
-        .from('sites')
-        .select('settings')
-        .eq('id', workData.site_id)
-        .maybeSingle()
-
-      if (siteData?.settings?.theme) {
-        setTheme(siteData.settings.theme)
-      }
-
       setLoading(false)
     }
 
@@ -66,7 +53,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Chargement...</div>
+        <div className="text-white text-xl">{getUITranslation('loading', language)}</div>
       </div>
     )
   }
@@ -75,9 +62,9 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl text-white mb-4">Film non trouvé</h1>
+          <h1 className="text-4xl text-white mb-4">{getUITranslation('filmNotFound', language)}</h1>
           <Link href="/" className="text-white hover:opacity-70 underline">
-            Retour à l'accueil
+            {getUITranslation('backToHome', language)}
           </Link>
         </div>
       </div>
@@ -132,7 +119,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
-            <span>Retour</span>
+            <span>{getUITranslation('back', language)}</span>
           </motion.button>
         </Link>
       </div>
@@ -149,7 +136,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
         />
 
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
 
         {/* Contenu */}
         <div className="relative h-full flex flex-col justify-end pb-20 px-8 lg:px-16 max-w-7xl mx-auto">
@@ -160,7 +147,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           >
             {/* Titre */}
             <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6">
-              {film.title}
+              {t(film.title, language)}
             </h1>
 
             {/* Infos du film */}
@@ -175,7 +162,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
               {film.genre && (
                 <>
                   <span>•</span>
-                  <span className="text-lg">{film.genre}</span>
+                  <span className="text-lg">{t(film.genre, language)}</span>
                 </>
               )}
             </div>
@@ -197,7 +184,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                   >
                     <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
                   </svg>
-                  Bande-annonce
+                  {getUITranslation('watchTrailer', language)}
                 </motion.button>
               )}
             </div>
@@ -213,25 +200,29 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">Synopsis</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">{getUITranslation('synopsis', language)}</h2>
           <div className="max-w-4xl">
             <p className="text-lg lg:text-xl text-white/80 leading-relaxed">
-              {film.synopsis && film.synopsis.length > 300 && !showFullSynopsis
-                ? `${film.synopsis.substring(0, 300)}...`
-                : film.synopsis}
+              {(() => {
+                const synopsis = t(film.synopsis, language)
+                if (synopsis.length > 300 && !showFullSynopsis) {
+                  return `${synopsis.substring(0, 300)}...`
+                }
+                return synopsis
+              })()}
             </p>
-            {film.synopsis && film.synopsis.length > 300 && (
+            {t(film.synopsis, language).length > 300 && (
               <button
                 onClick={() => setShowFullSynopsis(!showFullSynopsis)}
                 className="mt-4 text-white/60 hover:text-white transition-colors underline"
               >
-                {showFullSynopsis ? 'Voir moins' : 'Lire la suite'}
+                {showFullSynopsis ? getUITranslation('seeLess', language) : getUITranslation('readMore', language)}
               </button>
             )}
           </div>
           {film.director && (
             <p className="text-lg text-white/60 mt-6">
-              Réalisé par <span className="text-white font-medium">{film.director}</span>
+              {getUITranslation('directedBy', language)} <span className="text-white font-medium">{film.director}</span>
             </p>
           )}
         </motion.div>
@@ -246,7 +237,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">Contributeurs</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">{getUITranslation('contributors', language)}</h2>
 
             {/* Grille de contributeurs - Images réduites */}
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
@@ -268,7 +259,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-900">
+                      <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-gray-700 to-gray-900">
                         <svg
                           className="w-1/2 h-1/2 text-gray-500"
                           fill="currentColor"

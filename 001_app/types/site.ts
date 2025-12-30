@@ -8,16 +8,21 @@ export interface CrewMember {
 
 export interface Film {
   slug: string
-  title: string
+  title: TranslatableText
   year: number | string
   poster: string
   trailer?: string
-  description?: string
-  synopsis: string
+  description?: TranslatableText
+  synopsis: TranslatableText
   duration?: string
-  genre?: string
+  genre?: TranslatableText
   director?: string
   crew?: CrewMember[]
+}
+
+export interface Typography {
+  fontFamily: string
+  headingFont?: string
 }
 
 export interface Theme {
@@ -25,23 +30,46 @@ export interface Theme {
   accent: string
   text: string
   background?: string
+  typography: Typography
+}
+
+// Types pour les traductions
+export interface TranslatableText {
+  fr: string
+  en: string
 }
 
 export interface HeroSettings {
   videoUrl?: string
   imageUrl?: string
-  overlayText?: string
-  title?: string
+  overlayText?: TranslatableText
+  title?: TranslatableText
 }
 
 export interface AboutSettings {
-  title?: string
-  text: string
+  title?: TranslatableText
+  text: TranslatableText
   image?: string
 }
 
 export interface WorksSettings {
-  title?: string
+  title?: TranslatableText
+}
+
+export interface NewsArticle {
+  id: string
+  title: TranslatableText
+  excerpt: TranslatableText
+  content?: TranslatableText
+  image?: string
+  date: string
+  slug: string
+}
+
+export interface NewsSettings {
+  visible: boolean
+  title?: TranslatableText
+  articles: NewsArticle[]
 }
 
 export interface ContactSettings {
@@ -76,6 +104,7 @@ export interface SiteSettings {
   hero: HeroSettings
   about: AboutSettings
   works?: WorksSettings
+  news?: NewsSettings
   contact: ContactSettings
   footer: FooterSettings
 

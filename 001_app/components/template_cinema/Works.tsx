@@ -9,6 +9,9 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import Link from 'next/link'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { t } from '@/lib/i18n/translate'
+import type { TranslatableText } from '@/types/site'
 
 interface CrewMember {
   name: string
@@ -28,7 +31,7 @@ interface WorkItem {
 }
 
 interface WorksData {
-  title?: string
+  title?: TranslatableText | string
   items: WorkItem[]
 }
 
@@ -43,7 +46,9 @@ interface WorksProps {
 }
 
 export function Works({ data, theme }: WorksProps) {
-  const { title = 'Films', items } = data
+  const { language } = useLanguage()
+  const translatedTitle = t(data.title, language) || 'Films'
+  const { items } = data
   // Filter out items with empty or invalid image URLs
   const validItems = items.filter(item => item.image && item.image.trim() !== '')
   const ref = useRef(null)
@@ -67,7 +72,7 @@ export function Works({ data, theme }: WorksProps) {
             className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20"
             style={{ color: theme?.accent || theme?.text || '#FFFFFF' }}
           >
-            {title}
+            {translatedTitle}
           </motion.h2>
 
           {/* Works grid - 2 columns on mobile, 4 on desktop */}

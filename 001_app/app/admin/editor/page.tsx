@@ -16,7 +16,7 @@ export default function EditorPage() {
   const [saving, setSaving] = useState(false)
   const [siteId, setSiteId] = useState<string | null>(null)
   const [settings, setSettings] = useState<SiteSettings>(siteDefaults)
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'contact' | 'theme' | 'films'>('hero')
+  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'news' | 'contact' | 'theme' | 'films'>('hero')
   const [works, setWorks] = useState<Work[]>([])
   const [editingWork, setEditingWork] = useState<Work | null>(null)
   const [isCreatingWork, setIsCreatingWork] = useState(false)
@@ -99,13 +99,26 @@ export default function EditorPage() {
 
     const newFilm: Film = {
       slug: '',
-      title: 'Nouveau film',
+      title: {
+        fr: 'Nouveau film',
+        en: 'New film'
+      },
       year: new Date().getFullYear(),
       poster: '',
-      synopsis: '',
+      description: {
+        fr: '',
+        en: ''
+      },
+      synopsis: {
+        fr: '',
+        en: ''
+      },
       trailer: '',
       duration: '',
-      genre: '',
+      genre: {
+        fr: '',
+        en: ''
+      },
       director: '',
       crew: []
     }
@@ -165,15 +178,24 @@ export default function EditorPage() {
     }
   }
 
-  const updateWorkField = (field: keyof Film, value: any) => {
+  const updateWorkField = (path: string[], value: any) => {
     if (!editingWork) return
+
+    const newSettings = { ...editingWork.settings }
+    let current: any = newSettings
+
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!current[path[i]]) {
+        current[path[i]] = {}
+      }
+      current = current[path[i]]
+    }
+
+    current[path[path.length - 1]] = value
 
     setEditingWork({
       ...editingWork,
-      settings: {
-        ...editingWork.settings,
-        [field]: value
-      }
+      settings: newSettings
     })
   }
 
@@ -295,6 +317,7 @@ export default function EditorPage() {
                   { id: 'hero', label: 'Hero', icon: '🎬' },
                   { id: 'about', label: 'À propos', icon: '📖' },
                   { id: 'films', label: 'Films', icon: '🎥' },
+                  { id: 'news', label: 'Actualités', icon: '📰' },
                   { id: 'contact', label: 'Contact', icon: '📧' },
                   { id: 'theme', label: 'Thème', icon: '🎨' }
                 ].map((tab) => (
@@ -323,24 +346,58 @@ export default function EditorPage() {
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold text-white mb-6">Section Hero</h2>
 
+                  {/* Titre FR/EN */}
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Titre</label>
-                    <input
-                      type="text"
-                      value={settings.hero.title || ''}
-                      onChange={(e) => updateSettings(['hero', 'title'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                    />
+                    <label className="block text-sm text-white/60 mb-3">Titre</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <input
+                          type="text"
+                          value={settings.hero.title?.fr || ''}
+                          onChange={(e) => updateSettings(['hero', 'title', 'fr'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="CARACTÈRE"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <input
+                          type="text"
+                          value={settings.hero.title?.en || ''}
+                          onChange={(e) => updateSettings(['hero', 'title', 'en'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="CHARACTER"
+                        />
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Texte de superposition FR/EN */}
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Texte de superposition</label>
-                    <input
-                      type="text"
-                      value={settings.hero.overlayText || ''}
-                      onChange={(e) => updateSettings(['hero', 'overlayText'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                    />
+                    <label className="block text-sm text-white/60 mb-3">Texte de superposition</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <input
+                          type="text"
+                          value={settings.hero.overlayText?.fr || ''}
+                          onChange={(e) => updateSettings(['hero', 'overlayText', 'fr'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="Productions Cinématographiques"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <input
+                          type="text"
+                          value={settings.hero.overlayText?.en || ''}
+                          onChange={(e) => updateSettings(['hero', 'overlayText', 'en'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="Film Productions"
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   <ImageUpload
@@ -369,24 +426,58 @@ export default function EditorPage() {
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold text-white mb-6">Section À propos</h2>
 
+                  {/* Titre FR/EN */}
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Titre</label>
-                    <input
-                      type="text"
-                      value={settings.about.title || ''}
-                      onChange={(e) => updateSettings(['about', 'title'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                    />
+                    <label className="block text-sm text-white/60 mb-3">Titre</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <input
+                          type="text"
+                          value={settings.about.title?.fr || ''}
+                          onChange={(e) => updateSettings(['about', 'title', 'fr'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="À propos"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <input
+                          type="text"
+                          value={settings.about.title?.en || ''}
+                          onChange={(e) => updateSettings(['about', 'title', 'en'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="About"
+                        />
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Texte FR/EN */}
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Texte</label>
-                    <textarea
-                      value={settings.about.text}
-                      onChange={(e) => updateSettings(['about', 'text'], e.target.value)}
-                      rows={8}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
-                    />
+                    <label className="block text-sm text-white/60 mb-3">Texte</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <textarea
+                          value={settings.about.text?.fr || ''}
+                          onChange={(e) => updateSettings(['about', 'text', 'fr'], e.target.value)}
+                          rows={8}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                          placeholder="Texte de présentation en français..."
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <textarea
+                          value={settings.about.text?.en || ''}
+                          onChange={(e) => updateSettings(['about', 'text', 'en'], e.target.value)}
+                          rows={8}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                          placeholder="Presentation text in English..."
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   <ImageUpload
@@ -417,16 +508,31 @@ export default function EditorPage() {
                         </motion.button>
                       </div>
 
-                      {/* Titre de la section Films */}
+                      {/* Titre de la section Films FR/EN */}
                       <div className="mb-6">
-                        <label className="block text-sm text-white/60 mb-2">Titre de la section</label>
-                        <input
-                          type="text"
-                          value={settings.works?.title || ''}
-                          onChange={(e) => updateSettings(['works', 'title'], e.target.value)}
-                          placeholder="Nos Films"
-                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                        />
+                        <label className="block text-sm text-white/60 mb-3">Titre de la section</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs text-white/40 mb-2">Français</label>
+                            <input
+                              type="text"
+                              value={settings.works?.title?.fr || ''}
+                              onChange={(e) => updateSettings(['works', 'title', 'fr'], e.target.value)}
+                              placeholder="Nos Films"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs text-white/40 mb-2">English</label>
+                            <input
+                              type="text"
+                              value={settings.works?.title?.en || ''}
+                              onChange={(e) => updateSettings(['works', 'title', 'en'], e.target.value)}
+                              placeholder="Our Films"
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       {works.length === 0 ? (
@@ -446,13 +552,13 @@ export default function EditorPage() {
                               {work.settings.poster && (
                                 <img
                                   src={work.settings.poster}
-                                  alt={work.settings.title}
+                                  alt={typeof work.settings.title === 'object' ? work.settings.title.fr : work.settings.title}
                                   className="w-full h-48 object-cover"
                                 />
                               )}
                               <div className="p-4">
                                 <h3 className="text-white font-semibold text-lg mb-1">
-                                  {work.settings.title}
+                                  {typeof work.settings.title === 'object' ? work.settings.title.fr : work.settings.title}
                                 </h3>
                                 <p className="text-white/60 text-sm">
                                   {work.settings.year} • {work.settings.director || 'Réalisateur non défini'}
@@ -484,7 +590,7 @@ export default function EditorPage() {
                             </svg>
                           </button>
                           <h2 className="text-2xl font-bold text-white">
-                            Éditer: {editingWork.settings.title}
+                            Éditer: {typeof editingWork.settings.title === 'object' ? editingWork.settings.title.fr : editingWork.settings.title}
                           </h2>
                         </div>
                         <div className="flex items-center gap-2">
@@ -508,23 +614,40 @@ export default function EditorPage() {
                       </div>
 
                       <div className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm text-white/60 mb-2">Titre</label>
-                            <input
-                              type="text"
-                              value={editingWork.settings.title}
-                              onChange={(e) => updateWorkField('title', e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                            />
+                        {/* Titre FR/EN */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Titre</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Français</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.title?.fr || ''}
+                                onChange={(e) => updateWorkField(['title', 'fr'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="Le titre du film"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">English</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.title?.en || ''}
+                                onChange={(e) => updateWorkField(['title', 'en'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="The film title"
+                              />
+                            </div>
                           </div>
+                        </div>
 
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm text-white/60 mb-2">Année</label>
                             <input
                               type="number"
                               value={editingWork.settings.year}
-                              onChange={(e) => updateWorkField('year', parseInt(e.target.value))}
+                              onChange={(e) => updateWorkField(['year'], parseInt(e.target.value))}
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
                             />
                           </div>
@@ -534,17 +657,7 @@ export default function EditorPage() {
                             <input
                               type="text"
                               value={editingWork.settings.director || ''}
-                              onChange={(e) => updateWorkField('director', e.target.value)}
-                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm text-white/60 mb-2">Genre</label>
-                            <input
-                              type="text"
-                              value={editingWork.settings.genre || ''}
-                              onChange={(e) => updateWorkField('genre', e.target.value)}
+                              onChange={(e) => updateWorkField(['director'], e.target.value)}
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
                             />
                           </div>
@@ -554,16 +667,43 @@ export default function EditorPage() {
                             <input
                               type="text"
                               value={editingWork.settings.duration || ''}
-                              onChange={(e) => updateWorkField('duration', e.target.value)}
+                              onChange={(e) => updateWorkField(['duration'], e.target.value)}
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
                               placeholder="120 min"
                             />
                           </div>
                         </div>
 
+                        {/* Genre FR/EN */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Genre</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Français</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.genre?.fr || ''}
+                                onChange={(e) => updateWorkField(['genre', 'fr'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="Drame"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">English</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.genre?.en || ''}
+                                onChange={(e) => updateWorkField(['genre', 'en'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="Drama"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
                         <ImageUpload
                           currentImage={editingWork.settings.poster}
-                          onImageUploaded={(url) => updateWorkField('poster', url)}
+                          onImageUploaded={(url) => updateWorkField(['poster'], url)}
                           siteId={siteId || ''}
                           folder="posters"
                           label="Affiche du film"
@@ -574,20 +714,64 @@ export default function EditorPage() {
                           <input
                             type="text"
                             value={editingWork.settings.trailer || ''}
-                            onChange={(e) => updateWorkField('trailer', e.target.value)}
+                            onChange={(e) => updateWorkField(['trailer'], e.target.value)}
                             className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
                             placeholder="https://..."
                           />
                         </div>
 
+                        {/* Description FR/EN */}
                         <div>
-                          <label className="block text-sm text-white/60 mb-2">Synopsis</label>
-                          <textarea
-                            value={editingWork.settings.synopsis}
-                            onChange={(e) => updateWorkField('synopsis', e.target.value)}
-                            rows={6}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
-                          />
+                          <label className="block text-sm text-white/60 mb-3">Description courte</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Français</label>
+                              <textarea
+                                value={editingWork.settings.description?.fr || ''}
+                                onChange={(e) => updateWorkField(['description', 'fr'], e.target.value)}
+                                rows={3}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                                placeholder="Description courte..."
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">English</label>
+                              <textarea
+                                value={editingWork.settings.description?.en || ''}
+                                onChange={(e) => updateWorkField(['description', 'en'], e.target.value)}
+                                rows={3}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                                placeholder="Short description..."
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Synopsis FR/EN */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Synopsis</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Français</label>
+                              <textarea
+                                value={editingWork.settings.synopsis?.fr || ''}
+                                onChange={(e) => updateWorkField(['synopsis', 'fr'], e.target.value)}
+                                rows={6}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                                placeholder="Le synopsis en français..."
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">English</label>
+                              <textarea
+                                value={editingWork.settings.synopsis?.en || ''}
+                                onChange={(e) => updateWorkField(['synopsis', 'en'], e.target.value)}
+                                rows={6}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 resize-none"
+                                placeholder="The synopsis in English..."
+                              />
+                            </div>
+                          </div>
                         </div>
 
                         {/* Section Contributeurs */}
@@ -666,6 +850,202 @@ export default function EditorPage() {
                 </div>
               )}
 
+              {/* News Section */}
+              {activeTab === 'news' && (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-white">Section Actualités</h2>
+
+                    {/* Toggle Visibility */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-white/60">
+                        {settings.news?.visible ? 'Visible' : 'Masquée'}
+                      </span>
+                      <button
+                        onClick={() => updateSettings(['news', 'visible'], !settings.news?.visible)}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          settings.news?.visible ? 'bg-white' : 'bg-white/20'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-black transition-transform ${
+                            settings.news?.visible ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Titre de la section FR/EN */}
+                  <div>
+                    <label className="block text-sm text-white/60 mb-3">Titre de la section</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <input
+                          type="text"
+                          value={settings.news?.title?.fr || ''}
+                          onChange={(e) => updateSettings(['news', 'title', 'fr'], e.target.value)}
+                          placeholder="Actualités"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <input
+                          type="text"
+                          value={settings.news?.title?.en || ''}
+                          onChange={(e) => updateSettings(['news', 'title', 'en'], e.target.value)}
+                          placeholder="News"
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Articles */}
+                  <div className="border-t border-white/10 pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-white">Articles</h3>
+                      <button
+                        onClick={() => {
+                          const newArticle = {
+                            id: Date.now().toString(),
+                            title: { fr: 'Nouvel article', en: 'New article' },
+                            excerpt: { fr: 'Extrait...', en: 'Excerpt...' },
+                            content: { fr: 'Contenu...', en: 'Content...' },
+                            image: '',
+                            date: new Date().toISOString(),
+                            slug: `article-${Date.now()}`
+                          }
+                          const articles = settings.news?.articles || []
+                          updateSettings(['news', 'articles'], [...articles, newArticle])
+                        }}
+                        className="px-4 py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-colors font-semibold"
+                      >
+                        + Ajouter un article
+                      </button>
+                    </div>
+
+                    {settings.news?.articles && settings.news.articles.length > 0 ? (
+                      <div className="space-y-4">
+                        {settings.news.articles.map((article, index) => (
+                          <div key={article.id} className="bg-white/5 border border-white/10 rounded-lg p-6">
+                            <div className="flex justify-between items-start mb-4">
+                              <h4 className="text-white font-semibold">Article {index + 1}</h4>
+                              <button
+                                onClick={() => {
+                                  const articles = settings.news?.articles?.filter((_, i) => i !== index) || []
+                                  updateSettings(['news', 'articles'], articles)
+                                }}
+                                className="text-red-400 hover:text-red-300 text-sm"
+                              >
+                                Supprimer
+                              </button>
+                            </div>
+
+                            <div className="space-y-4">
+                              {/* Titre FR/EN */}
+                              <div>
+                                <label className="block text-sm text-white/60 mb-2">Titre</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <input
+                                    type="text"
+                                    placeholder="Titre (FR)"
+                                    value={article.title.fr}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], title: { ...articles[index].title, fr: e.target.value } }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                  />
+                                  <input
+                                    type="text"
+                                    placeholder="Title (EN)"
+                                    value={article.title.en}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], title: { ...articles[index].title, en: e.target.value } }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Extrait FR/EN */}
+                              <div>
+                                <label className="block text-sm text-white/60 mb-2">Extrait</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <textarea
+                                    placeholder="Extrait (FR)"
+                                    value={article.excerpt.fr}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], excerpt: { ...articles[index].excerpt, fr: e.target.value } }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    rows={3}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-none"
+                                  />
+                                  <textarea
+                                    placeholder="Excerpt (EN)"
+                                    value={article.excerpt.en}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], excerpt: { ...articles[index].excerpt, en: e.target.value } }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    rows={3}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-none"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Image & Date */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <label className="block text-sm text-white/60 mb-2">Image URL</label>
+                                  <input
+                                    type="text"
+                                    placeholder="https://..."
+                                    value={article.image || ''}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], image: e.target.value }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-sm text-white/60 mb-2">Date</label>
+                                  <input
+                                    type="date"
+                                    value={article.date.split('T')[0]}
+                                    onChange={(e) => {
+                                      const articles = [...(settings.news?.articles || [])]
+                                      articles[index] = { ...articles[index], date: new Date(e.target.value).toISOString() }
+                                      updateSettings(['news', 'articles'], articles)
+                                    }}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-12 text-white/60">
+                        <p>Aucun article. Cliquez sur "Ajouter un article" pour commencer.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Contact Section */}
               {activeTab === 'contact' && (
                 <div className="space-y-6">
@@ -718,6 +1098,59 @@ export default function EditorPage() {
               {activeTab === 'theme' && (
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold text-white mb-6">Thème du site</h2>
+
+                  {/* Typography Section */}
+                  <div className="border-b border-white/10 pb-6 mb-6">
+                    <h3 className="text-xl font-semibold text-white mb-4">Typographie</h3>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-white/60 mb-2">Police principale (corps de texte)</label>
+                        <select
+                          value={settings.theme.typography?.fontFamily || 'Inter'}
+                          onChange={(e) => updateSettings(['theme', 'typography', 'fontFamily'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        >
+                          <option value="Inter">Inter</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Montserrat">Montserrat</option>
+                          <option value="Poppins">Poppins</option>
+                          <option value="Raleway">Raleway</option>
+                          <option value="Playfair Display">Playfair Display</option>
+                          <option value="Merriweather">Merriweather</option>
+                          <option value="Nunito">Nunito</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-white/60 mb-2">Police des titres (optionnel)</label>
+                        <select
+                          value={settings.theme.typography?.headingFont || settings.theme.typography?.fontFamily || 'Inter'}
+                          onChange={(e) => updateSettings(['theme', 'typography', 'headingFont'], e.target.value)}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        >
+                          <option value="Inter">Inter</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Montserrat">Montserrat</option>
+                          <option value="Poppins">Poppins</option>
+                          <option value="Raleway">Raleway</option>
+                          <option value="Playfair Display">Playfair Display</option>
+                          <option value="Merriweather">Merriweather</option>
+                          <option value="Nunito">Nunito</option>
+                        </select>
+                        <p className="text-xs text-white/40 mt-2">
+                          Si non spécifié, la police principale sera utilisée
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Colors Section */}
+                  <h3 className="text-xl font-semibold text-white mb-4">Couleurs</h3>
 
                   <div>
                     <label className="block text-sm text-white/60 mb-2">Couleur principale</label>

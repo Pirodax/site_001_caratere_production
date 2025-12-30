@@ -2,11 +2,14 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { t } from '@/lib/i18n/translate'
+import type { TranslatableText } from '@/types/site'
 
 interface AboutCinemaProps {
   data: {
-    title?: string
-    text: string
+    title?: TranslatableText | string
+    text: TranslatableText | string
     image?: string
   }
   theme: {
@@ -17,11 +20,13 @@ interface AboutCinemaProps {
 }
 
 export function AboutCinema({ data, theme }: AboutCinemaProps) {
+  const { language } = useLanguage()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
-  const title = data.title || 'About'
-  const paragraphs = data.text.split('\n\n').filter(p => p.trim())
+  const title = t(data.title, language) || 'About'
+  const translatedText = t(data.text, language)
+  const paragraphs = translatedText.split('\n\n').filter(p => p.trim())
 
   return (
     <section

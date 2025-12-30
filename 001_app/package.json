@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:i18n": "tsx scripts/migrate-to-i18n.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
@@ -22,9 +23,11 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.8",
     "tailwindcss": "^4",
+    "tsx": "^4.7.0",
     "typescript": "^5"
   }
 }
