@@ -1103,45 +1103,84 @@ export default function EditorPage() {
                   <div className="border-b border-white/10 pb-6 mb-6">
                     <h3 className="text-xl font-semibold text-white mb-4">Typographie</h3>
 
-                    <div className="space-y-4">
+                    <div className="space-y-6">
+                      {/* Police principale */}
                       <div>
                         <label className="block text-sm text-white/60 mb-2">Police principale (corps de texte)</label>
                         <select
                           value={settings.theme.typography?.fontFamily || 'Inter'}
                           onChange={(e) => updateSettings(['theme', 'typography', 'fontFamily'], e.target.value)}
-                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          className="w-full px-4 py-3 bg-black border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          style={{ backgroundColor: '#000' }}
                         >
-                          <option value="Inter">Inter</option>
-                          <option value="Roboto">Roboto</option>
-                          <option value="Open Sans">Open Sans</option>
-                          <option value="Lato">Lato</option>
-                          <option value="Montserrat">Montserrat</option>
-                          <option value="Poppins">Poppins</option>
-                          <option value="Raleway">Raleway</option>
-                          <option value="Playfair Display">Playfair Display</option>
-                          <option value="Merriweather">Merriweather</option>
-                          <option value="Nunito">Nunito</option>
+                          <option value="Inter" style={{ backgroundColor: '#000', color: '#fff' }}>Inter</option>
+                          <option value="Roboto" style={{ backgroundColor: '#000', color: '#fff' }}>Roboto</option>
+                          <option value="Open Sans" style={{ backgroundColor: '#000', color: '#fff' }}>Open Sans</option>
+                          <option value="Lato" style={{ backgroundColor: '#000', color: '#fff' }}>Lato</option>
+                          <option value="Montserrat" style={{ backgroundColor: '#000', color: '#fff' }}>Montserrat</option>
+                          <option value="Poppins" style={{ backgroundColor: '#000', color: '#fff' }}>Poppins</option>
+                          <option value="Raleway" style={{ backgroundColor: '#000', color: '#fff' }}>Raleway</option>
+                          <option value="Playfair Display" style={{ backgroundColor: '#000', color: '#fff' }}>Playfair Display</option>
+                          <option value="Merriweather" style={{ backgroundColor: '#000', color: '#fff' }}>Merriweather</option>
+                          <option value="Nunito" style={{ backgroundColor: '#000', color: '#fff' }}>Nunito</option>
                         </select>
+
+                        {/* Aperçu de la police */}
+                        <div className="mt-3 p-4 bg-white/5 border border-white/10 rounded-lg">
+                          <p className="text-xs text-white/40 mb-2">Aperçu :</p>
+                          <p
+                            className="text-white text-base"
+                            style={{ fontFamily: `'${settings.theme.typography?.fontFamily || 'Inter'}', sans-serif` }}
+                          >
+                            Le renard brun rapide saute par-dessus le chien paresseux. 0123456789
+                          </p>
+                          <p
+                            className="text-white/60 text-sm mt-1"
+                            style={{ fontFamily: `'${settings.theme.typography?.fontFamily || 'Inter'}', sans-serif` }}
+                          >
+                            The quick brown fox jumps over the lazy dog.
+                          </p>
+                        </div>
                       </div>
 
+                      {/* Police des titres */}
                       <div>
                         <label className="block text-sm text-white/60 mb-2">Police des titres (optionnel)</label>
                         <select
                           value={settings.theme.typography?.headingFont || settings.theme.typography?.fontFamily || 'Inter'}
                           onChange={(e) => updateSettings(['theme', 'typography', 'headingFont'], e.target.value)}
-                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          className="w-full px-4 py-3 bg-black border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          style={{ backgroundColor: '#000' }}
                         >
-                          <option value="Inter">Inter</option>
-                          <option value="Roboto">Roboto</option>
-                          <option value="Open Sans">Open Sans</option>
-                          <option value="Lato">Lato</option>
-                          <option value="Montserrat">Montserrat</option>
-                          <option value="Poppins">Poppins</option>
-                          <option value="Raleway">Raleway</option>
-                          <option value="Playfair Display">Playfair Display</option>
-                          <option value="Merriweather">Merriweather</option>
-                          <option value="Nunito">Nunito</option>
+                          <option value="Inter" style={{ backgroundColor: '#000', color: '#fff' }}>Inter</option>
+                          <option value="Roboto" style={{ backgroundColor: '#000', color: '#fff' }}>Roboto</option>
+                          <option value="Open Sans" style={{ backgroundColor: '#000', color: '#fff' }}>Open Sans</option>
+                          <option value="Lato" style={{ backgroundColor: '#000', color: '#fff' }}>Lato</option>
+                          <option value="Montserrat" style={{ backgroundColor: '#000', color: '#fff' }}>Montserrat</option>
+                          <option value="Poppins" style={{ backgroundColor: '#000', color: '#fff' }}>Poppins</option>
+                          <option value="Raleway" style={{ backgroundColor: '#000', color: '#fff' }}>Raleway</option>
+                          <option value="Playfair Display" style={{ backgroundColor: '#000', color: '#fff' }}>Playfair Display</option>
+                          <option value="Merriweather" style={{ backgroundColor: '#000', color: '#fff' }}>Merriweather</option>
+                          <option value="Nunito" style={{ backgroundColor: '#000', color: '#fff' }}>Nunito</option>
                         </select>
+
+                        {/* Aperçu des titres */}
+                        <div className="mt-3 p-4 bg-white/5 border border-white/10 rounded-lg">
+                          <p className="text-xs text-white/40 mb-2">Aperçu titres :</p>
+                          <h1
+                            className="text-white text-3xl font-bold mb-2"
+                            style={{ fontFamily: `'${settings.theme.typography?.headingFont || settings.theme.typography?.fontFamily || 'Inter'}', sans-serif` }}
+                          >
+                            Titre Principal
+                          </h1>
+                          <h2
+                            className="text-white text-2xl font-semibold"
+                            style={{ fontFamily: `'${settings.theme.typography?.headingFont || settings.theme.typography?.fontFamily || 'Inter'}', sans-serif` }}
+                          >
+                            Sous-titre Important
+                          </h2>
+                        </div>
+
                         <p className="text-xs text-white/40 mt-2">
                           Si non spécifié, la police principale sera utilisée
                         </p>
