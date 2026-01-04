@@ -36,8 +36,13 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Fermer le menu d'abord
       setIsMobileMenuOpen(false)
+
+      // Attendre que le menu se ferme avant de scroller
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 300)
     }
   }
 
