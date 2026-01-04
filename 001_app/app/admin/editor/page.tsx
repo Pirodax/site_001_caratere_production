@@ -23,6 +23,34 @@ export default function EditorPage() {
   const router = useRouter()
   const supabase = createClient()
 
+  // Charger dynamiquement les Google Fonts pour l'aperçu
+  useEffect(() => {
+    const fontFamily = settings.theme.typography?.fontFamily || 'Inter'
+    const headingFont = settings.theme.typography?.headingFont || fontFamily
+
+    const fonts = [fontFamily]
+    if (headingFont && headingFont !== fontFamily) {
+      fonts.push(headingFont)
+    }
+
+    // Créer le lien pour Google Fonts
+    const fontUrls = fonts.map(font => font.replace(/ /g, '+')).join('&family=')
+    const linkId = 'google-fonts-preview'
+
+    // Supprimer l'ancien lien s'il existe
+    const oldLink = document.getElementById(linkId)
+    if (oldLink) {
+      oldLink.remove()
+    }
+
+    // Créer le nouveau lien
+    const link = document.createElement('link')
+    link.id = linkId
+    link.href = `https://fonts.googleapis.com/css2?family=${fontUrls}:wght@300;400;500;600;700;800;900&display=swap`
+    link.rel = 'stylesheet'
+    document.head.appendChild(link)
+  }, [settings.theme.typography])
+
   useEffect(() => {
     const loadEditor = async () => {
       const { data: { user } } = await supabase.auth.getUser()
@@ -976,7 +1004,7 @@ export default function EditorPage() {
 
                               {/* Extrait FR/EN */}
                               <div>
-                                <label className="block text-sm text-white/60 mb-2">Extrait</label>
+                                <label className="block text-sm text-white/60 mb-2">Extrait (court texte affiché sur la carte)</label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <textarea
                                     placeholder="Extrait (FR)"
@@ -1003,35 +1031,75 @@ export default function EditorPage() {
                                 </div>
                               </div>
 
-                              {/* Image & Date */}
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                  <label className="block text-sm text-white/60 mb-2">Image URL</label>
-                                  <input
-                                    type="text"
-                                    placeholder="https://..."
-                                    value={article.image || ''}
+                              {/* Contenu complet FR/EN */}
+                              <div>
+                                <label className="block text-sm text-white/60 mb-2">Contenu complet (affiché dans le popup)</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <textarea
+                                    placeholder="Contenu complet de l'article (FR)"
+                                    value={article.content?.fr || ''}
                                     onChange={(e) => {
                                       const articles = [...(settings.news?.articles || [])]
-                                      articles[index] = { ...articles[index], image: e.target.value }
+                                      articles[index] = {
+                                        ...articles[index],
+                                        content: {
+                                          fr: e.target.value,
+                                          en: articles[index].content?.en || ''
+                                        }
+                                      }
                                       updateSettings(['news', 'articles'], articles)
                                     }}
-                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                    rows={8}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
                                   />
-                                </div>
-                                <div>
-                                  <label className="block text-sm text-white/60 mb-2">Date</label>
-                                  <input
-                                    type="date"
-                                    value={article.date.split('T')[0]}
+                                  <textarea
+                                    placeholder="Full article content (EN)"
+                                    value={article.content?.en || ''}
                                     onChange={(e) => {
                                       const articles = [...(settings.news?.articles || [])]
-                                      articles[index] = { ...articles[index], date: new Date(e.target.value).toISOString() }
+                                      articles[index] = {
+                                        ...articles[index],
+                                        content: {
+                                          fr: articles[index].content?.fr || '',
+                                          en: e.target.value
+                                        }
+                                      }
                                       updateSettings(['news', 'articles'], articles)
                                     }}
-                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                    rows={8}
+                                    className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
                                   />
                                 </div>
+                              </div>
+
+                              {/* Image */}
+                              <div>
+                                <ImageUpload
+                                  currentImage={article.image || ''}
+                                  onImageUploaded={(url) => {
+                                    const articles = [...(settings.news?.articles || [])]
+                                    articles[index] = { ...articles[index], image: url }
+                                    updateSettings(['news', 'articles'], articles)
+                                  }}
+                                  siteId={siteId || ''}
+                                  folder="news"
+                                  label="Image de l'article"
+                                />
+                              </div>
+
+                              {/* Date */}
+                              <div>
+                                <label className="block text-sm text-white/60 mb-2">Date</label>
+                                <input
+                                  type="date"
+                                  value={article.date.split('T')[0]}
+                                  onChange={(e) => {
+                                    const articles = [...(settings.news?.articles || [])]
+                                    articles[index] = { ...articles[index], date: new Date(e.target.value).toISOString() }
+                                    updateSettings(['news', 'articles'], articles)
+                                  }}
+                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                />
                               </div>
                             </div>
                           </div>

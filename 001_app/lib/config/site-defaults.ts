@@ -131,7 +131,7 @@ export const siteDefaults: SiteSettings = {
 
   // Footer
   footer: {
-    copyright: '© 2025 Caractères Productions — Site propulsé par Ludovic Bergeron',
+    copyright: '© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron',
     links: []
   },
 
