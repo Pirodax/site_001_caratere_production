@@ -1040,7 +1040,13 @@ export default function EditorPage() {
                                     value={article.content?.fr || ''}
                                     onChange={(e) => {
                                       const articles = [...(settings.news?.articles || [])]
-                                      articles[index] = { ...articles[index], content: { ...articles[index].content, fr: e.target.value } }
+                                      articles[index] = {
+                                        ...articles[index],
+                                        content: {
+                                          fr: e.target.value,
+                                          en: articles[index].content?.en || ''
+                                        }
+                                      }
                                       updateSettings(['news', 'articles'], articles)
                                     }}
                                     rows={8}
@@ -1051,7 +1057,13 @@ export default function EditorPage() {
                                     value={article.content?.en || ''}
                                     onChange={(e) => {
                                       const articles = [...(settings.news?.articles || [])]
-                                      articles[index] = { ...articles[index], content: { ...articles[index].content, en: e.target.value } }
+                                      articles[index] = {
+                                        ...articles[index],
+                                        content: {
+                                          fr: articles[index].content?.fr || '',
+                                          en: e.target.value
+                                        }
+                                      }
                                       updateSettings(['news', 'articles'], articles)
                                     }}
                                     rows={8}
