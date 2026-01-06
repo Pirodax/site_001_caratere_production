@@ -70,8 +70,8 @@ export function HeroVideo({ data, theme }: HeroVideoProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
-              style={{ color: theme.text }}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight drop-shadow-2xl"
+              style={{ color: theme.text, textShadow: '0 4px 12px rgba(0,0,0,0.8)' }}
             >
               {t(data.title, language)}
             </motion.h1>

@@ -50,16 +50,25 @@ export function ContactCinema({ data, theme }: ContactCinemaProps) {
       style={{ backgroundColor: theme.primary }}
     >
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Title */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20"
-          style={{ color: theme.accent }}
-        >
-          Contact
-        </motion.h2>
+        {/* Title - Centré avec soulignement court */}
+        <div className="text-center mb-16 lg:mb-20">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-4xl lg:text-5xl font-bold mb-4"
+            style={{ color: theme.accent }}
+          >
+            Contact
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="w-16 h-1 mx-auto"
+            style={{ backgroundColor: theme.accent }}
+          />
+        </div>
 
         {/* Content Grid */}
         <div className="flex justify-center">

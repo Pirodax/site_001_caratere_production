@@ -1324,17 +1324,27 @@ export default function EditorPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Logo (URL de l'image ou texte)</label>
-                    <input
-                      type="text"
-                      value={settings.logo || ''}
-                      onChange={(e) => updateSettings(['logo'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                      placeholder="https://... ou TEXTE"
+                    <ImageUpload
+                      currentImage={settings.logo?.startsWith('http') || settings.logo?.startsWith('/') ? settings.logo : ''}
+                      onImageUploaded={(url) => updateSettings(['logo'], url)}
+                      siteId={siteId || ''}
+                      folder="logo"
+                      label="Logo (image ou texte)"
                     />
-                    <p className="text-xs text-white/40 mt-2">
-                      Entrez une URL d'image (http://...) ou du texte
-                    </p>
+                    {/* Option pour utiliser du texte au lieu d'une image */}
+                    <div className="mt-4">
+                      <label className="block text-sm text-white/60 mb-2">Ou utiliser du texte</label>
+                      <input
+                        type="text"
+                        value={!settings.logo?.startsWith('http') && !settings.logo?.startsWith('/') ? settings.logo || '' : ''}
+                        onChange={(e) => updateSettings(['logo'], e.target.value)}
+                        className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                        placeholder="CINEMA"
+                      />
+                      <p className="text-xs text-white/40 mt-2">
+                        Laissez vide pour utiliser l'image uploadée ci-dessus
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}

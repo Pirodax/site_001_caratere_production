@@ -57,23 +57,20 @@ export default function News({ news }: NewsProps) {
 
   return (
     <section className="relative py-24 bg-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Titre de la section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+      <div className="container mx-auto px-4 lg:px-8">
+        {/* Titre de la section - Aligné comme About et Works */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8 }}
+          className="text-4xl lg:text-5xl font-bold mb-16 lg:mb-20 text-white"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {news.title ? t(news.title, language) : (language === 'fr' ? 'Actualités' : 'News')}
-          </h2>
-          <div className="w-24 h-1 bg-white mx-auto"></div>
-        </motion.div>
+          {news.title ? t(news.title, language) : (language === 'fr' ? 'Actualités' : 'News')}
+        </motion.h2>
 
-        {/* Grille d'articles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Grille d'articles - Alignée comme Films */}
+        <div className="grid gap-4 md:gap-5 grid-cols-2 lg:grid-cols-4">
           {sortedArticles.map((article, index) => (
             <motion.article
               key={article.id}
