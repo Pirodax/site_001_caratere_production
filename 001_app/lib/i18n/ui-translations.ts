@@ -16,7 +16,7 @@ export const uiTranslations = {
 
   // Film details
   synopsis: { fr: 'Synopsis', en: 'Synopsis' },
-  contributors: { fr: 'Contributeurs', en: 'Contributors' },
+  contributors: { fr: 'Équipe', en: 'Team' },
   directedBy: { fr: 'Réalisé par', en: 'Directed by' },
 
   // Footer

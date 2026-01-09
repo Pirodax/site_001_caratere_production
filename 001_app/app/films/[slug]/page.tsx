@@ -126,17 +126,18 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
       {/* Section Bande-annonce / Image */}
       <section className="relative w-full h-screen">
-        {/* Image de fond */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${film.poster})`,
-            filter: 'brightness(0.4)'
-          }}
-        />
+        {/* Image de fond - Utilise backdrop (paysage immersif) si disponible, sinon poster */}
+        <div className="absolute inset-0">
+          <img
+            src={film.backdrop || film.poster}
+            alt={t(film.title, language)}
+            className={`w-full h-full ${film.backdrop ? 'object-cover object-center' : 'object-cover md:object-contain md:object-center'}`}
+            style={{ filter: 'brightness(0.4)' }}
+          />
+        </div>
 
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
         {/* Contenu */}
         <div className="relative h-full flex flex-col justify-end pb-20 px-8 lg:px-16 max-w-7xl mx-auto">
@@ -193,14 +194,16 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       </section>
 
       {/* Section Synopsis */}
-      <section className="py-20 lg:py-32 px-8 lg:px-16 max-w-7xl mx-auto">
+      <section className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">{getUITranslation('synopsis', language)}</h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
+            {film.synopsisTitle ? t(film.synopsisTitle, language) : getUITranslation('synopsis', language)}
+          </h2>
           <div className="max-w-4xl">
             <p className="text-lg lg:text-xl text-white/80 leading-relaxed">
               {(() => {
@@ -228,9 +231,34 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
         </motion.div>
       </section>
 
-      {/* Section Contributeurs */}
+      {/* Sections personnalisées */}
+      {film.customSections && film.customSections.length > 0 && (
+        <>
+          {film.customSections.map((section, index) => (
+            <section key={section.id} className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
+                  {t(section.title, language)}
+                </h2>
+                <div className="max-w-4xl">
+                  <p className="text-lg lg:text-xl text-white/80 leading-relaxed whitespace-pre-wrap">
+                    {t(section.content, language)}
+                  </p>
+                </div>
+              </motion.div>
+            </section>
+          ))}
+        </>
+      )}
+
+      {/* Section Équipe */}
       {film.crew && film.crew.length > 0 && (
-        <section className="py-20 lg:py-32 px-8 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+        <section className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

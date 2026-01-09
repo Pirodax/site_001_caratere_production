@@ -6,14 +6,23 @@ export interface CrewMember {
   image: string
 }
 
+export interface CustomSection {
+  id: string
+  title: TranslatableText
+  content: TranslatableText
+}
+
 export interface Film {
   slug: string
   title: TranslatableText
   year: number | string
   poster: string
+  backdrop?: string // Image paysage immersive pour le background
   trailer?: string
   description?: TranslatableText
   synopsis: TranslatableText
+  synopsisTitle?: TranslatableText
+  customSections?: CustomSection[]
   duration?: string
   genre?: TranslatableText
   director?: string

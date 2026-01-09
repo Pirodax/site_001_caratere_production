@@ -734,7 +734,15 @@ export default function EditorPage() {
                           onImageUploaded={(url) => updateWorkField(['poster'], url)}
                           siteId={siteId || ''}
                           folder="posters"
-                          label="Affiche du film"
+                          label="Affiche du film (portrait)"
+                        />
+
+                        <ImageUpload
+                          currentImage={editingWork.settings.backdrop || ''}
+                          onImageUploaded={(url) => updateWorkField(['backdrop'], url)}
+                          siteId={siteId || ''}
+                          folder="backdrops"
+                          label="Image de fond paysage (optionnel - pour un rendu immersif)"
                         />
 
                         <div>
@@ -775,6 +783,28 @@ export default function EditorPage() {
                           </div>
                         </div>
 
+                        {/* Titre Synopsis personnalisé (optionnel) */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Titre de la section Synopsis (optionnel)</label>
+                          <p className="text-xs text-white/40 mb-3">Laissez vide pour utiliser "Synopsis" par défaut</p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input
+                              type="text"
+                              value={editingWork.settings.synopsisTitle?.fr || ''}
+                              onChange={(e) => updateWorkField(['synopsisTitle', 'fr'], e.target.value)}
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                              placeholder="Synopsis (par défaut)"
+                            />
+                            <input
+                              type="text"
+                              value={editingWork.settings.synopsisTitle?.en || ''}
+                              onChange={(e) => updateWorkField(['synopsisTitle', 'en'], e.target.value)}
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                              placeholder="Synopsis (default)"
+                            />
+                          </div>
+                        </div>
+
                         {/* Synopsis FR/EN */}
                         <div>
                           <label className="block text-sm text-white/60 mb-3">Synopsis</label>
@@ -802,10 +832,118 @@ export default function EditorPage() {
                           </div>
                         </div>
 
-                        {/* Section Contributeurs */}
+                        {/* Sections personnalisées */}
                         <div className="border-t border-white/10 pt-6">
                           <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-semibold text-white">Contributeurs</h3>
+                            <h3 className="text-xl font-semibold text-white">Sections personnalisées</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => {
+                                const newSection = {
+                                  id: Date.now().toString(),
+                                  title: { fr: 'Nouvelle section', en: 'New section' },
+                                  content: { fr: '', en: '' }
+                                }
+                                const sections = editingWork.settings.customSections || []
+                                updateWorkField(['customSections'], [...sections, newSection])
+                              }}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter une section
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.customSections && editingWork.settings.customSections.length > 0 ? (
+                            <div className="space-y-6">
+                              {editingWork.settings.customSections.map((section, index) => (
+                                <div key={section.id} className="bg-white/5 border border-white/10 rounded-lg p-6">
+                                  <div className="flex justify-between items-start mb-4">
+                                    <h4 className="text-white font-semibold">Section {index + 1}</h4>
+                                    <button
+                                      onClick={() => {
+                                        const sections = editingWork.settings.customSections?.filter((_, i) => i !== index) || []
+                                        updateWorkField(['customSections'], sections)
+                                      }}
+                                      className="text-red-400 hover:text-red-300 text-sm"
+                                    >
+                                      Supprimer
+                                    </button>
+                                  </div>
+
+                                  <div className="space-y-4">
+                                    {/* Titre FR/EN */}
+                                    <div>
+                                      <label className="block text-sm text-white/60 mb-2">Titre de la section</label>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input
+                                          type="text"
+                                          placeholder="Titre (FR)"
+                                          value={section.title.fr}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], title: { ...sections[index].title, fr: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                        />
+                                        <input
+                                          type="text"
+                                          placeholder="Title (EN)"
+                                          value={section.title.en}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], title: { ...sections[index].title, en: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    {/* Contenu FR/EN */}
+                                    <div>
+                                      <label className="block text-sm text-white/60 mb-2">Contenu</label>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <textarea
+                                          placeholder="Contenu (FR)"
+                                          value={section.content.fr}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], content: { ...sections[index].content, fr: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          rows={6}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
+                                        />
+                                        <textarea
+                                          placeholder="Content (EN)"
+                                          value={section.content.en}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], content: { ...sections[index].content, en: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          rows={6}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucune section personnalisée. Cliquez sur "Ajouter une section" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Équipe */}
+                        <div className="border-t border-white/10 pt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Équipe</h3>
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
@@ -821,7 +959,7 @@ export default function EditorPage() {
                               {editingWork.settings.crew.map((member, index) => (
                                 <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
                                   <div className="flex items-start gap-4">
-                                    {/* Informations du contributeur */}
+                                    {/* Informations du membre de l'équipe */}
                                     <div className="flex-1 space-y-4">
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
@@ -850,7 +988,7 @@ export default function EditorPage() {
                                         onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
                                         siteId={siteId || ''}
                                         folder="crew"
-                                        label="Photo du contributeur"
+                                        label="Photo du membre de l'équipe"
                                       />
                                     </div>
 
@@ -858,7 +996,7 @@ export default function EditorPage() {
                                     <button
                                       onClick={() => deleteCrewMember(index)}
                                       className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all mt-6"
-                                      title="Supprimer ce contributeur"
+                                      title="Supprimer ce membre de l'équipe"
                                     >
                                       🗑
                                     </button>
@@ -868,7 +1006,7 @@ export default function EditorPage() {
                             </div>
                           ) : (
                             <p className="text-white/40 text-sm text-center py-4">
-                              Aucun contributeur. Cliquez sur "Ajouter" pour commencer.
+                              Aucun membre de l'équipe. Cliquez sur "Ajouter" pour commencer.
                             </p>
                           )}
                         </div>
