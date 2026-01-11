@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "migrate:i18n": "tsx scripts/migrate-to-i18n.ts",
-    "migrate:images": "tsx scripts/migrate-images-to-supabase.ts"
+    "migrate:images": "tsx scripts/migrate-images-to-supabase.ts",
+    "import:films": "tsx scripts/import-films.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
