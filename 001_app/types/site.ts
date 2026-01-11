@@ -105,9 +105,15 @@ export interface ContactSettings {
   phone?: string
 }
 
+export interface LegalNotice {
+  title: TranslatableText
+  content: TranslatableText
+}
+
 export interface FooterSettings {
   copyright?: string
   links?: Array<{ label: string; href: string }>
+  legalNotices?: LegalNotice[]
 }
 
 export interface SocialLinks {

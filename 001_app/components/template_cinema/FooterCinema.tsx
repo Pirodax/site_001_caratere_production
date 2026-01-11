@@ -1,6 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface FooterCinemaProps {
   data: {
@@ -15,8 +17,8 @@ interface FooterCinemaProps {
 }
 
 export function FooterCinema({ data, theme }: FooterCinemaProps) {
-  const currentYear = new Date().getFullYear()
-  const copyright = data.copyright || `© ${currentYear} Caractères Productions — Site propulsé par Ludovic Bergeron Digital`
+  const { language } = useLanguage()
+  const copyright = data.copyright || `© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital`
 
   return (
     <footer
@@ -44,13 +46,13 @@ export function FooterCinema({ data, theme }: FooterCinemaProps) {
           </div>
         )}
 
-        {/* Copyright - Full width and responsive */}
+        {/* Copyright et lien mentions légales */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center w-full"
+          className="text-center w-full space-y-3"
         >
           <p
             className="text-xs lg:text-sm leading-relaxed px-2"
@@ -58,6 +60,15 @@ export function FooterCinema({ data, theme }: FooterCinemaProps) {
           >
             {copyright}
           </p>
+          <div>
+            <Link
+              href="/legal"
+              className="text-xs lg:text-sm hover:opacity-70 transition-opacity underline"
+              style={{ color: theme.text }}
+            >
+              {language === 'fr' ? 'Mentions légales' : 'Legal notices'}
+            </Link>
+          </div>
         </motion.div>
       </div>
     </footer>

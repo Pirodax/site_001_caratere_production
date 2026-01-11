@@ -27,23 +27,53 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   const [loading, setLoading] = useState(true)
   const [showFullSynopsis, setShowFullSynopsis] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
-  // Gérer le scroll horizontal avec la molette de la souris
+  // Gérer le drag horizontal avec la souris
   useEffect(() => {
     const carousel = carouselRef.current
     if (!carousel) return
 
-    const handleWheel = (e: WheelEvent) => {
-      // Si on scroll verticalement sur le carousel, convertir en scroll horizontal
-      if (e.deltaY !== 0) {
-        e.preventDefault()
-        carousel.scrollLeft += e.deltaY
-      }
+    const handleMouseDown = (e: MouseEvent) => {
+      setIsDragging(true)
+      setStartX(e.pageX - carousel.offsetLeft)
+      setScrollLeft(carousel.scrollLeft)
+      carousel.style.cursor = 'grabbing'
     }
 
-    carousel.addEventListener('wheel', handleWheel, { passive: false })
-    return () => carousel.removeEventListener('wheel', handleWheel)
-  }, [])
+    const handleMouseLeave = () => {
+      setIsDragging(false)
+      carousel.style.cursor = 'grab'
+    }
+
+    const handleMouseUp = () => {
+      setIsDragging(false)
+      carousel.style.cursor = 'grab'
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return
+      e.preventDefault()
+      const x = e.pageX - carousel.offsetLeft
+      const walk = (x - startX) * 2 // Multiplier par 2 pour un scroll plus rapide
+      carousel.scrollLeft = scrollLeft - walk
+    }
+
+    carousel.style.cursor = 'grab'
+    carousel.addEventListener('mousedown', handleMouseDown)
+    carousel.addEventListener('mouseleave', handleMouseLeave)
+    carousel.addEventListener('mouseup', handleMouseUp)
+    carousel.addEventListener('mousemove', handleMouseMove)
+
+    return () => {
+      carousel.removeEventListener('mousedown', handleMouseDown)
+      carousel.removeEventListener('mouseleave', handleMouseLeave)
+      carousel.removeEventListener('mouseup', handleMouseUp)
+      carousel.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [isDragging, startX, scrollLeft])
 
   useEffect(() => {
     async function loadWork() {
@@ -274,67 +304,6 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
         </>
       )}
 
-      {/* Section Équipe */}
-      {film.crew && film.crew.length > 0 && (
-        <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">{getUITranslation('contributors', language)}</h2>
-
-            {/* Carousel horizontal de contributeurs */}
-            <div className="relative -mx-8 lg:-mx-16">
-              <div ref={carouselRef} className="overflow-x-auto scrollbar-hide px-8 lg:px-16 pb-4">
-                <div className="flex gap-6 w-max">
-                  {film.crew.map((member, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: 30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: index * 0.05 }}
-                      className="group cursor-pointer w-32 shrink-0"
-                    >
-                      {/* Portrait */}
-                      <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-800">
-                    {member.image && member.image.trim() !== '' ? (
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-gray-700 to-gray-900">
-                        <svg
-                          className="w-1/2 h-1/2 text-gray-500"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Nom */}
-                  <h3 className="text-white font-medium text-sm mb-1 group-hover:text-white/80 transition-colors">
-                    {member.name}
-                  </h3>
-
-                      {/* Rôle */}
-                      <p className="text-white/60 text-xs">{member.role}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-      )}
-
       {/* Section Press Reviews */}
       {film.pressReviews && film.pressReviews.length > 0 && (
         <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
@@ -432,6 +401,67 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                   <span className="text-white font-medium">{link.platform}</span>
                 </motion.a>
               ))}
+            </div>
+          </motion.div>
+        </section>
+      )}
+
+      {/* Section Équipe */}
+      {film.crew && film.crew.length > 0 && (
+        <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">{getUITranslation('contributors', language)}</h2>
+
+            {/* Carousel horizontal de contributeurs */}
+            <div className="relative -mx-8 lg:-mx-16">
+              <div ref={carouselRef} className="overflow-x-auto scrollbar-hide px-8 lg:px-16 pb-4">
+                <div className="flex gap-6 w-max">
+                  {film.crew.map((member, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: index * 0.05 }}
+                      className="group cursor-pointer w-32 shrink-0"
+                    >
+                      {/* Portrait */}
+                      <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-800">
+                    {member.image && member.image.trim() !== '' ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-gray-700 to-gray-900">
+                        <svg
+                          className="w-1/2 h-1/2 text-gray-500"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Nom */}
+                  <h3 className="text-white font-medium text-sm mb-1 group-hover:text-white/80 transition-colors">
+                    {member.name}
+                  </h3>
+
+                      {/* Rôle */}
+                      <p className="text-white/60 text-xs">{member.role}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         </section>

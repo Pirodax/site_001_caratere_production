@@ -16,7 +16,7 @@ export default function EditorPage() {
   const [saving, setSaving] = useState(false)
   const [siteId, setSiteId] = useState<string | null>(null)
   const [settings, setSettings] = useState<SiteSettings>(siteDefaults)
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'news' | 'contact' | 'theme' | 'films'>('hero')
+  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'news' | 'contact' | 'theme' | 'films' | 'footer'>('hero')
   const [works, setWorks] = useState<Work[]>([])
   const [editingWork, setEditingWork] = useState<Work | null>(null)
   const [isCreatingWork, setIsCreatingWork] = useState(false)
@@ -452,7 +452,8 @@ export default function EditorPage() {
                   { id: 'films', label: 'Films', icon: '🎥' },
                   { id: 'news', label: 'Actualités', icon: '📰' },
                   { id: 'contact', label: 'Contact', icon: '📧' },
-                  { id: 'theme', label: 'Thème', icon: '🎨' }
+                  { id: 'theme', label: 'Thème', icon: '🎨' },
+                  { id: 'footer', label: 'Footer', icon: '©️' }
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -1045,77 +1046,6 @@ export default function EditorPage() {
                           )}
                         </div>
 
-                        {/* Section Équipe */}
-                        <div className="border-t border-white/10 pt-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-semibold text-white">Équipe</h3>
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={addCrewMember}
-                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
-                            >
-                              + Ajouter
-                            </motion.button>
-                          </div>
-
-                          {editingWork.settings.crew && editingWork.settings.crew.length > 0 ? (
-                            <div className="space-y-4">
-                              {editingWork.settings.crew.map((member, index) => (
-                                <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
-                                  <div className="flex items-start gap-4">
-                                    {/* Informations du membre de l'équipe */}
-                                    <div className="flex-1 space-y-4">
-                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                          <label className="block text-xs text-white/60 mb-2">Nom</label>
-                                          <input
-                                            type="text"
-                                            value={member.name}
-                                            onChange={(e) => updateCrewMember(index, 'name', e.target.value)}
-                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
-                                          />
-                                        </div>
-                                        <div>
-                                          <label className="block text-xs text-white/60 mb-2">Rôle</label>
-                                          <input
-                                            type="text"
-                                            value={member.role}
-                                            onChange={(e) => updateCrewMember(index, 'role', e.target.value)}
-                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
-                                          />
-                                        </div>
-                                      </div>
-
-                                      {/* Upload d'image */}
-                                      <ImageUpload
-                                        currentImage={member.image}
-                                        onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
-                                        siteId={siteId || ''}
-                                        folder="crew"
-                                        label="Photo du membre de l'équipe"
-                                      />
-                                    </div>
-
-                                    {/* Bouton supprimer */}
-                                    <button
-                                      onClick={() => deleteCrewMember(index)}
-                                      className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all mt-6"
-                                      title="Supprimer ce membre de l'équipe"
-                                    >
-                                      🗑
-                                    </button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-white/40 text-sm text-center py-4">
-                              Aucun membre de l'équipe. Cliquez sur "Ajouter" pour commencer.
-                            </p>
-                          )}
-                        </div>
-
                         {/* Section Press Reviews */}
                         <div className="border-t border-white/10 pt-6 mt-6">
                           <div className="flex items-center justify-between mb-4">
@@ -1265,6 +1195,77 @@ export default function EditorPage() {
                           ) : (
                             <p className="text-white/40 text-sm text-center py-4">
                               Aucune plateforme VOD. Cliquez sur "Ajouter" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Équipe */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Équipe</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={addCrewMember}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.crew && editingWork.settings.crew.length > 0 ? (
+                            <div className="space-y-4">
+                              {editingWork.settings.crew.map((member, index) => (
+                                <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                  <div className="flex items-start gap-4">
+                                    {/* Informations du membre de l'équipe */}
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/60 mb-2">Nom</label>
+                                          <input
+                                            type="text"
+                                            value={member.name}
+                                            onChange={(e) => updateCrewMember(index, 'name', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/60 mb-2">Rôle</label>
+                                          <input
+                                            type="text"
+                                            value={member.role}
+                                            onChange={(e) => updateCrewMember(index, 'role', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white text-sm focus:outline-none focus:border-white/40"
+                                          />
+                                        </div>
+                                      </div>
+
+                                      {/* Upload d'image */}
+                                      <ImageUpload
+                                        currentImage={member.image}
+                                        onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
+                                        siteId={siteId || ''}
+                                        folder="crew"
+                                        label="Photo du membre de l'équipe"
+                                      />
+                                    </div>
+
+                                    {/* Bouton supprimer */}
+                                    <button
+                                      onClick={() => deleteCrewMember(index)}
+                                      className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all mt-6"
+                                      title="Supprimer ce membre de l'équipe"
+                                    >
+                                      🗑
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucun membre de l'équipe. Cliquez sur "Ajouter" pour commencer.
                             </p>
                           )}
                         </div>
@@ -1741,6 +1742,153 @@ export default function EditorPage() {
                         Laissez vide pour utiliser l'image uploadée ci-dessus
                       </p>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Footer Section */}
+              {activeTab === 'footer' && (
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-white mb-6">Footer (Bas de page)</h2>
+
+                  {/* Copyright */}
+                  <div>
+                    <label className="block text-sm text-white/60 mb-2">Copyright</label>
+                    <input
+                      type="text"
+                      value={settings.footer?.copyright || ''}
+                      onChange={(e) => updateSettings(['footer', 'copyright'], e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                      placeholder="© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital"
+                    />
+                    <p className="text-xs text-white/40 mt-2">
+                      Laissez vide pour utiliser le copyright par défaut
+                    </p>
+                  </div>
+
+                  {/* Mentions légales */}
+                  <div className="border-t border-white/10 pt-6 mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-white">Mentions légales</h3>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                          const newNotice = {
+                            title: { fr: 'Nouvelle section', en: 'New section' },
+                            content: { fr: '', en: '' }
+                          }
+                          const notices = settings.footer?.legalNotices || []
+                          updateSettings(['footer', 'legalNotices'], [...notices, newNotice])
+                        }}
+                        className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                      >
+                        + Ajouter une section
+                      </motion.button>
+                    </div>
+
+                    {settings.footer?.legalNotices && settings.footer.legalNotices.length > 0 ? (
+                      <div className="space-y-6">
+                        {settings.footer.legalNotices.map((notice, index) => (
+                          <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                            <div className="flex items-start gap-4">
+                              <div className="flex-1 space-y-4">
+                                {/* Titre FR/EN */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Titre (FR)</label>
+                                    <input
+                                      type="text"
+                                      value={notice.title.fr}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          title: { ...notices[index].title, fr: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Ex: Éditeur du site"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Titre (EN)</label>
+                                    <input
+                                      type="text"
+                                      value={notice.title.en}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          title: { ...notices[index].title, en: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Ex: Site Publisher"
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Contenu FR/EN */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Contenu (FR)</label>
+                                    <textarea
+                                      value={notice.content.fr}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          content: { ...notices[index].content, fr: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Contenu de la section..."
+                                      rows={6}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Contenu (EN)</label>
+                                    <textarea
+                                      value={notice.content.en}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          content: { ...notices[index].content, en: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Section content..."
+                                      rows={6}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Bouton supprimer */}
+                              <button
+                                onClick={() => {
+                                  const notices = settings.footer?.legalNotices?.filter((_, i) => i !== index)
+                                  updateSettings(['footer', 'legalNotices'], notices)
+                                }}
+                                className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                              >
+                                🗑
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-white/40 text-sm text-center py-4">
+                        Aucune section de mentions légales. Cliquez sur "Ajouter une section" pour commencer.
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
