@@ -16,7 +16,7 @@ interface FooterCinemaProps {
 
 export function FooterCinema({ data, theme }: FooterCinemaProps) {
   const currentYear = new Date().getFullYear()
-  const copyright = data.copyright || `© ${currentYear} Caractères Productions — Site propulsé par Sosoft`
+  const copyright = data.copyright || `© ${currentYear} Caractères Productions — Site propulsé par Ludovic Bergeron Digital`
 
   return (
     <footer

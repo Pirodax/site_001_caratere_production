@@ -5,7 +5,7 @@ import { createClient } from '../../../lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import type { User } from '@supabase/supabase-js'
-import type { SiteSettings, Film, CrewMember } from '@/types/site'
+import type { SiteSettings, Film, CrewMember, PressReview, BuyLink } from '@/types/site'
 import { siteDefaults } from '@/lib/config/site-defaults'
 import { getWorksBySiteIdClient, createWork, updateWork, deleteWork, type Work } from '@/lib/config/get-works'
 import { ImageUpload } from '@/components/ImageUpload'
@@ -273,6 +273,111 @@ export default function EditorPage() {
       settings: {
         ...editingWork.settings,
         crew: updatedCrew
+      }
+    })
+  }
+
+  // Press Reviews Management
+  const addPressReview = () => {
+    if (!editingWork) return
+
+    const newReview: PressReview = {
+      id: Date.now().toString(),
+      title: '',
+      source: '',
+      url: '',
+      language: 'fr'
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: [...(editingWork.settings.pressReviews || []), newReview]
+      }
+    })
+  }
+
+  const updatePressReview = (index: number, field: keyof PressReview, value: string) => {
+    if (!editingWork || !editingWork.settings.pressReviews) return
+
+    const updatedReviews = [...editingWork.settings.pressReviews]
+    updatedReviews[index] = {
+      ...updatedReviews[index],
+      [field]: value
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: updatedReviews
+      }
+    })
+  }
+
+  const deletePressReview = (index: number) => {
+    if (!editingWork || !editingWork.settings.pressReviews) return
+
+    const updatedReviews = editingWork.settings.pressReviews.filter((_, i) => i !== index)
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: updatedReviews
+      }
+    })
+  }
+
+  // Buy Links Management
+  const addBuyLink = () => {
+    if (!editingWork) return
+
+    const newLink: BuyLink = {
+      id: Date.now().toString(),
+      platform: '',
+      url: '',
+      logo: ''
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: [...(editingWork.settings.buyLinks || []), newLink]
+      }
+    })
+  }
+
+  const updateBuyLink = (index: number, field: keyof BuyLink, value: string) => {
+    if (!editingWork || !editingWork.settings.buyLinks) return
+
+    const updatedLinks = [...editingWork.settings.buyLinks]
+    updatedLinks[index] = {
+      ...updatedLinks[index],
+      [field]: value
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: updatedLinks
+      }
+    })
+  }
+
+  const deleteBuyLink = (index: number) => {
+    if (!editingWork || !editingWork.settings.buyLinks) return
+
+    const updatedLinks = editingWork.settings.buyLinks.filter((_, i) => i !== index)
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: updatedLinks
       }
     })
   }
@@ -1007,6 +1112,159 @@ export default function EditorPage() {
                           ) : (
                             <p className="text-white/40 text-sm text-center py-4">
                               Aucun membre de l'équipe. Cliquez sur "Ajouter" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Press Reviews */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Revues de presse</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={addPressReview}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter un article
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.pressReviews && editingWork.settings.pressReviews.length > 0 ? (
+                            <div className="space-y-4">
+                              {editingWork.settings.pressReviews.map((review, index) => (
+                                <div key={review.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                  <div className="flex items-start gap-4">
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Titre de l'article</label>
+                                          <input
+                                            type="text"
+                                            value={review.title}
+                                            onChange={(e) => updatePressReview(index, 'title', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Une critique élogieuse"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Source</label>
+                                          <input
+                                            type="text"
+                                            value={review.source}
+                                            onChange={(e) => updatePressReview(index, 'source', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Le Monde"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">URL de l'article</label>
+                                          <input
+                                            type="url"
+                                            value={review.url}
+                                            onChange={(e) => updatePressReview(index, 'url', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="https://..."
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Langue</label>
+                                          <select
+                                            value={review.language}
+                                            onChange={(e) => updatePressReview(index, 'language', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                          >
+                                            <option value="fr">Français</option>
+                                            <option value="en">English</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <button
+                                      onClick={() => deletePressReview(index)}
+                                      className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                                    >
+                                      🗑
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucun article de presse. Cliquez sur "Ajouter" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Buy Links */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Liens VOD / Achat</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={addBuyLink}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter une plateforme
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.buyLinks && editingWork.settings.buyLinks.length > 0 ? (
+                            <div className="space-y-4">
+                              {editingWork.settings.buyLinks.map((link, index) => (
+                                <div key={link.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                  <div className="flex items-start gap-4">
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Nom de la plateforme</label>
+                                          <input
+                                            type="text"
+                                            value={link.platform}
+                                            onChange={(e) => updateBuyLink(index, 'platform', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Amazon Prime Video"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">URL du lien</label>
+                                          <input
+                                            type="url"
+                                            value={link.url}
+                                            onChange={(e) => updateBuyLink(index, 'url', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="https://..."
+                                          />
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <label className="block text-xs text-white/40 mb-2">URL du logo (optionnel)</label>
+                                        <input
+                                          type="url"
+                                          value={link.logo || ''}
+                                          onChange={(e) => updateBuyLink(index, 'logo', e.target.value)}
+                                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                          placeholder="https://... (logo de la plateforme)"
+                                        />
+                                      </div>
+                                    </div>
+                                    <button
+                                      onClick={() => deleteBuyLink(index)}
+                                      className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                                    >
+                                      🗑
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucune plateforme VOD. Cliquez sur "Ajouter" pour commencer.
                             </p>
                           )}
                         </div>

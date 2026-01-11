@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect, use, useRef } from 'react'
 import Link from 'next/link'
 import { createClient } from '../../../lib/supabase/client'
 import type { Film } from '../../../types/site'
@@ -26,6 +26,24 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   const [showTrailer, setShowTrailer] = useState(false)
   const [loading, setLoading] = useState(true)
   const [showFullSynopsis, setShowFullSynopsis] = useState(false)
+  const carouselRef = useRef<HTMLDivElement>(null)
+
+  // Gérer le scroll horizontal avec la molette de la souris
+  useEffect(() => {
+    const carousel = carouselRef.current
+    if (!carousel) return
+
+    const handleWheel = (e: WheelEvent) => {
+      // Si on scroll verticalement sur le carousel, convertir en scroll horizontal
+      if (e.deltaY !== 0) {
+        e.preventDefault()
+        carousel.scrollLeft += e.deltaY
+      }
+    }
+
+    carousel.addEventListener('wheel', handleWheel, { passive: false })
+    return () => carousel.removeEventListener('wheel', handleWheel)
+  }, [])
 
   useEffect(() => {
     async function loadWork() {
@@ -194,7 +212,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       </section>
 
       {/* Section Synopsis */}
-      <section className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
+      <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -235,7 +253,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       {film.customSections && film.customSections.length > 0 && (
         <>
           {film.customSections.map((section, index) => (
-            <section key={section.id} className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
+            <section key={section.id} className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -258,7 +276,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
       {/* Section Équipe */}
       {film.crew && film.crew.length > 0 && (
-        <section className="py-12 lg:py-20 px-8 lg:px-16 max-w-7xl mx-auto">
+        <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -267,19 +285,21 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-12">{getUITranslation('contributors', language)}</h2>
 
-            {/* Grille de contributeurs - Images réduites */}
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
-              {film.crew.map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group cursor-pointer"
-                >
-                  {/* Portrait - Taille réduite */}
-                  <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-800">
+            {/* Carousel horizontal de contributeurs */}
+            <div className="relative -mx-8 lg:-mx-16">
+              <div ref={carouselRef} className="overflow-x-auto scrollbar-hide px-8 lg:px-16 pb-4">
+                <div className="flex gap-6 w-max">
+                  {film.crew.map((member, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: index * 0.05 }}
+                      className="group cursor-pointer w-32 shrink-0"
+                    >
+                      {/* Portrait */}
+                      <div className="relative aspect-square mb-3 overflow-hidden rounded-lg bg-gray-800">
                     {member.image && member.image.trim() !== '' ? (
                       <img
                         src={member.image}
@@ -304,9 +324,113 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
                     {member.name}
                   </h3>
 
-                  {/* Rôle */}
-                  <p className="text-white/60 text-xs">{member.role}</p>
-                </motion.div>
+                      {/* Rôle */}
+                      <p className="text-white/60 text-xs">{member.role}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+      )}
+
+      {/* Section Press Reviews */}
+      {film.pressReviews && film.pressReviews.length > 0 && (
+        <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-2xl lg:text-3xl font-bold text-white mb-6">
+              {language === 'fr' ? 'Presse' : 'Press'}
+            </h2>
+
+            {/* Séparation French / English */}
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* French Reviews */}
+              {film.pressReviews.filter(review => review.language === 'fr').length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-white/80 mb-4">French reviews</h3>
+                  <div className="space-y-3">
+                    {film.pressReviews
+                      .filter(review => review.language === 'fr')
+                      .map((review) => (
+                        <motion.a
+                          key={review.id}
+                          href={review.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ x: 4 }}
+                          className="block p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-all border border-white/10"
+                        >
+                          <p className="text-white font-medium text-sm mb-1">{review.title}</p>
+                          <p className="text-white/50 text-xs">{review.source}</p>
+                        </motion.a>
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              {/* English Reviews */}
+              {film.pressReviews.filter(review => review.language === 'en').length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-white/80 mb-4">English reviews</h3>
+                  <div className="space-y-3">
+                    {film.pressReviews
+                      .filter(review => review.language === 'en')
+                      .map((review) => (
+                        <motion.a
+                          key={review.id}
+                          href={review.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ x: 4 }}
+                          className="block p-3 bg-white/5 hover:bg-white/10 rounded-lg transition-all border border-white/10"
+                        >
+                          <p className="text-white font-medium text-sm mb-1">{review.title}</p>
+                          <p className="text-white/50 text-xs">{review.source}</p>
+                        </motion.a>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </section>
+      )}
+
+      {/* Section Buy/VOD */}
+      {film.buyLinks && film.buyLinks.length > 0 && (
+        <section className="py-8 lg:py-12 px-8 lg:px-16 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-2xl lg:text-3xl font-bold text-white mb-6">
+              {language === 'fr' ? 'Voir le film' : 'Watch the film'}
+            </h2>
+
+            <div className="flex flex-wrap gap-4">
+              {film.buyLinks.map((link) => (
+                <motion.a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-3 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-all border border-white/20"
+                >
+                  {link.logo && (
+                    <img src={link.logo} alt={link.platform} className="w-6 h-6 object-contain" />
+                  )}
+                  <span className="text-white font-medium">{link.platform}</span>
+                </motion.a>
               ))}
             </div>
           </motion.div>

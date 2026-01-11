@@ -12,6 +12,21 @@ export interface CustomSection {
   content: TranslatableText
 }
 
+export interface PressReview {
+  id: string
+  title: string
+  source: string
+  url: string
+  language: 'fr' | 'en'
+}
+
+export interface BuyLink {
+  id: string
+  platform: string
+  url: string
+  logo?: string
+}
+
 export interface Film {
   slug: string
   title: TranslatableText
@@ -27,6 +42,8 @@ export interface Film {
   genre?: TranslatableText
   director?: string
   crew?: CrewMember[]
+  pressReviews?: PressReview[]
+  buyLinks?: BuyLink[]
 }
 
 export interface Typography {

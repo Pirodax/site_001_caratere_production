@@ -59,3 +59,13 @@ h1, h2, h3, h4, h5, h6 {
 nav, nav *, header, header * {
   font-family: var(--font-body), Arial, Helvetica, sans-serif !important;
 }
+
+/* Masquer la scrollbar pour les carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
