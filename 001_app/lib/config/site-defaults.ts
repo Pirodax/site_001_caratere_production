@@ -131,7 +131,11 @@ export const siteDefaults: SiteSettings = {
 
   // Footer
   footer: {
-    copyright: '© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital',
+    copyright: {
+      fr: '© 2026 Caractères Productions',
+      en: '© 2026 Caractères Productions'
+    },
+    poweredByLink: 'https://www.linkedin.com/in/bergeronludovic/',
     links: []
   },
 

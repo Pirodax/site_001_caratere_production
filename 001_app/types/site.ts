@@ -31,7 +31,7 @@ export interface Film {
   slug: string
   title: TranslatableText
   year: number | string
-  poster: string
+  poster: string | { fr?: string; en?: string } // Support bilingue pour affiches
   backdrop?: string // Image paysage immersive pour le background
   trailer?: string
   description?: TranslatableText
@@ -111,7 +111,8 @@ export interface LegalNotice {
 }
 
 export interface FooterSettings {
-  copyright?: string
+  copyright?: TranslatableText
+  poweredByLink?: string // Lien vers LinkedIn de Ludovic Bergeron
   links?: Array<{ label: string; href: string }>
   legalNotices?: LegalNotice[]
 }
