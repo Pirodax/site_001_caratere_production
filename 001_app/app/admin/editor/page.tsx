@@ -9,6 +9,7 @@ import type { SiteSettings, Film, CrewMember, PressReview, BuyLink } from '@/typ
 import { siteDefaults } from '@/lib/config/site-defaults'
 import { getWorksBySiteIdClient, createWork, updateWork, deleteWork, type Work } from '@/lib/config/get-works'
 import { ImageUpload } from '@/components/ImageUpload'
+import { getPosterUrl } from '@/lib/utils/poster-helper'
 
 export default function EditorPage() {
   const [user, setUser] = useState<User | null>(null)
@@ -698,7 +699,7 @@ export default function EditorPage() {
                             >
                               {work.settings.poster && (
                                 <img
-                                  src={work.settings.poster}
+                                  src={getPosterUrl(work.settings.poster, 'fr')}
                                   alt={typeof work.settings.title === 'object' ? work.settings.title.fr : work.settings.title}
                                   className="w-full h-48 object-cover"
                                 />
@@ -848,13 +849,59 @@ export default function EditorPage() {
                           </div>
                         </div>
 
-                        <ImageUpload
-                          currentImage={editingWork.settings.poster}
-                          onImageUploaded={(url) => updateWorkField(['poster'], url)}
-                          siteId={siteId || ''}
-                          folder="posters"
-                          label="Affiche du film (portrait)"
-                        />
+                        {/* Affiche du film - Version bilingue */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Affiche du film (portrait)</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Français</label>
+                              <ImageUpload
+                                currentImage={
+                                  typeof editingWork.settings.poster === 'object' && editingWork.settings.poster
+                                    ? editingWork.settings.poster.fr || ''
+                                    : typeof editingWork.settings.poster === 'string'
+                                    ? editingWork.settings.poster
+                                    : ''
+                                }
+                                onImageUploaded={(url) => {
+                                  const current = editingWork.settings.poster
+                                  const newPoster = {
+                                    fr: url,
+                                    en: typeof current === 'object' && current ? current.en || '' : ''
+                                  }
+                                  updateWorkField(['poster'], newPoster)
+                                }}
+                                siteId={siteId || ''}
+                                folder="posters"
+                                label=""
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">English</label>
+                              <ImageUpload
+                                currentImage={
+                                  typeof editingWork.settings.poster === 'object' && editingWork.settings.poster
+                                    ? editingWork.settings.poster.en || ''
+                                    : ''
+                                }
+                                onImageUploaded={(url) => {
+                                  const current = editingWork.settings.poster
+                                  const newPoster = {
+                                    fr: typeof current === 'object' && current ? current.fr || '' : typeof current === 'string' ? current : '',
+                                    en: url
+                                  }
+                                  updateWorkField(['poster'], newPoster)
+                                }}
+                                siteId={siteId || ''}
+                                folder="posters"
+                                label=""
+                              />
+                            </div>
+                          </div>
+                          <p className="text-xs text-white/40 mt-2">
+                            Si une seule langue est définie, elle sera utilisée pour toutes les langues
+                          </p>
+                        </div>
 
                         <ImageUpload
                           currentImage={editingWork.settings.backdrop || ''}
@@ -1764,18 +1811,57 @@ export default function EditorPage() {
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold text-white mb-6">Footer (Bas de page)</h2>
 
-                  {/* Copyright */}
+                  {/* Copyright FR/EN */}
                   <div>
-                    <label className="block text-sm text-white/60 mb-2">Copyright</label>
-                    <input
-                      type="text"
-                      value={settings.footer?.copyright || ''}
-                      onChange={(e) => updateSettings(['footer', 'copyright'], e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                      placeholder="© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital"
-                    />
+                    <label className="block text-sm text-white/60 mb-3">Copyright</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">Français</label>
+                        <input
+                          type="text"
+                          value={
+                            typeof settings.footer?.copyright === 'object' && settings.footer?.copyright
+                              ? settings.footer.copyright.fr || ''
+                              : typeof settings.footer?.copyright === 'string'
+                              ? settings.footer.copyright
+                              : ''
+                          }
+                          onChange={(e) => {
+                            const current = settings.footer?.copyright
+                            const newCopyright = {
+                              fr: e.target.value,
+                              en: typeof current === 'object' && current ? current.en || '' : ''
+                            }
+                            updateSettings(['footer', 'copyright'], newCopyright)
+                          }}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="© 2026 Caractères Productions"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-white/40 mb-2">English</label>
+                        <input
+                          type="text"
+                          value={
+                            typeof settings.footer?.copyright === 'object' && settings.footer?.copyright
+                              ? settings.footer.copyright.en || ''
+                              : ''
+                          }
+                          onChange={(e) => {
+                            const current = settings.footer?.copyright
+                            const newCopyright = {
+                              fr: typeof current === 'object' && current ? current.fr || '' : typeof current === 'string' ? current : '',
+                              en: e.target.value
+                            }
+                            updateSettings(['footer', 'copyright'], newCopyright)
+                          }}
+                          className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                          placeholder="© 2026 Caractères Productions"
+                        />
+                      </div>
+                    </div>
                     <p className="text-xs text-white/40 mt-2">
-                      Laissez vide pour utiliser le copyright par défaut
+                      Laissez vide pour utiliser le copyright par défaut. Note: "Site propulsé par Ludovic Bergeron Digital" est automatiquement ajouté et ne peut être modifié.
                     </p>
                   </div>
 

@@ -6,7 +6,8 @@ import { useLanguage } from '@/contexts/LanguageContext'
 
 interface FooterCinemaProps {
   data: {
-    copyright?: string
+    copyright?: { fr: string; en: string } | string
+    poweredByLink?: string
     links?: Array<{ label: string; href: string }>
   }
   theme: {
@@ -18,7 +19,20 @@ interface FooterCinemaProps {
 
 export function FooterCinema({ data, theme }: FooterCinemaProps) {
   const { language } = useLanguage()
-  const copyright = data.copyright || `© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital`
+
+  // Gérer le copyright (ancien format string ou nouveau format bilingue)
+  const defaultCopyright = {
+    fr: '© 2026 Caractères Productions',
+    en: '© 2026 Caractères Productions'
+  }
+
+  const copyright = (() => {
+    if (!data.copyright) return defaultCopyright[language]
+    if (typeof data.copyright === 'string') return data.copyright
+    return data.copyright[language] || defaultCopyright[language]
+  })()
+
+  const poweredByLink = data.poweredByLink || 'https://www.linkedin.com/in/bergeronludovic/'
 
   return (
     <footer
@@ -54,12 +68,30 @@ export function FooterCinema({ data, theme }: FooterCinemaProps) {
           viewport={{ once: true }}
           className="text-center w-full space-y-3"
         >
+          {/* Copyright utilisateur */}
           <p
             className="text-xs lg:text-sm leading-relaxed px-2"
             style={{ color: theme.text }}
           >
             {copyright}
           </p>
+
+          {/* Powered by - fixe et non modifiable */}
+          <p
+            className="text-xs lg:text-sm leading-relaxed px-2"
+            style={{ color: theme.text }}
+          >
+            {language === 'fr' ? 'Site propulsé par ' : 'Site powered by '}
+            <a
+              href={poweredByLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-70 transition-opacity underline"
+            >
+              Ludovic Bergeron Digital
+            </a>
+          </p>
+
           <div>
             <Link
               href="/legal"

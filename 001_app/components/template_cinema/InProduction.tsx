@@ -2,6 +2,8 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { getPosterUrl } from '@/lib/utils/poster-helper'
 
 interface InProductionProps {
   data: {
@@ -9,7 +11,7 @@ interface InProductionProps {
     film: {
       title: string
       directors: string
-      poster: string
+      poster: string | { fr?: string; en?: string }
       synopsis?: string
       trailer?: string
     }
@@ -25,6 +27,7 @@ export function InProduction({ data, theme }: InProductionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [showTrailer, setShowTrailer] = useState(false)
+  const { language } = useLanguage()
 
   const title = data.title || 'In Production'
 
@@ -57,9 +60,10 @@ export function InProduction({ data, theme }: InProductionProps) {
             className="relative aspect-[2/3] overflow-hidden shadow-2xl group"
           >
             <img
-              src={data.film.poster}
+              src={getPosterUrl(data.film.poster, language)}
               alt={data.film.title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
             />
           </motion.div>
 

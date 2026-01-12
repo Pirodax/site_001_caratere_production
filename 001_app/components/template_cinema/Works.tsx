@@ -11,6 +11,7 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { t } from '@/lib/i18n/translate'
+import { getPosterUrl } from '@/lib/utils/poster-helper'
 import type { TranslatableText } from '@/types/site'
 
 interface CrewMember {
@@ -23,7 +24,7 @@ interface WorkItem {
   id?: string
   title: string
   year: string
-  image: string
+  image: string | { fr?: string; en?: string }
   description?: string
   trailer?: string
   director?: string
@@ -50,7 +51,10 @@ export function Works({ data, theme }: WorksProps) {
   const translatedTitle = t(data.title, language) || 'Films'
   const { items } = data
   // Filter out items with empty or invalid image URLs
-  const validItems = items.filter(item => item.image && item.image.trim() !== '')
+  const validItems = items.filter(item => {
+    const posterUrl = getPosterUrl(item.image, language)
+    return posterUrl && posterUrl.trim() !== ''
+  })
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
@@ -88,10 +92,11 @@ export function Works({ data, theme }: WorksProps) {
                   {/* Image */}
                   <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                     <img
-                      src={item.image}
+                      src={getPosterUrl(item.image, language)}
                       alt={item.title}
                       className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 scale-[1.01]"
                       style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
+                      loading="lazy"
                     />
 
                     {/* Overlay on hover */}

@@ -8,6 +8,7 @@ import type { Film } from '../../../types/site'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { t } from '@/lib/i18n/translate'
 import { getUITranslation } from '@/lib/i18n/ui-translations'
+import { getPosterUrl } from '@/lib/utils/poster-helper'
 
 interface Work {
   id: string
@@ -25,6 +26,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   const [work, setWork] = useState<Work | null>(null)
   const [showTrailer, setShowTrailer] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [backdropLoaded, setBackdropLoaded] = useState(false)
   const [showFullSynopsis, setShowFullSynopsis] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -93,10 +95,20 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
       setWork(workData as Work)
       setLoading(false)
+
+      // Précharger l'image backdrop pour un affichage plus rapide
+      const backdropUrl = workData.settings.backdrop || getPosterUrl(workData.settings.poster, language)
+      if (backdropUrl) {
+        const img = new Image()
+        img.src = backdropUrl
+        img.onload = () => setBackdropLoaded(true)
+        // Si l'image est déjà en cache, elle se charge instantanément
+        if (img.complete) setBackdropLoaded(true)
+      }
     }
 
     loadWork()
-  }, [slug])
+  }, [slug, language])
 
   if (loading) {
     return (
@@ -176,16 +188,21 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       <section className="relative w-full h-screen">
         {/* Image de fond - Utilise backdrop (paysage immersif) si disponible, sinon poster */}
         <div className="absolute inset-0">
+          {/* Placeholder pendant le chargement */}
+          {!backdropLoaded && (
+            <div className="absolute inset-0 bg-linear-to-b from-gray-900 to-black animate-pulse" />
+          )}
           <img
-            src={film.backdrop || film.poster}
+            src={film.backdrop || getPosterUrl(film.poster, language)}
             alt={t(film.title, language)}
-            className={`w-full h-full ${film.backdrop ? 'object-cover object-center' : 'object-cover md:object-contain md:object-center'}`}
+            className={`w-full h-full ${film.backdrop ? 'object-cover object-center' : 'object-cover md:object-contain md:object-center'} transition-opacity duration-500 ${backdropLoaded ? 'opacity-100' : 'opacity-0'}`}
             style={{ filter: 'brightness(0.4)' }}
+            onLoad={() => setBackdropLoaded(true)}
           />
         </div>
 
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
 
         {/* Contenu */}
         <div className="relative h-full flex flex-col justify-end pb-20 px-8 lg:px-16 max-w-7xl mx-auto">
