@@ -90,7 +90,8 @@ export function Works({ data, theme }: WorksProps) {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105 scale-[1.01]"
+                      style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
                     />
 
                     {/* Overlay on hover */}

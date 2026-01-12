@@ -1,0 +1,923 @@
+{
+"siteId": "8d471088-a7a0-4ad5-8dcc-36fd2f051174",
+"films": [
+{
+"slug": "the-marriage-project",
+"title": {
+"fr": "The Marriage Project",
+"en": "The Marriage Project"
+},
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/Ja03x_I_pnk](https://youtu.be/Ja03x_I_pnk)",
+"description": {
+"fr": "À Téhéran, un centre psychiatrique autorise le mariage entre patients, mettant l’amour à l’épreuve des préjugés et d’une société conservatrice.",
+"en": "In Tehran, a psychiatric center allows marriages between patients, putting love to the test against prejudice and a conservative society."
+},
+"synopsis": {
+"fr": "À Téhéran, un centre psychiatrique met en place un projet révolutionnaire : permettre le mariage entre patients. Femmes et hommes en quête d’amour doivent affronter les préjugés d’une société traditionaliste, et composer avec la complexité des liens, du désir et du regard porté sur la « folie ». Un film sensible et délicat sur l’intimité, la relation à l’autre et la frontière incertaine entre norme et vulnérabilité.",
+"en": "In Tehran, a psychiatric center implements a revolutionary project: allowing marriages between patients. Women and men searching for love must face the prejudices of a traditionalist society, and navigate the complex notions of intimacy, desire, and what people label as “madness.” A sensitive, delicate film about human relationships and fragile freedoms."
+},
+"duration": "79 min",
+"genre": {
+"fr": "Documentaire",
+"en": "Documentary"
+},
+"director": "Atieh Attarzadeh and Hesam Eslami",
+"crew": [
+{
+"name": "Mehdi Azadi",
+"role": "Cinematography",
+"image": ""
+},
+{
+"name": "Moslem Tehrani",
+"role": "Cinematography",
+"image": ""
+},
+{
+"name": "Farid Daghagheleh",
+"role": "Editing",
+"image": ""
+},
+{
+"name": "Caractères Productions",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Aras Films",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Al Jazeera Witness",
+"role": "Co-production",
+"image": ""
+},
+{
+"name": "Doha Film Institute",
+"role": "Supported by",
+"image": ""
+},
+{
+"name": "Aide aux cinémas du Monde – Institut Français (CNC)",
+"role": "Supported by",
+"image": ""
+},
+{
+"name": "Aide au développement renforcé (CNC)",
+"role": "Supported by",
+"image": ""
+},
+{
+"name": "Agora Thessaloniki FF",
+"role": "Supported by",
+"image": ""
+},
+{
+"name": "Alter-Ciné",
+"role": "Supported by",
+"image": ""
+},
+{
+"name": "Java Films",
+"role": "Sales Agent",
+"image": ""
+}
+],
+"pressReviews": [
+{
+"id": "1768140101001",
+"title": "The Marriage Project : vendredi à la bibliothèque",
+"source": "Le Dauphiné",
+"url": "[https://www.ledauphine.com/culture-loisirs/2021/11/24/the-marriage-project-vendredi-a-la-bibliotheque](https://www.ledauphine.com/culture-loisirs/2021/11/24/the-marriage-project-vendredi-a-la-bibliotheque)",
+"language": "fr"
+},
+{
+"id": "1768140101002",
+"title": "Télévision : « The Marriage Project », l’amour plus fort que la folie",
+"source": "L'Humanité",
+"url": "[https://www.humanite.fr/medias/documentaire/television-the-marriage-project-lamour-plus-fort-que-la-folie-708962](https://www.humanite.fr/medias/documentaire/television-the-marriage-project-lamour-plus-fort-que-la-folie-708962)",
+"language": "fr"
+},
+{
+"id": "1768140101003",
+"title": "The Marriage Project, amour fou à Téhéran",
+"source": "Le Nouvel Observateur",
+"url": "[https://www.nouvelobs.com/ce-soir-a-la-tv/20210601.OBS44750/the-marriage-project-amour-fou-a-teheran.html](https://www.nouvelobs.com/ce-soir-a-la-tv/20210601.OBS44750/the-marriage-project-amour-fou-a-teheran.html)",
+"language": "fr"
+},
+{
+"id": "1768140101004",
+"title": "La Rochelle : « The Marriage Project », plongée dans une institution psychiatrique en Iran",
+"source": "Sud Ouest",
+"url": "[https://www.sudouest.fr/culture/cinema/la-rochelle-the-marriage-project-plongee-dans-une-institution-psychiatrique-en-iran-1673348.php](https://www.sudouest.fr/culture/cinema/la-rochelle-the-marriage-project-plongee-dans-une-institution-psychiatrique-en-iran-1673348.php)",
+"language": "fr"
+},
+{
+"id": "1768140101005",
+"title": "The Marriage Project (PDF)",
+"source": "Témoignage Chrétien",
+"url": "[http://caracteresproductions.com/wp-content/uploads/2022/03/The-marriage-project.pdf](http://caracteresproductions.com/wp-content/uploads/2022/03/The-marriage-project.pdf)",
+"language": "fr"
+},
+{
+"id": "1768140101006",
+"title": "Documentary Review: The Marriage Project (2020)",
+"source": "Asian Movie Pulse",
+"url": "[https://asianmoviepulse.com/2020/05/documentary-review-the-marriage-project-2020-by-atieh-attarzadeh-and-hesam-eslami/](https://asianmoviepulse.com/2020/05/documentary-review-the-marriage-project-2020-by-atieh-attarzadeh-and-hesam-eslami/)",
+"language": "en"
+},
+{
+"id": "1768140101007",
+"title": "News detail: The Marriage Project",
+"source": "Cineuropa",
+"url": "[https://cineuropa.org/en/newsdetail/388709/#cm](https://cineuropa.org/en/newsdetail/388709/#cm)",
+"language": "en"
+},
+{
+"id": "1768140101008",
+"title": "Rendezvous with Madness 2020 — Review of The Marriage Project",
+"source": "In The Seats",
+"url": "[https://intheseats.ca/rendezvous-with-madness-2020-our-review-of-the-marriage-project/](https://intheseats.ca/rendezvous-with-madness-2020-our-review-of-the-marriage-project/)",
+"language": "en"
+},
+{
+"id": "1768140101009",
+"title": "The Marriage Project review: Is love the best medicine?",
+"source": "POV Magazine",
+"url": "[https://povmagazine.com/the-marriage-project-review-is-love-the-best-medicine/](https://povmagazine.com/the-marriage-project-review-is-love-the-best-medicine/)",
+"language": "en"
+}
+],
+"buyLinks": [
+{
+"id": "1768140101201",
+"platform": "AMAZON",
+"url": "[https://www.amazon.com/Marriage-Project-Atieh-Attarzadeh/dp/B09TVBN8TZ?msclkid=4c4555b8bb2b11ec9cece74027300972](https://www.amazon.com/Marriage-Project-Atieh-Attarzadeh/dp/B09TVBN8TZ?msclkid=4c4555b8bb2b11ec9cece74027300972)",
+"logo": ""
+},
+{
+"id": "1768140101202",
+"platform": "Java Films Watch",
+"url": "[https://javafilms.fr/film/the-marriage-project/](https://javafilms.fr/film/the-marriage-project/)",
+"logo": ""
+}
+],
+"customSections": [
+{
+"id": "1768140101101",
+"title": {
+"fr": "Festivals et projections",
+"en": "Festivals & screenings"
+},
+"content": {
+"fr": "Thessaloniki FF (Grèce), Visions du Réel (Suisse), Millenium FF (Belgique), Jean Rouch (France – Prix Monde en regards), Escales Documentaires (France), Firenze (France), FAJR 2020 (Iran), Cinéma Vérité 2019 (Iran), Rendez-vous with Madness (Canada), Women Make Waves (Taïwan), Global Health Film Festival (Royaume-Uni & Irlande), This Human World (Autriche – Prix Upcoming Competition), Les Toiles du Doc (France), Festival Interférences Lyon 2021 (France – Prix du Jury Étudiant, Compétition Creative Documentary), Images en bibliothèque (France), Festival Traces de Vie Clermont-Ferrand 2020 (France), Fipadoc (France), Ethnocineca Vienna 2021 (Autriche), Dokubazaar Human Rights Film Festival 2021 (Slovénie), ImagineIndia Film Festival 2021 (Espagne), Qumra 2021 (Qatar), Rencontres Vidéo en Santé Mentale 2021 (France), Rencontres Images Mentales Bruxelles 2022 (Belgique), « Les Toiles du Doc » – Ardèche Images (France), Centre Pompidou (France), Inalco (France).",
+"en": "Thessaloniki FF (Greece), Visions du Réel (Switzerland), Millenium FF (Belgium), Jean Rouch (France – Monde en regards Award), Escales Documentaires (France), Firenze (France), FAJR 2020 (Iran), Cinéma Vérité 2019 (Iran), Rendez-vous with Madness (Canada), Women Make Waves (Taiwan), Global Health Film Festival (UK & Ireland), This Human World (Austria – Upcoming Competition Award), Les Toiles du Doc (France), Festival Interférences Lyon 2021 (France – Student Jury Award, Creative Documentary Competition), Images en bibliothèque (France), Festival Traces de Vie Clermont-Ferrand 2020 (France), Fipadoc (France), Ethnocineca Vienna 2021 (Austria), Dokubazaar Human Rights Film Festival 2021 (Slovenia), ImagineIndia Film Festival 2021 (Spain), Qumra 2021 (Qatar), Rencontres Vidéo en Santé Mentale 2021 (France), Rencontres Images Mentales Bruxelles 2022 (Belgium), « Les Toiles du Doc » – Ardèche Images (France), Centre Pompidou (France), Inalco (France)."
+}
+},
+{
+"id": "1768140101102",
+"title": {
+"fr": "Ventes TV",
+"en": "TV sales"
+},
+"content": {
+"fr": "Vendu à VRT (Belgique), PTS (Taïwan), Al Arabiya, France 2 (« 25 nuance de Doc »).",
+"en": "Sold to VRT (Belgium), PTS (Taiwan), Al Arabiya, France 2 (“25 nuance de Doc”)."
+}
+}
+]
+},
+{
+"slug": "bilesuvar",
+"title": {
+"fr": "Bilesuvar",
+"en": "Bilesuvar"
+},
+"year": 2020,
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/yDKuhBjqtAw](https://youtu.be/yDKuhBjqtAw)",
+"description": {
+"fr": "Dans le district oublié de Bilesuvar, au sud de l’Azerbaïdjan, des habitants confient leurs désirs, leurs combats et leurs désespoirs.",
+"en": "In the forgotten district of Bilesuvar in southern Azerbaijan, locals share their wishes, struggles, and despair."
+},
+"synopsis": {
+"fr": "Dans le district oublié de Bilesuvar, au sud de l’Azerbaïdjan, des femmes et des hommes cherchent quelque chose dans des vies faiblement éclairées. Ils racontent leurs désirs, leurs désespoirs et leurs luttes. Au fil des voix et des présences, c’est l’âme de Bilesuvar qui affleure, entre résistance intime et horizon incertain.",
+"en": "In the forgotten district of Bilesuvar in southern Azerbaijan, men and women search for something within their dimly lit lives. They want to share their wishes, their despair, and their fights. Through these voices and faces, the film becomes a portrait of Bilesuvar’s soul—fragile, stubborn, and alive."
+},
+"duration": "85 min",
+"genre": {
+"fr": "Documentaire",
+"en": "Documentary"
+},
+"director": "Elvin Adigozel",
+"crew": [
+{
+"name": "Oktay Namazov",
+"role": "Cinematography",
+"image": ""
+},
+{
+"name": "Caractères Productions (Etienne de Ricaud)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Adari Films (Iarada Bagirzade)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Memuar Films (Intigam Hajili)",
+"role": "Production",
+"image": ""
+}
+],
+"pressReviews": [
+{
+"id": "1768140102001",
+"title": "Cinéma — article mentionnant « Bilesuvar »",
+"source": "Libération",
+"url": "[https://www.liberation.fr/images/2020/11/27/cine-derives-et-reves-aux-trois-continents_1806981/](https://www.liberation.fr/images/2020/11/27/cine-derives-et-reves-aux-trois-continents_1806981/)",
+"language": "fr"
+},
+{
+"id": "1768140102002",
+"title": "Critique — Bilesuvar",
+"source": "Polyester",
+"url": "[https://lepolyester.com/critique-bilesuvar/](https://lepolyester.com/critique-bilesuvar/)",
+"language": "fr"
+},
+{
+"id": "1768140102003",
+"title": "Actualité — (référence au film)",
+"source": "Cineuropa",
+"url": "[https://cineuropa.org/fr/newsdetail/395485](https://cineuropa.org/fr/newsdetail/395485)",
+"language": "fr"
+},
+{
+"id": "1768140102004",
+"title": "Elvin Adigozel’s Bilesuvar (2020)",
+"source": "East European Film Bulletin",
+"url": "[https://eefb.org/perspectives/elvin-adigozels-bilesuvar-2020/](https://eefb.org/perspectives/elvin-adigozels-bilesuvar-2020/)",
+"language": "en"
+},
+{
+"id": "1768140102005",
+"title": "Review — Bilesuvar",
+"source": "KinoKultura",
+"url": "[https://www.kinokultura.com/2021/72r-bilesuvar.shtml](https://www.kinokultura.com/2021/72r-bilesuvar.shtml)",
+"language": "en"
+}
+],
+"customSections": [
+{
+"id": "1768140102101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Busan IFF (Compétition internationale), Nantes 3 Continents (Compétition internationale), Go-East (Compétition), Kerala IFF (Compétition), Anapa (Compétition).",
+"en": "Busan IFF (International Competition), Nantes 3 Continents (International Competition), Go-East (Competition), Kerala IFF (Competition), Anapa (Competition)."
+}
+},
+{
+"id": "1768140102102",
+"title": {
+"fr": "Distribution",
+"en": "Cast"
+},
+"content": {
+"fr": "Kamran Agbalayev, Niyammeddin Amanov, Tofig Aslanov, Ilgar Dadash, Gunel Zulfugarli, Cahangir Melik, Gunel Mirzeli.",
+"en": "Kamran Agbalayev, Niyammeddin Amanov, Tofig Aslanov, Ilgar Dadash, Gunel Zulfugarli, Cahangir Melik, Gunel Mirzeli."
+}
+},
+{
+"id": "1768140102103",
+"title": {
+"fr": "Forme",
+"en": "Form"
+},
+"content": {
+"fr": "Docu-fiction (hybride documentaire/fiction).",
+"en": "Docu-fiction (documentary/fiction hybrid)."
+}
+}
+]
+},
+{
+"slug": "ballad-of-a-white-cow",
+"title": {
+"fr": "Le Pardon",
+"en": "Ballad of a White Cow"
+},
+"year": 2021,
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/-m8kYkQeIe0](https://youtu.be/-m8kYkQeIe0)",
+"description": {
+"fr": "Une femme apprend que son mari, exécuté, était innocent. Elle engage un combat silencieux contre un système cynique, tandis qu’un inconnu frappe à sa porte.",
+"en": "A woman learns her executed husband was innocent. She wages a quiet battle against a cynical system, as a stranger arrives at her door."
+},
+"synopsis": {
+"fr": "La vie de Mina bascule lorsqu’elle apprend que son mari Babak était innocent du crime pour lequel il a été exécuté. Les autorités s’excusent et évoquent une indemnisation financière. Mina entame alors un combat silencieux contre un système cynique, pour elle et pour sa fille. Quand l’argent vient à manquer, un inconnu nommé Reza se présente chez elle : il dit être venu rembourser une dette contractée auprès de Babak. D’abord sur ses gardes, Mina laisse peu à peu Reza entrer dans sa vie, sans se douter du secret qui les relie.",
+"en": "Mina’s life is turned upside down when she learns that her husband Babak was innocent of the crime for which he was executed. The authorities apologize for the mistake and offer the prospect of financial compensation. Mina starts a silent battle against a cynical system for her own and her daughter’s sake. Just as her money is running out, a stranger named Reza knocks at her door, saying he has come to repay a debt he owed to Babak. Mina is guarded at first, but increasingly lets Reza into her life, unaware of the secret that ties them to one another."
+},
+"duration": "105 min",
+"genre": {
+"fr": "Fiction",
+"en": "Fiction"
+},
+"director": "Behtash Sanaeeha and Maryam Moghaddam",
+"crew": [
+{
+"name": "Amin Jafari",
+"role": "Cinematography",
+"image": ""
+},
+{
+"name": "Filmsazan Javan (Gholamreza Mousavi)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Caractères Productions (Etienne de Ricaud)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Totem Films",
+"role": "Sales Agent",
+"image": ""
+}
+],
+"pressReviews": [
+{
+"id": "1768140103001",
+"title": "Le Pardon — la critique du film",
+"source": "À voir, à lire",
+"url": "[https://www.avoir-alire.com/le-pardon-maryam-moghadam-et-behtash-sanaeeha-la-critique](https://www.avoir-alire.com/le-pardon-maryam-moghadam-et-behtash-sanaeeha-la-critique)",
+"language": "fr"
+},
+{
+"id": "1768140103002",
+"title": "Le Pardon — la critique du film",
+"source": "Ciné Dweller",
+"url": "[https://cinedweller.com/movie/le-pardon-la-critique-du-film/](https://cinedweller.com/movie/le-pardon-la-critique-du-film/)",
+"language": "fr"
+},
+{
+"id": "1768140103003",
+"title": "71e Berlinale : les déchirements du monde à l’écran",
+"source": "Le Devoir",
+"url": "[https://www.ledevoir.com/culture/cinema/596369/71-berlinale-les-dechirements-du-monde-a-l-ecran](https://www.ledevoir.com/culture/cinema/596369/71-berlinale-les-dechirements-du-monde-a-l-ecran)",
+"language": "fr"
+},
+{
+"id": "1768140103004",
+"title": "Le Pardon : une femme iranienne face au système",
+"source": "Les Échos",
+"url": "[https://www.lesechos.fr/weekend/cinema-series/le-pardon-une-femme-iranienne-1358550](https://www.lesechos.fr/weekend/cinema-series/le-pardon-une-femme-iranienne-1358550)",
+"language": "fr"
+},
+{
+"id": "1768140103005",
+"title": "Le Pardon, portrait de femme en peine capitale",
+"source": "L'Humanité",
+"url": "[https://www.humanite.fr/cinema-le-pardon-portrait-de-femme-en-peine-capitale-725784](https://www.humanite.fr/cinema-le-pardon-portrait-de-femme-en-peine-capitale-725784)",
+"language": "fr"
+},
+{
+"id": "1768140103006",
+"title": "Le Pardon : le drame mutique d’une jeune femme iranienne",
+"source": "Le Monde",
+"url": "[https://www.lemonde.fr/culture/article/2021/10/27/le-pardon-le-drame-mutique-d-une-jeune-femme-iranienne_6100023_3246.html](https://www.lemonde.fr/culture/article/2021/10/27/le-pardon-le-drame-mutique-d-une-jeune-femme-iranienne_6100023_3246.html)",
+"language": "fr"
+},
+{
+"id": "1768140103007",
+"title": "Critique — Ballad of a White Cow",
+"source": "Le Polyester",
+"url": "[https://lepolyester.com/critique-ballad-of-a-white-cow/](https://lepolyester.com/critique-ballad-of-a-white-cow/)",
+"language": "fr"
+},
+{
+"id": "1768140103008",
+"title": "Film Review: Ballad of White Cow",
+"source": "Asian Movie Pulse",
+"url": "[https://asianmoviepulse.com/2021/11/film-review-ballad-of-white-cow-2020-by-behtash-sanaeeha-and-maryam-moghaddam-2/](https://asianmoviepulse.com/2021/11/film-review-ballad-of-white-cow-2020-by-behtash-sanaeeha-and-maryam-moghaddam-2/)",
+"language": "en"
+},
+{
+"id": "1768140103009",
+"title": "Berlin Review: Ballad of a White Cow",
+"source": "The Film Stage",
+"url": "[https://thefilmstage.com/berlin-review-ballad-of-a-white-cow-shows-innocence-shattered-in-irans-repressive-regime/](https://thefilmstage.com/berlin-review-ballad-of-a-white-cow-shows-innocence-shattered-in-irans-repressive-regime/)",
+"language": "en"
+},
+{
+"id": "1768140103010",
+"title": "Ballad of a White Cow — Film Review",
+"source": "The Hollywood Reporter",
+"url": "[https://www.hollywoodreporter.com/movies/movie-reviews/ballad-of-a-white-cow-film-review-berlin-2021-4142773/](https://www.hollywoodreporter.com/movies/movie-reviews/ballad-of-a-white-cow-film-review-berlin-2021-4142773/)",
+"language": "en"
+},
+{
+"id": "1768140103011",
+"title": "Review: Ballad of a White Cow",
+"source": "IndieWire",
+"url": "[https://www.indiewire.com/criticism/movies/ballad-of-a-white-cow-review-1234621115/](https://www.indiewire.com/criticism/movies/ballad-of-a-white-cow-review-1234621115/)",
+"language": "en"
+},
+{
+"id": "1768140103012",
+"title": "Berlin festival review — Ballad of a White Cow",
+"source": "Reuters",
+"url": "[https://www.reuters.com/article/us-filmfestival-berlin-ballad-of-a-white-idUSKCN2AW2O9/](https://www.reuters.com/article/us-filmfestival-berlin-ballad-of-a-white-idUSKCN2AW2O9/)",
+"language": "en"
+},
+{
+"id": "1768140103013",
+"title": "Review: Ballad of a White Cow",
+"source": "Screen Daily",
+"url": "[https://www.screendaily.com/reviews/ballad-of-a-white-cow-berlin-review/5157422.article](https://www.screendaily.com/reviews/ballad-of-a-white-cow-berlin-review/5157422.article)",
+"language": "en"
+},
+{
+"id": "1768140103014",
+"title": "Ballad of a White Cow review",
+"source": "Variety",
+"url": "[https://variety.com/2021/film/reviews/ballad-of-a-white-cow-review-1234922616/](https://variety.com/2021/film/reviews/ballad-of-a-white-cow-review-1234922616/)",
+"language": "en"
+}
+],
+"buyLinks": [
+{
+"id": "1768140103201",
+"platform": "UniversCiné",
+"url": "[https://www.universcine.com/films/le-pardon](https://www.universcine.com/films/le-pardon)",
+"logo": ""
+},
+{
+"id": "1768140103202",
+"platform": "ARTE",
+"url": "[https://boutique.arte.tv/detail/le-pardon](https://boutique.arte.tv/detail/le-pardon)",
+"logo": ""
+},
+{
+"id": "1768140103203",
+"platform": "Canal VOD",
+"url": "[https://vod.canalplus.com/cinema/le-pardon/h/17281476_40099](https://vod.canalplus.com/cinema/le-pardon/h/17281476_40099)",
+"logo": ""
+},
+{
+"id": "1768140103204",
+"platform": "AMAZON",
+"url": "[https://www.primevideo.com/detail/0LRZ1BU3LRFPP2TPZKV8UTA0MD/ref=atv_dl_rdr?tag=justfr8s2f-21](https://www.primevideo.com/detail/0LRZ1BU3LRFPP2TPZKV8UTA0MD/ref=atv_dl_rdr?tag=justfr8s2f-21)",
+"logo": ""
+}
+],
+"customSections": [
+{
+"id": "1768140103101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Berlinale 2021 (Compétition internationale), Tribeca Film Festival (Critics’ Week), Zurich Film Festival (Mention spéciale – Long métrage international), Valladolid International Film Festival (Meilleur nouveau réalisateur), Palm Springs, Denver, Hong Kong Asian FF, Busan, Festival International du Film de Saint-Jean-de-Luz, Philadelphia, Jerusalem, Calgary, Stockholm, Gabes Cinema Fen, Fajr, Fünf Seen, International Crime and Punishment FF, etc.",
+"en": "Berlinale 2021 (International Competition), Tribeca Film Festival (Critics’ Week), Zurich Film Festival (Special Mention – International Feature Film), Valladolid International Film Festival (Best New Director), Palm Springs, Denver, Hong Kong Asian FF, Busan, Saint-Jean-de-Luz, Philadelphia, Jerusalem, Calgary, Stockholm, Gabes Cinema Fen, Fajr, Fünf Seen, International Crime and Punishment Film Festival, etc."
+}
+},
+{
+"id": "1768140103102",
+"title": {
+"fr": "Distribution internationale",
+"en": "International distribution"
+},
+"content": {
+"fr": "KMBO (France), Imovision (Brésil), Moviezone Group (Chine), Artcam Film (Tchéquie), Angel Films (Danemark), Weltkino (Allemagne), Dananos Films (Grèce), Longride (Japon), Cherry Pickers (Pays-Bas), Aurora Distribution (Pologne), Alambique (Portugal), Megacom (Serbie), Surtsey Film (Espagne), Swallow Wings (Taïwan), Teferruat (Turquie), etc.",
+"en": "KMBO (France), Imovision (Brazil), Moviezone Group (China), Artcam Film (Czech Republic), Angel Films (Denmark), Weltkino (Germany), Dananos Films (Greece), Longride (Japan), Cherry Pickers (The Netherlands), Aurora Distribution (Poland), Alambique (Portugal), Megacom (Serbia), Surtsey Film (Spain), Swallow Wings (Taiwan), Teferruat (Turkey), etc."
+}
+},
+{
+"id": "1768140103103",
+"title": {
+"fr": "Distribution artistique",
+"en": "Cast"
+},
+"content": {
+"fr": "Maryam Moghaddam, Alireza Sanifar, Pourya Rahimisam, Avin Purraoufi, Farid Ghobadi, Lili Farhadpour",
+"en": "Maryam Moghaddam, Alireza Sanifar, Pourya Rahimisam, Avin Purraoufi, Farid Ghobadi, Lili Farhadpour"
+}
+}
+]
+},
+{
+"slug": "the-pact-of-aleppo",
+"title": {
+"fr": "The Pact of Aleppo",
+"en": "The Pact of Aleppo"
+},
+"year": 2022,
+"poster": "",
+"backdrop": "",
+"description": {
+"fr": "À Alep, de 2011 à 2016, un témoin-filmeur traverse l’utopie d’une révolution impossible, brisée par le mur du réel.",
+"en": "In Aleppo from 2011 to 2016, a witness-filmmaker lives through the utopia of an impossible revolution, shattered by reality."
+},
+"synopsis": {
+"fr": "À Alep, de 2011 à 2016, le film suit Salah Al-Ashkar — Karim Serjieh — témoin et protagoniste d’une révolution impossible, une utopie qui se heurte au mur de la réalité. À hauteur d’homme, il raconte l’élan, la désillusion et le prix d’espérer au cœur d’une ville ravagée.",
+"en": "Set in Aleppo from 2011 to 2016, the film follows Salah Al-Ashkar — Karim Serjieh — witness and protagonist of an impossible revolution: an utopia colliding with the wall of reality. At human scale, it captures momentum, disillusionment, and the cost of hoping inside a devastated city."
+},
+"duration": "103 min",
+"genre": {
+"fr": "Documentaire",
+"en": "Documentary"
+},
+"director": "Karim Serjieh alias Salah Al Ashkar",
+"crew": [
+{
+"name": "François Sculier",
+"role": "Image edit",
+"image": ""
+},
+{
+"name": "Caractères Productions (Etienne de Ricaud)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Karim Serjieh",
+"role": "Production",
+"image": ""
+}
+],
+"customSections": [
+{
+"id": "1768140104101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Nantes 3 Continents (Sélection officielle), Jean Rouch International Film Festival (Sélection officielle, Prix du premier film, Prix Institut Convergences et Migrations), Images en bibliothèques (Sélection), Escales Documentaires (Grand Prix du Jury).",
+"en": "Nantes 3 Continents (Official Selection), Jean Rouch International Film Festival (Official Selection, First Film Award, Institut Convergences et Migrations Award), Images en bibliothèques (Selection), Escales Documentaires (Grand Prix du Jury)."
+}
+}
+]
+},
+{
+"slug": "a-band-of-dreamers-and-a-judge",
+"title": {
+"fr": "Les Rêveurs et la juge",
+"en": "A Band of Dreamers and a Judge"
+},
+"year": 2023,
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/6IQTjvbdoI0](https://youtu.be/6IQTjvbdoI0)",
+"description": {
+"fr": "En Iran, des amis forent une montagne hantée par des légendes de trésors enfouis, sous l’œil attentif d’une juge.",
+"en": "In Iran, friends drill into a mountain haunted by legends of buried treasure, under the close watch of a judge."
+},
+"synopsis": {
+"fr": "La montagne de Savadkooh, en Iran, est hantée par des histoires de trésors enfouis. Un groupe d’amis perce ses pentes, rêvant de mettre la main sur l’or. Tandis qu’une juge surveille de près leurs moindres mouvements, parviendront-ils à déterrer les richesses qu’ils cherchent avec tant d’acharnement ?",
+"en": "The Savadkooh mountain in Iran is haunted by stories of buried treasures. A group of friends drill into its slopes, dreaming of getting their hands on its gold. As a judge closely monitors their every move, will they manage to unearth the riches they so desperately seek?"
+},
+"duration": "84 min",
+"genre": {
+"fr": "Documentaire",
+"en": "Documentary"
+},
+"director": "Hesam Eslami",
+"crew": [
+{
+"name": "Caractères Productions (Etienne de Ricaud)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Aras Films (Hesam Eslami)",
+"role": "Production",
+"image": ""
+},
+{
+"name": "SplitScreen",
+"role": "Sales Agent",
+"image": ""
+}
+],
+"customSections": [
+{
+"id": "1768140105101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "IDFA (Sélection officielle et Top 10 du IDFA Audience Award), True/False Film Festival, Hot Docs Festival.",
+"en": "IDFA (Official selection and in the Top 10 IDFA Audience Award), True/False Film Festival, Hot Docs Festival."
+}
+}
+]
+},
+{
+"slug": "crickets-its-your-turn",
+"title": {
+"fr": "Crickets, it’s your turn",
+"en": "Crickets, it’s your turn"
+},
+"year": 2024,
+"poster": "",
+"backdrop": "",
+"description": {
+"fr": "À Almaty, Merey rencontre Nurlan, qui l’emmène à un anniversaire en montagne : une très longue nuit commence.",
+"en": "In Almaty, Merey meets Nurlan, who invites her to a birthday party in the mountains—where a very long night begins."
+},
+"synopsis": {
+"fr": "Merey, 25 ans, vit à Almaty. Elle rencontre Nurlan, qui l’invite à l’anniversaire de son ami Bakyt, dans les montagnes. La fête se prolonge, et la nuit devient un territoire d’épreuves, de révélations et de bascules, jusqu’au petit matin.",
+"en": "Merey, 25, lives in Almaty. She meets Nurlan, who invites her to his friend Bakyt’s birthday party in the mountains. The celebration stretches on, and the night turns into a landscape of tests, revelations, and turning points—lasting until dawn."
+},
+"duration": "84 min",
+"genre": {
+"fr": "Fiction",
+"en": "Fiction"
+},
+"director": "Olga Korotko",
+"crew": [
+{
+"name": "Seven Rivers",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Caractères Productions",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Cercamon",
+"role": "Sales Agent",
+"image": ""
+}
+],
+"customSections": [
+{
+"id": "1768140106101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Locarno Film Festival (Concorso Cineasti del Presente, 2024), The Helsinki International Film Festival, El Gouna Film Festival.",
+"en": "Locarno Film Festival (Concorso Cineasti del Presente, 2024), The Helsinki International Film Festival, El Gouna Film Festival."
+}
+}
+]
+},
+{
+"slug": "the-settlement",
+"title": {
+"fr": "The Settlement",
+"en": "The Settlement"
+},
+"year": 2025,
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/EB-0bbpEZug](https://youtu.be/EB-0bbpEZug)",
+"description": {
+"fr": "À Alexandrie, la mort d’un ouvrier force ses deux fils à travailler dans la même usine, au plus près de celui qui a causé l’accident.",
+"en": "In Alexandria, a worker’s death forces his two sons into the same factory, close to the man responsible for the fatal accident."
+},
+"synopsis": {
+"fr": "Dans l’Alexandrie d’aujourd’hui, l’ouvrier Sayed el-Deeb meurt sur son lieu de travail. La seule compensation proposée à sa famille est l’embauche de ses deux fils : Hossam (23 ans) sur la chaîne de montage et Maro (12 ans) à l’atelier, tous deux affectés près de l’ouvrier responsable de la mort accidentelle de leur père. Les deux frères tentent de s’intégrer à la communauté de l’usine, mais les travailleurs restent méfiants : se demandent-ils si Hossam et Maro chercheront à venger leur père ?",
+"en": "In present-day Alexandria, factory worker Sayed el-Deeb dies on the job. The only compensation offered to his family is the employment of his two sons: Hossam (23) on the assembly line and Maro (12) in the workshop, both placed near the worker who caused Sayed’s accidental death. The brothers try to integrate into the factory community, but the workers remain suspicious—wondering if Hossam and Maro will seek revenge for their father."
+},
+"duration": "94 min",
+"genre": {
+"fr": "Fiction",
+"en": "Fiction"
+},
+"director": "Mohamed Rashad",
+"crew": [
+{
+"name": "Hassala Films",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Caractères Productions",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Seera Films",
+"role": "Production",
+"image": ""
+}
+],
+"customSections": [
+{
+"id": "1768140107101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Berlinale 2025 (Perspectives).",
+"en": "Berlinale 2025 (Perspectives)."
+}
+},
+{
+"id": "1768140107102",
+"title": {
+"fr": "Titre original",
+"en": "Original title"
+},
+"content": {
+"fr": "Al mosta’mera",
+"en": "Al mosta’mera"
+}
+}
+]
+},
+{
+"slug": "my-favourite-cake",
+"title": {
+"fr": "Mon gâteau préféré",
+"en": "My Favourite Cake"
+},
+"year": 2023,
+"poster": "",
+"backdrop": "",
+"trailer": "[https://youtu.be/Sv1j7MnI6vA](https://youtu.be/Sv1j7MnI6vA)",
+"description": {
+"fr": "Mahin, 70 ans, vit seule à Téhéran. En décidant de raviver sa vie amoureuse, une rencontre imprévue transforme sa soirée en moment inoubliable.",
+"en": "Mahin, 70, lives alone in Tehran. When she decides to revive her love life, an unexpected encounter turns into an unforgettable evening."
+},
+"synopsis": {
+"fr": "Mahin, soixante-dix ans, vit seule. Un jour, elle décide de briser sa routine et de redonner une chance à l’amour. À mesure qu’elle s’ouvre au romantisme, une rencontre inattendue bouleverse le cours des choses et se transforme en une soirée inoubliable, entre tendresse, audace et désir de vivre.",
+"en": "Mahin, seventy, lives alone. One day she decides to break her solitary routine and give love another chance. As she opens herself up to romance, an unexpected encounter quickly evolves into an unforgettable evening—tender, daring, and quietly life-affirming."
+},
+"duration": "84 min",
+"genre": {
+"fr": "Fiction",
+"en": "Fiction"
+},
+"director": "Behtash Sanaeeha and Maryam Moghaddam",
+"crew": [
+{
+"name": "Filmsazan Javan",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Caractères Productions",
+"role": "Production",
+"image": ""
+},
+{
+"name": "Watchmen Productions",
+"role": "Production",
+"image": ""
+},
+{
+"name": "HOBAB",
+"role": "Production",
+"image": ""
+},
+{
+"name": "SWALLOW WINGS",
+"role": "Distribution",
+"image": ""
+}
+],
+"pressReviews": [
+{
+"id": "1768140108001",
+"title": "Mon gâteau préféré — la critique",
+"source": "À voir, à lire",
+"url": "[https://www.avoir-alire.com/mon-gateau-prefere-maryam-moghadam-behtash-sanaeeha-critique](https://www.avoir-alire.com/mon-gateau-prefere-maryam-moghadam-behtash-sanaeeha-critique)",
+"language": "fr"
+},
+{
+"id": "1768140108002",
+"title": "My Favourite Cake — délicat et drôle récit",
+"source": "Abus de Ciné",
+"url": "[https://www.abusdecine.com/festival-de-berlin-2024-my-favourite-cake-delicat-drole-recit-renaissance-amoureuse/](https://www.abusdecine.com/festival-de-berlin-2024-my-favourite-cake-delicat-drole-recit-renaissance-amoureuse/)",
+"language": "fr"
+},
+{
+"id": "1768140108003",
+"title": "Mon gâteau préféré",
+"source": "Franceinfo",
+"url": "[https://www.franceinfo.fr/culture/cinema/sorties-de-films/mon-gateau-prefere-coup-de-foudre-a-teheran-entre-deux-ames-solitaires-a-l-aube-de-la-vieillesse_7041194.html](https://www.franceinfo.fr/culture/cinema/sorties-de-films/mon-gateau-prefere-coup-de-foudre-a-teheran-entre-deux-ames-solitaires-a-l-aube-de-la-vieillesse_7041194.html)",
+"language": "fr"
+},
+{
+"id": "1768140108004",
+"title": "Mon gâteau préféré : la nuit nous appartient",
+"source": "L'Humanité",
+"url": "[https://www.humanite.fr/culture-et-savoir/cinema/mon-gateau-prefere-de-maryam-moghaddam-et-behtash-sanaeeha-la-nuit-nous-appartient](https://www.humanite.fr/culture-et-savoir/cinema/mon-gateau-prefere-de-maryam-moghaddam-et-behtash-sanaeeha-la-nuit-nous-appartient)",
+"language": "fr"
+},
+{
+"id": "1768140108005",
+"title": "Mon gâteau préféré : une rom-com politique",
+"source": "L'Obs",
+"url": "[https://www.nouvelobs.com/cinema/20250204.OBS99899/mon-gateau-prefere-une-rom-com-politique-et-frondeuse-venue-d-iran.html](https://www.nouvelobs.com/cinema/20250204.OBS99899/mon-gateau-prefere-une-rom-com-politique-et-frondeuse-venue-d-iran.html)",
+"language": "fr"
+},
+{
+"id": "1768140108006",
+"title": "Notre critique de Mon gâteau préféré",
+"source": "Le Figaro",
+"url": "[https://www.lefigaro.fr/cinema/notre-critique-de-mon-gateau-prefere-la-creme-du-cinema-iranien-20250204](https://www.lefigaro.fr/cinema/notre-critique-de-mon-gateau-prefere-la-creme-du-cinema-iranien-20250204)",
+"language": "fr"
+},
+{
+"id": "1768140108007",
+"title": "Mon gâteau préféré",
+"source": "Libération",
+"url": "[https://www.liberation.fr/culture/mon-gateau-prefere-le-pot-au-morose-20250204_UBBSATENZNBZ3DC64EDVCIPEIQ/](https://www.liberation.fr/culture/mon-gateau-prefere-le-pot-au-morose-20250204_UBBSATENZNBZ3DC64EDVCIPEIQ/)",
+"language": "fr"
+},
+{
+"id": "1768140108008",
+"title": "My Favourite Cake — news detail",
+"source": "Cineuropa",
+"url": "[https://cineuropa.org/en/newsdetail/456962](https://cineuropa.org/en/newsdetail/456962)",
+"language": "en"
+},
+{
+"id": "1768140108009",
+"title": "My Favorite Cake Review",
+"source": "The Hollywood Reporter",
+"url": "[https://www.hollywoodreporter.com/movies/movie-reviews/my-favourite-cake-review-1235828270/](https://www.hollywoodreporter.com/movies/movie-reviews/my-favourite-cake-review-1235828270/)",
+"language": "en"
+},
+{
+"id": "1768140108010",
+"title": "My Favourite Cake — Berlin review",
+"source": "Screen International",
+"url": "[https://www.screendaily.com/reviews/my-favourite-cake-berlin-review/5190656.article](https://www.screendaily.com/reviews/my-favourite-cake-berlin-review/5190656.article)",
+"language": "en"
+},
+{
+"id": "1768140108011",
+"title": "My Favourite Cake review",
+"source": "Variety",
+"url": "[https://variety.com/2024/film/reviews/my-favourite-cake-review-1235913605/](https://variety.com/2024/film/reviews/my-favourite-cake-review-1235913605/)",
+"language": "en"
+},
+{
+"id": "1768140108012",
+"title": "My Favorite Cake review — Berlin",
+"source": "Deadline",
+"url": "[https://deadline.com/2024/02/my-favorite-cake-review-this-70-year-old-iranian-woman-love-story-is-a-subversive-delight-berlin-film-festival-1235832286/](https://deadline.com/2024/02/my-favorite-cake-review-this-70-year-old-iranian-woman-love-story-is-a-subversive-delight-berlin-film-festival-1235832286/)",
+"language": "en"
+}
+],
+"customSections": [
+{
+"id": "1768140108101",
+"title": {
+"fr": "Festivals",
+"en": "Festivals"
+},
+"content": {
+"fr": "Berlinale 2024 (Compétition internationale), Festival du Film de Cabourg 2024 (Grand Prix du Jury), Festival 2 Cinéma 2 Valenciennes (Prix de la Révélation, Prix de la Critique), Festival du film de Montreuil (Prix du Public), Festival de La Rochelle, Festival International du Film d’Amiens (Prix du Public, Mentions spéciales), Melbourne IFF, Film Fest Gent, Sarajevo FF, Rio, Calgary IFF (Best International Feature), Vancouver IFF, Karlovy Vary, Zurich, Istanbul, Chicago IFF (Silver Hugo), Philadelphia FF, AFI Fest, Palm Springs IFF, etc.",
+"en": "Berlinale 2024 (International Competition), Cabourg Film Festival 2024 (Grand Prix du Jury), 2 Cinéma 2 Valenciennes (Revelation Prize, Critics’ Prize), Montreuil Film Festival (Audience Award), La Rochelle, Amiens IFF (Audience Award and special mentions), Melbourne IFF, Film Fest Gent, Sarajevo FF, Rio, Calgary IFF (Best International Feature), Vancouver IFF, Karlovy Vary, Zurich, Istanbul, Chicago IFF (Silver Hugo), Philadelphia FF, AFI Fest, Palm Springs IFF, etc."
+}
+},
+{
+"id": "1768140108102",
+"title": {
+"fr": "Distribution internationale",
+"en": "International distribution"
+},
+"content": {
+"fr": "Arizona Distribution (France), Alamode Filmverleih (Allemagne), Curzon (Royaume-Uni), Cherry Pickers (Benelux), Cineworx (Suisse), YENI BIR (Turquie), Camera Film (Danemark), Triat (Suède), Cinema Mondo (Finlande), Weird Wave (Grèce), Academy Two (Italie), Arthaus (Norvège), Alambique (Portugal), A Contracorriente (Espagne), Kino Pavasaris (Pays baltes), Demiurg (Balkans), Beta Film (Bulgarie), Bio Paradis (Islande), Cirko (Hongrie), AURORA (Pologne), VENDETTA (Australie & Nouvelle-Zélande), Imovision (Brésil), Falcon (Indonésie), CINEPLEX (Colombie), THE PLOT (Moyen-Orient & Afrique du Nord), SWALLOW WINGS (Taïwan).",
+"en": "Arizona Distribution (France), Alamode Filmverleih (Germany), Curzon (UK), Cherry Pickers (Benelux), Cineworx (Switzerland), YENI BIR (Turkey), Camera Film (Denmark), Triat (Sweden), Cinema Mondo (Finland), Weird Wave (Greece), Academy Two (Italy), Arthaus (Norway), Alambique (Portugal), A Contracorriente (Spain), Kino Pavasaris (Baltics), Demiurg (Balkans), Beta Film (Bulgaria), Bio Paradis (Iceland), Cirko (Hungary), AURORA (Poland), VENDETTA (Australia & New Zealand), Imovision (Brazil), Falcon (Indonesia), CINEPLEX (Colombia), THE PLOT (Middle East & North Africa), SWALLOW WINGS (Taiwan)."
+}
+},
+{
+"id": "1768140108103",
+"title": {
+"fr": "VOD",
+"en": "VOD"
+},
+"content": {
+"fr": "VOD non disponible pour le moment.",
+"en": "VOD not yet available."
+}
+}
+]
+}
+]
+}

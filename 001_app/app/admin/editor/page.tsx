@@ -5,7 +5,7 @@ import { createClient } from '../../../lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import type { User } from '@supabase/supabase-js'
-import type { SiteSettings, Film, CrewMember } from '@/types/site'
+import type { SiteSettings, Film, CrewMember, PressReview, BuyLink } from '@/types/site'
 import { siteDefaults } from '@/lib/config/site-defaults'
 import { getWorksBySiteIdClient, createWork, updateWork, deleteWork, type Work } from '@/lib/config/get-works'
 import { ImageUpload } from '@/components/ImageUpload'
@@ -16,7 +16,7 @@ export default function EditorPage() {
   const [saving, setSaving] = useState(false)
   const [siteId, setSiteId] = useState<string | null>(null)
   const [settings, setSettings] = useState<SiteSettings>(siteDefaults)
-  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'news' | 'contact' | 'theme' | 'films'>('hero')
+  const [activeTab, setActiveTab] = useState<'hero' | 'about' | 'news' | 'contact' | 'theme' | 'films' | 'footer'>('hero')
   const [works, setWorks] = useState<Work[]>([])
   const [editingWork, setEditingWork] = useState<Work | null>(null)
   const [isCreatingWork, setIsCreatingWork] = useState(false)
@@ -119,6 +119,19 @@ export default function EditorPage() {
       current[path[path.length - 1]] = value
       return newSettings
     })
+  }
+
+  // Helper pour obtenir une valeur imbriquée avec fallback
+  const getNestedValue = (obj: any, path: string[], fallback: any = ''): any => {
+    let current = obj
+    for (const key of path) {
+      if (current && typeof current === 'object' && key in current) {
+        current = current[key]
+      } else {
+        return fallback
+      }
+    }
+    return current ?? fallback
   }
 
   // Fonctions de gestion des works
@@ -277,6 +290,111 @@ export default function EditorPage() {
     })
   }
 
+  // Press Reviews Management
+  const addPressReview = () => {
+    if (!editingWork) return
+
+    const newReview: PressReview = {
+      id: Date.now().toString(),
+      title: '',
+      source: '',
+      url: '',
+      language: 'fr'
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: [...(editingWork.settings.pressReviews || []), newReview]
+      }
+    })
+  }
+
+  const updatePressReview = (index: number, field: keyof PressReview, value: string) => {
+    if (!editingWork || !editingWork.settings.pressReviews) return
+
+    const updatedReviews = [...editingWork.settings.pressReviews]
+    updatedReviews[index] = {
+      ...updatedReviews[index],
+      [field]: value
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: updatedReviews
+      }
+    })
+  }
+
+  const deletePressReview = (index: number) => {
+    if (!editingWork || !editingWork.settings.pressReviews) return
+
+    const updatedReviews = editingWork.settings.pressReviews.filter((_, i) => i !== index)
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        pressReviews: updatedReviews
+      }
+    })
+  }
+
+  // Buy Links Management
+  const addBuyLink = () => {
+    if (!editingWork) return
+
+    const newLink: BuyLink = {
+      id: Date.now().toString(),
+      platform: '',
+      url: '',
+      logo: ''
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: [...(editingWork.settings.buyLinks || []), newLink]
+      }
+    })
+  }
+
+  const updateBuyLink = (index: number, field: keyof BuyLink, value: string) => {
+    if (!editingWork || !editingWork.settings.buyLinks) return
+
+    const updatedLinks = [...editingWork.settings.buyLinks]
+    updatedLinks[index] = {
+      ...updatedLinks[index],
+      [field]: value
+    }
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: updatedLinks
+      }
+    })
+  }
+
+  const deleteBuyLink = (index: number) => {
+    if (!editingWork || !editingWork.settings.buyLinks) return
+
+    const updatedLinks = editingWork.settings.buyLinks.filter((_, i) => i !== index)
+
+    setEditingWork({
+      ...editingWork,
+      settings: {
+        ...editingWork.settings,
+        buyLinks: updatedLinks
+      }
+    })
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -347,7 +465,8 @@ export default function EditorPage() {
                   { id: 'films', label: 'Films', icon: '🎥' },
                   { id: 'news', label: 'Actualités', icon: '📰' },
                   { id: 'contact', label: 'Contact', icon: '📧' },
-                  { id: 'theme', label: 'Thème', icon: '🎨' }
+                  { id: 'theme', label: 'Thème', icon: '🎨' },
+                  { id: 'footer', label: 'Footer', icon: '©️' }
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -544,7 +663,7 @@ export default function EditorPage() {
                             <label className="block text-xs text-white/40 mb-2">Français</label>
                             <input
                               type="text"
-                              value={settings.works?.title?.fr || ''}
+                              value={getNestedValue(settings, ['works', 'title', 'fr'], 'Nos Films')}
                               onChange={(e) => updateSettings(['works', 'title', 'fr'], e.target.value)}
                               placeholder="Nos Films"
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
@@ -554,7 +673,7 @@ export default function EditorPage() {
                             <label className="block text-xs text-white/40 mb-2">English</label>
                             <input
                               type="text"
-                              value={settings.works?.title?.en || ''}
+                              value={getNestedValue(settings, ['works', 'title', 'en'], 'Our Films')}
                               onChange={(e) => updateSettings(['works', 'title', 'en'], e.target.value)}
                               placeholder="Our Films"
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
@@ -734,7 +853,15 @@ export default function EditorPage() {
                           onImageUploaded={(url) => updateWorkField(['poster'], url)}
                           siteId={siteId || ''}
                           folder="posters"
-                          label="Affiche du film"
+                          label="Affiche du film (portrait)"
+                        />
+
+                        <ImageUpload
+                          currentImage={editingWork.settings.backdrop || ''}
+                          onImageUploaded={(url) => updateWorkField(['backdrop'], url)}
+                          siteId={siteId || ''}
+                          folder="backdrops"
+                          label="Image de fond paysage (optionnel - pour un rendu immersif)"
                         />
 
                         <div>
@@ -775,6 +902,28 @@ export default function EditorPage() {
                           </div>
                         </div>
 
+                        {/* Titre Synopsis personnalisé (optionnel) */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-3">Titre de la section Synopsis (optionnel)</label>
+                          <p className="text-xs text-white/40 mb-3">Laissez vide pour utiliser "Synopsis" par défaut</p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input
+                              type="text"
+                              value={editingWork.settings.synopsisTitle?.fr || ''}
+                              onChange={(e) => updateWorkField(['synopsisTitle', 'fr'], e.target.value)}
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                              placeholder="Synopsis (par défaut)"
+                            />
+                            <input
+                              type="text"
+                              value={editingWork.settings.synopsisTitle?.en || ''}
+                              onChange={(e) => updateWorkField(['synopsisTitle', 'en'], e.target.value)}
+                              className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                              placeholder="Synopsis (default)"
+                            />
+                          </div>
+                        </div>
+
                         {/* Synopsis FR/EN */}
                         <div>
                           <label className="block text-sm text-white/60 mb-3">Synopsis</label>
@@ -802,10 +951,271 @@ export default function EditorPage() {
                           </div>
                         </div>
 
-                        {/* Section Contributeurs */}
+                        {/* Sections personnalisées */}
                         <div className="border-t border-white/10 pt-6">
                           <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-semibold text-white">Contributeurs</h3>
+                            <h3 className="text-xl font-semibold text-white">Sections personnalisées</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => {
+                                const newSection = {
+                                  id: Date.now().toString(),
+                                  title: { fr: 'Nouvelle section', en: 'New section' },
+                                  content: { fr: '', en: '' }
+                                }
+                                const sections = editingWork.settings.customSections || []
+                                updateWorkField(['customSections'], [...sections, newSection])
+                              }}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter une section
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.customSections && editingWork.settings.customSections.length > 0 ? (
+                            <div className="space-y-6">
+                              {editingWork.settings.customSections.map((section, index) => (
+                                <div key={section.id} className="bg-white/5 border border-white/10 rounded-lg p-6">
+                                  <div className="flex justify-between items-start mb-4">
+                                    <h4 className="text-white font-semibold">Section {index + 1}</h4>
+                                    <button
+                                      onClick={() => {
+                                        const sections = editingWork.settings.customSections?.filter((_, i) => i !== index) || []
+                                        updateWorkField(['customSections'], sections)
+                                      }}
+                                      className="text-red-400 hover:text-red-300 text-sm"
+                                    >
+                                      Supprimer
+                                    </button>
+                                  </div>
+
+                                  <div className="space-y-4">
+                                    {/* Titre FR/EN */}
+                                    <div>
+                                      <label className="block text-sm text-white/60 mb-2">Titre de la section</label>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <input
+                                          type="text"
+                                          placeholder="Titre (FR)"
+                                          value={section.title.fr}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], title: { ...sections[index].title, fr: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                        />
+                                        <input
+                                          type="text"
+                                          placeholder="Title (EN)"
+                                          value={section.title.en}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], title: { ...sections[index].title, en: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    {/* Contenu FR/EN */}
+                                    <div>
+                                      <label className="block text-sm text-white/60 mb-2">Contenu</label>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <textarea
+                                          placeholder="Contenu (FR)"
+                                          value={section.content.fr}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], content: { ...sections[index].content, fr: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          rows={6}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
+                                        />
+                                        <textarea
+                                          placeholder="Content (EN)"
+                                          value={section.content.en}
+                                          onChange={(e) => {
+                                            const sections = [...(editingWork.settings.customSections || [])]
+                                            sections[index] = { ...sections[index], content: { ...sections[index].content, en: e.target.value } }
+                                            updateWorkField(['customSections'], sections)
+                                          }}
+                                          rows={6}
+                                          className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40 resize-y"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucune section personnalisée. Cliquez sur "Ajouter une section" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Press Reviews */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Revues de presse</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={addPressReview}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter un article
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.pressReviews && editingWork.settings.pressReviews.length > 0 ? (
+                            <div className="space-y-4">
+                              {editingWork.settings.pressReviews.map((review, index) => (
+                                <div key={review.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                  <div className="flex items-start gap-4">
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Titre de l'article</label>
+                                          <input
+                                            type="text"
+                                            value={review.title}
+                                            onChange={(e) => updatePressReview(index, 'title', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Une critique élogieuse"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Source</label>
+                                          <input
+                                            type="text"
+                                            value={review.source}
+                                            onChange={(e) => updatePressReview(index, 'source', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Le Monde"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">URL de l'article</label>
+                                          <input
+                                            type="url"
+                                            value={review.url}
+                                            onChange={(e) => updatePressReview(index, 'url', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="https://..."
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Langue</label>
+                                          <select
+                                            value={review.language}
+                                            onChange={(e) => updatePressReview(index, 'language', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                          >
+                                            <option value="fr">Français</option>
+                                            <option value="en">English</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <button
+                                      onClick={() => deletePressReview(index)}
+                                      className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                                    >
+                                      🗑
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucun article de presse. Cliquez sur "Ajouter" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Buy Links */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Liens VOD / Achat</h3>
+                            <motion.button
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={addBuyLink}
+                              className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                            >
+                              + Ajouter une plateforme
+                            </motion.button>
+                          </div>
+
+                          {editingWork.settings.buyLinks && editingWork.settings.buyLinks.length > 0 ? (
+                            <div className="space-y-4">
+                              {editingWork.settings.buyLinks.map((link, index) => (
+                                <div key={link.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                                  <div className="flex items-start gap-4">
+                                    <div className="flex-1 space-y-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">Nom de la plateforme</label>
+                                          <input
+                                            type="text"
+                                            value={link.platform}
+                                            onChange={(e) => updateBuyLink(index, 'platform', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="Ex: Amazon Prime Video"
+                                          />
+                                        </div>
+                                        <div>
+                                          <label className="block text-xs text-white/40 mb-2">URL du lien</label>
+                                          <input
+                                            type="url"
+                                            value={link.url}
+                                            onChange={(e) => updateBuyLink(index, 'url', e.target.value)}
+                                            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                            placeholder="https://..."
+                                          />
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <label className="block text-xs text-white/40 mb-2">URL du logo (optionnel)</label>
+                                        <input
+                                          type="url"
+                                          value={link.logo || ''}
+                                          onChange={(e) => updateBuyLink(index, 'logo', e.target.value)}
+                                          className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                          placeholder="https://... (logo de la plateforme)"
+                                        />
+                                      </div>
+                                    </div>
+                                    <button
+                                      onClick={() => deleteBuyLink(index)}
+                                      className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                                    >
+                                      🗑
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-white/40 text-sm text-center py-4">
+                              Aucune plateforme VOD. Cliquez sur "Ajouter" pour commencer.
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Section Équipe */}
+                        <div className="border-t border-white/10 pt-6 mt-6">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-semibold text-white">Équipe</h3>
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
@@ -821,7 +1231,7 @@ export default function EditorPage() {
                               {editingWork.settings.crew.map((member, index) => (
                                 <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
                                   <div className="flex items-start gap-4">
-                                    {/* Informations du contributeur */}
+                                    {/* Informations du membre de l'équipe */}
                                     <div className="flex-1 space-y-4">
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
@@ -850,7 +1260,7 @@ export default function EditorPage() {
                                         onImageUploaded={(url) => updateCrewMember(index, 'image', url)}
                                         siteId={siteId || ''}
                                         folder="crew"
-                                        label="Photo du contributeur"
+                                        label="Photo du membre de l'équipe"
                                       />
                                     </div>
 
@@ -858,7 +1268,7 @@ export default function EditorPage() {
                                     <button
                                       onClick={() => deleteCrewMember(index)}
                                       className="px-3 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-all mt-6"
-                                      title="Supprimer ce contributeur"
+                                      title="Supprimer ce membre de l'équipe"
                                     >
                                       🗑
                                     </button>
@@ -868,7 +1278,7 @@ export default function EditorPage() {
                             </div>
                           ) : (
                             <p className="text-white/40 text-sm text-center py-4">
-                              Aucun contributeur. Cliquez sur "Ajouter" pour commencer.
+                              Aucun membre de l'équipe. Cliquez sur "Ajouter" pour commencer.
                             </p>
                           )}
                         </div>
@@ -1345,6 +1755,153 @@ export default function EditorPage() {
                         Laissez vide pour utiliser l'image uploadée ci-dessus
                       </p>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Footer Section */}
+              {activeTab === 'footer' && (
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-white mb-6">Footer (Bas de page)</h2>
+
+                  {/* Copyright */}
+                  <div>
+                    <label className="block text-sm text-white/60 mb-2">Copyright</label>
+                    <input
+                      type="text"
+                      value={settings.footer?.copyright || ''}
+                      onChange={(e) => updateSettings(['footer', 'copyright'], e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                      placeholder="© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital"
+                    />
+                    <p className="text-xs text-white/40 mt-2">
+                      Laissez vide pour utiliser le copyright par défaut
+                    </p>
+                  </div>
+
+                  {/* Mentions légales */}
+                  <div className="border-t border-white/10 pt-6 mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-white">Mentions légales</h3>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                          const newNotice = {
+                            title: { fr: 'Nouvelle section', en: 'New section' },
+                            content: { fr: '', en: '' }
+                          }
+                          const notices = settings.footer?.legalNotices || []
+                          updateSettings(['footer', 'legalNotices'], [...notices, newNotice])
+                        }}
+                        className="px-3 py-1 bg-white/10 text-white text-sm rounded-lg hover:bg-white/20 transition-all"
+                      >
+                        + Ajouter une section
+                      </motion.button>
+                    </div>
+
+                    {settings.footer?.legalNotices && settings.footer.legalNotices.length > 0 ? (
+                      <div className="space-y-6">
+                        {settings.footer.legalNotices.map((notice, index) => (
+                          <div key={index} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                            <div className="flex items-start gap-4">
+                              <div className="flex-1 space-y-4">
+                                {/* Titre FR/EN */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Titre (FR)</label>
+                                    <input
+                                      type="text"
+                                      value={notice.title.fr}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          title: { ...notices[index].title, fr: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Ex: Éditeur du site"
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Titre (EN)</label>
+                                    <input
+                                      type="text"
+                                      value={notice.title.en}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          title: { ...notices[index].title, en: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Ex: Site Publisher"
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Contenu FR/EN */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Contenu (FR)</label>
+                                    <textarea
+                                      value={notice.content.fr}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          content: { ...notices[index].content, fr: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Contenu de la section..."
+                                      rows={6}
+                                    />
+                                  </div>
+                                  <div>
+                                    <label className="block text-xs text-white/40 mb-2">Contenu (EN)</label>
+                                    <textarea
+                                      value={notice.content.en}
+                                      onChange={(e) => {
+                                        const notices = [...(settings.footer?.legalNotices || [])]
+                                        notices[index] = {
+                                          ...notices[index],
+                                          content: { ...notices[index].content, en: e.target.value }
+                                        }
+                                        updateSettings(['footer', 'legalNotices'], notices)
+                                      }}
+                                      className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm"
+                                      placeholder="Section content..."
+                                      rows={6}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Bouton supprimer */}
+                              <button
+                                onClick={() => {
+                                  const notices = settings.footer?.legalNotices?.filter((_, i) => i !== index)
+                                  updateSettings(['footer', 'legalNotices'], notices)
+                                }}
+                                className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded hover:bg-red-500/30 transition-all shrink-0"
+                              >
+                                🗑
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-white/40 text-sm text-center py-4">
+                        Aucune section de mentions légales. Cliquez sur "Ajouter une section" pour commencer.
+                      </p>
+                    )}
                   </div>
                 </div>
               )}

@@ -1,0 +1,467 @@
+{
+  "siteId": "8d471088-a7a0-4ad5-8dcc-36fd2f051174",
+  "films": [
+    {
+      "slug": "a-minor-leap-down",
+      "title": {
+        "fr": "A Minor Leap Down",
+        "en": "A Minor Leap Down"
+      },
+      "year": 2015,
+      "poster": "",
+      "backdrop": "",
+      "trailer": "https://youtu.be/EnfUuv8g5nU",
+      "description": {
+        "fr": "Une femme enceinte découvre brutalement que son bébé est mort et choisit le silence.",
+        "en": "A pregnant woman suddenly learns her baby has died and chooses silence."
+      },
+      "synopsis": {
+        "fr": "Nahal, enceinte de quatre mois, apprend soudainement que l’enfant qu’elle porte est mort. Plutôt que de partager sa douleur, elle décide de se taire et de ne parler à personne de ce drame. Son silence devient une manière de tenir, mais aussi un vertige intime qui redessine ses liens aux autres et au monde.",
+        "en": "Nahal, four months pregnant, suddenly finds out that the child she is carrying has died. Instead of sharing her grief, she chooses silence and decides not to talk to anyone about it. Her quietness becomes both a way to endure and an intimate precipice, reshaping her bonds with others and with the world."
+      },
+      "duration": "88 min",
+      "genre": {
+        "fr": "Fiction",
+        "en": "Fiction"
+      },
+      "director": "Hamed Rajabi",
+      "crew": [
+        {
+          "name": "Majid Gorjian",
+          "role": "Cinematography",
+          "image": ""
+        },
+        {
+          "name": "Majid Barzegar (Rainy Pictures)",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Saeed Armand",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Alias Films (Nader T. Homayoun)",
+          "role": "Co-production",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions (Etienne de Ricaud)",
+          "role": "Co-production",
+          "image": ""
+        }
+      ],
+      "pressReviews": [
+        {
+          "id": "1768140001001",
+          "title": "A Minor Leap Down — Cineuropa",
+          "source": "Cineuropa",
+          "url": "https://cineuropa.org/en/film/283867/",
+          "language": "en"
+        },
+        {
+          "id": "1768140001002",
+          "title": "Critique — A Minor Leap Down",
+          "source": "Abus de Ciné",
+          "url": "https://www.abusdecine.com/critique/a-minor-leap-down/",
+          "language": "fr"
+        },
+        {
+          "id": "1768140001003",
+          "title": "Review: A Minor Leap Down (Paridan)",
+          "source": "The Hollywood Reporter",
+          "url": "https://www.hollywoodreporter.com/movies/movie-reviews/a-minor-leap-down-paridan-772563/",
+          "language": "en"
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1768140001101",
+          "title": {
+            "fr": "Festivals",
+            "en": "Festivals"
+          },
+          "content": {
+            "fr": "Berlinale (section Panorama – Prix FIPRESCI), Shanghai FF, Valenci-Cinema Jove, etc.",
+            "en": "Berlinale (Panorama section – FIPRESCI Award), Shanghai FF, Valenci-Cinema Jove, etc."
+          }
+        },
+        {
+          "id": "1768140001102",
+          "title": {
+            "fr": "Distribution",
+            "en": "Cast"
+          },
+          "content": {
+            "fr": "Negar Javaherian, Rambod Javan",
+            "en": "Negar Javaherian, Rambod Javan"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "reporting-from-darkness",
+      "title": {
+        "fr": "Reporting from Darkness",
+        "en": "Reporting from Darkness"
+      },
+      "year": 2018,
+      "poster": "",
+      "backdrop": "",
+      "description": {
+        "fr": "Un journaliste de région se retrouve pris au piège d’une affaire de corruption et de censure, tandis que des visions nocturnes le hantent.",
+        "en": "A regional reporter becomes trapped in a corruption and censorship case, haunted by nightly visions."
+      },
+      "synopsis": {
+        "fr": "Tout commence par un rêve prémonitoire. Karim, reporter pour un journal national dans une région du sud de l’Azerbaïdjan, se retrouve entraîné dans une affaire mêlant corruption et censure au sein du milieu de la presse. Après avoir tout tenté pour esquiver le piège et sauver sa carrière en trouvant un arrangement, il est rattrapé par des visions nocturnes qui lui révèlent les conséquences des actes de ses collègues — et les siennes.",
+        "en": "It all starts with a premonitory dream. Karim, a reporter for a national newspaper in a southern region of Azerbaijan, finds himself drawn into a corruption and censorship case within the press. After doing everything he can to dodge the snare and save his career by striking a deal, he is haunted by nightly visions about the consequences of his colleagues’ actions—and his own."
+      },
+      "duration": "63 min",
+      "genre": {
+        "fr": "Fiction",
+        "en": "Fiction"
+      },
+      "director": "Elvin Adigozel",
+      "crew": [
+        {
+          "name": "Elvin Adigozel",
+          "role": "Photography",
+          "image": ""
+        },
+        {
+          "name": "Elvin Adigozel",
+          "role": "Editing",
+          "image": ""
+        },
+        {
+          "name": "Kaan Bauman",
+          "role": "Sound",
+          "image": ""
+        },
+        {
+          "name": "Alain Kremski",
+          "role": "Music",
+          "image": ""
+        },
+        {
+          "name": "Memuar Films (Intigam Hajili, Elvin Adigozel)",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions (Etienne de Ricaud)",
+          "role": "Production",
+          "image": ""
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1768140002101",
+          "title": {
+            "fr": "Festivals",
+            "en": "Festivals"
+          },
+          "content": {
+            "fr": "FID Marseille (Compétition internationale).",
+            "en": "FID Marseille (International Competition)."
+          }
+        },
+        {
+          "id": "1768140002102",
+          "title": {
+            "fr": "Distribution",
+            "en": "Cast"
+          },
+          "content": {
+            "fr": "Elshan Adaletli, Parviz Gulmemmedov, Nigar Kulakhmedova, Cahangir Melikov, Ilgar Dadashov, Ziyadkhan Aliyev, Tarlan Rasulov, Ayshad Mammedov.",
+            "en": "Elshan Adaletli, Parviz Gulmemmedov, Nigar Kulakhmedova, Cahangir Melikov, Ilgar Dadashov, Ziyadkhan Aliyev, Tarlan Rasulov, Ayshad Mammedov."
+          }
+        }
+      ]
+    },
+    {
+      "slug": "komur-charcoal",
+      "title": {
+        "fr": "Kömür (Charcoal)",
+        "en": "Kömür (Charcoal)"
+      },
+      "year": 2019,
+      "poster": "",
+      "backdrop": "",
+      "description": {
+        "fr": "Dans l’Iran rural, un producteur de charbon bascule dans la tragédie quand son fils, condamné à la prison, s’enfuit en Azerbaïdjan.",
+        "en": "In rural Iran, a charcoal producer is pushed into tragedy when his jailed son escapes to Azerbaijan."
+      },
+      "synopsis": {
+        "fr": "Dans le nord-ouest rural de l’Iran, Gheirat vit modestement de la production de charbon. Lorsque son fils, condamné à la prison, parvient à s’évader et à passer en Azerbaïdjan, Gheirat est entraîné dans une spirale tragique. Entre loyauté, survie et pression sociale, sa vie se resserre jusqu’à l’inéluctable.",
+        "en": "In rural northwest Iran, Gheirat ekes out a living as a modest charcoal producer. When his son—sentenced to jail—manages to escape and flee to Azerbaijan, Gheirat is pushed into a tragic spiral. Caught between loyalty, survival, and social pressure, his world tightens toward the inevitable."
+      },
+      "duration": "86 min",
+      "genre": {
+        "fr": "Fiction",
+        "en": "Fiction"
+      },
+      "director": "Esmaeel Monsef",
+      "crew": [
+        {
+          "name": "Mohammad Reza Jahanpanah",
+          "role": "Cinematography",
+          "image": ""
+        },
+        {
+          "name": "Mehdi Naderi",
+          "role": "Music",
+          "image": ""
+        },
+        {
+          "name": "Hassan Shabankareh",
+          "role": "Sound",
+          "image": ""
+        },
+        {
+          "name": "Benjamin Laurent",
+          "role": "Sound",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Alias Films (Nader T. Homayoun)",
+          "role": "Production",
+          "image": ""
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1768140003101",
+          "title": {
+            "fr": "Festivals",
+            "en": "Festivals"
+          },
+          "content": {
+            "fr": "Fajr International, Ischia, Guwahati, Chennai, Pune, Barcelone (Asian Film Festival), etc.",
+            "en": "Fajr International, Ischia, Guwahati, Chennai, Pune, Barcelona (Asian Film Festival), etc."
+          }
+        },
+        {
+          "id": "1768140003102",
+          "title": {
+            "fr": "Ventes",
+            "en": "Sales"
+          },
+          "content": {
+            "fr": "Vendu à la télévision nationale turque (TRT).",
+            "en": "Sold to Turkish National TV (TRT)."
+          }
+        },
+        {
+          "id": "1768140003103",
+          "title": {
+            "fr": "Distribution",
+            "en": "Cast"
+          },
+          "content": {
+            "fr": "Hadi Eftekharzadeh, Farid Adhami, Zhila Shahi",
+            "en": "Hadi Eftekharzadeh, Farid Adhami, Zhila Shahi"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "shooting-ms-renas-film",
+      "title": {
+        "fr": "Shooting Ms Rena’s film!",
+        "en": "Shooting Ms Rena’s film!"
+      },
+      "year": 2019,
+      "poster": "",
+      "backdrop": "",
+      "description": {
+        "fr": "Dans un bazar aux portes de Bakou, une jeune équipe tente de tourner une scène avec une actrice célèbre.",
+        "en": "In a bazaar on the outskirts of Baku, a young film crew tries to shoot a scene with a well-known actress."
+      },
+      "synopsis": {
+        "fr": "Au cœur d’un bazar situé en périphérie de Bakou, une jeune équipe de cinéma tente de mettre en boîte une scène avec une actrice connue. Entre contraintes du lieu, tensions du tournage et imprévus, le plateau devient un théâtre où l’organisation se heurte au réel, révélant la fragilité et l’énergie d’un film en train de se faire.",
+        "en": "Inside a bazaar on the outskirts of Baku, a young film crew attempts to capture a scene featuring a well-known actress. As the location pushes back and the shoot fills with friction and surprises, the set becomes a stage where planning collides with reality—revealing both the fragility and the drive of filmmaking in motion."
+      },
+      "duration": "12 min",
+      "genre": {
+        "fr": "Court métrage",
+        "en": "Short Film"
+      },
+      "director": "Elvin Adigozel",
+      "crew": [
+        {
+          "name": "Oktay Namazov",
+          "role": "Cinematography",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Adari Films (Iarada Bagirzade)",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Memuar Films (Intigam Hajili & Elvin Adigozel)",
+          "role": "Production",
+          "image": ""
+        }
+      ],
+      "pressReviews": [
+        {
+          "id": "1768140004101",
+          "title": "Cinéma — article mentionnant « Shooting Ms Rena’s film! »",
+          "source": "Libération",
+          "url": "https://www.liberation.fr/images/2020/11/27/cine-derives-et-reves-aux-trois-continents_1806981/",
+          "language": "fr"
+        },
+        {
+          "id": "1768140004102",
+          "title": "Critique — (référence au film)",
+          "source": "Polyester",
+          "url": "https://lepolyester.com/critique-bilesuvar/",
+          "language": "fr"
+        },
+        {
+          "id": "1768140004103",
+          "title": "Actualité — (référence au film)",
+          "source": "Cineuropa",
+          "url": "https://cineuropa.org/fr/newsdetail/395485",
+          "language": "fr"
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1768140004201",
+          "title": {
+            "fr": "Festivals",
+            "en": "Festivals"
+          },
+          "content": {
+            "fr": "Busan FF (Compétition internationale), Tallinn (Compétition internationale), Lviv (Compétition internationale).",
+            "en": "Busan FF (International Competition), Tallinn (International Competition), Lviv (International Competition)."
+          }
+        },
+        {
+          "id": "1768140004202",
+          "title": {
+            "fr": "Distribution",
+            "en": "Cast"
+          },
+          "content": {
+            "fr": "Ilgara Tosova, Amid Gasimov, Kamran Agabalyev, Vugar Ariglar, Intigam Hajili, Togrul Moses, Alisa Tarelicheva",
+            "en": "Ilgara Tosova, Amid Gasimov, Kamran Agabalyev, Vugar Ariglar, Intigam Hajili, Togrul Moses, Alisa Tarelicheva"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "the-invention-of-borges",
+      "title": {
+        "fr": "The Invention of Borges",
+        "en": "The Invention of Borges"
+      },
+      "year": 2019,
+      "poster": "",
+      "backdrop": "",
+      "description": {
+        "fr": "Un cinéphile aveugle compile une encyclopédie de tous les films tandis qu’une jeune actrice l’accompagne, dans un documentaire vertigineux sur le cinéma et Borges.",
+        "en": "A blind cinephile compiles an encyclopedia of every film ever made, accompanied by a young actress, in a dizzying documentary about cinema and Borges."
+      },
+      "synopsis": {
+        "fr": "Francisco Acevedo est en réalité Hayrabet Alacahan, cinéphile arménien, animateur de ciné-club et critique. Il a créé la fondation « Cineteca Vida » et, devenu aveugle, s’est lancé dans la compilation d’une encyclopédie de tous les films jamais réalisés. Emma, une jeune actrice, l’accompagne partout. Les résonances borgésiennes se multiplient : Acevedo a connu Borges, et Nicolas Azalbert l’évoque en continu à travers des séquences-titres de films adaptés de son œuvre ou liés à celle-ci (dont celui que nous regardons). Le film est un film sur les films, saturé d’images de cinéma : au-delà des titres, il assemble des extraits de classiques (Hitchcock, Fritz Lang, Hugo del Carril, entre autres) et montre même une émission spéciale du réseau ATC réalisée peu après la mort de Borges.",
+        "en": "Francisco Acevedo is in fact Hayrabet Alacahan, an Armenian cinephile, film-society owner, and critic. He founded the “Cineteca Vida” Foundation and, having gone blind, is compiling an encyclopedia of every film ever made. Emma, a young actress, accompanies him everywhere. Borgesian echoes multiply: Acevedo was friends with Borges, and Nicolas Azalbert constantly evokes him through title sequences from films based on—or connected to—his work (including the one we are watching). This is a film about films, densely packed with cinema: beyond the title sequences, it weaves in classic footage (Hitchcock, Fritz Lang, Hugo del Carril, among others) and even includes a special made by the ATC network shortly after Borges’s death."
+      },
+      "duration": "79 min",
+      "genre": {
+        "fr": "Documentaire",
+        "en": "Documentary"
+      },
+      "director": "Nicolas Azalbert",
+      "crew": [
+        {
+          "name": "Matias Musa",
+          "role": "Cinematography",
+          "image": ""
+        },
+        {
+          "name": "Yamila Musa",
+          "role": "Line Producer",
+          "image": ""
+        },
+        {
+          "name": "Ignacio Masllorens",
+          "role": "Editing",
+          "image": ""
+        },
+        {
+          "name": "Matias Lusi",
+          "role": "Sound",
+          "image": ""
+        },
+        {
+          "name": "David Clot",
+          "role": "Mixing",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Capilar Films",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Caractères Productions",
+          "role": "Sales Agent",
+          "image": ""
+        }
+      ],
+      "pressReviews": [
+        {
+          "id": "1768140005101",
+          "title": "La invención de Borges — article / review",
+          "source": "Cinefiloserial",
+          "url": "http://cinefiloserial.com.ar/34-mdq-film-fest-la-invencion-de-borges-de-nicolas-azalbert-2019/",
+          "language": "en"
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1768140005201",
+          "title": {
+            "fr": "Festivals",
+            "en": "Festivals"
+          },
+          "content": {
+            "fr": "Mar del Plata FF, Montevideo FF.",
+            "en": "Mar del Plata FF, Montevideo FF."
+          }
+        },
+        {
+          "id": "1768140005202",
+          "title": {
+            "fr": "Distribution",
+            "en": "Cast"
+          },
+          "content": {
+            "fr": "Hayrabet Alacahan, Camila Fabbri, Ignacio Rodriguez de Anca, Daniela Pereyra",
+            "en": "Hayrabet Alacahan, Camila Fabbri, Ignacio Rodriguez de Anca, Daniela Pereyra"
+          }
+        }
+      ]
+    }
+  ]
+}

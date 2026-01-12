@@ -60,7 +60,7 @@ export const siteDefaults: SiteSettings = {
   // Section Hero
   hero: {
     videoUrl: '',
-    imageUrl: 'http://caracteresproductions.com/wp-content/uploads/2025/01/SliderLe-Pacte-dAlep-1.jpg',
+    imageUrl: 'https://prcglbfytntnffrwwoot.supabase.co/storage/v1/object/public/images/8d471088-a7a0-4ad5-8dcc-36fd2f051174/hero/e88zq6roig5-1767664865138.webp',
     overlayText: {
       fr: 'Productions Cinématographiques',
       en: 'Film Productions'
@@ -131,7 +131,7 @@ export const siteDefaults: SiteSettings = {
 
   // Footer
   footer: {
-    copyright: '© 2026 Caractères Productions ',
+    copyright: '© 2026 Caractères Productions — Site propulsé par Ludovic Bergeron Digital',
     links: []
   },
 

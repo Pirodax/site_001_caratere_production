@@ -1,0 +1,72 @@
+{
+  "siteId": "VOTRE_SITE_ID_ICI",
+  "films": [
+    {
+      "slug": "a-minor-leap-down",
+      "title": {
+        "fr": "A minor leap down",
+        "en": "A minor leap down"
+      },
+      "year": 2015,
+      "poster": "",
+      "backdrop": "",
+      "trailer": "https://youtu.be/EnfUuv8g5nU",
+      "description": {
+        "fr": "Nahal, enceinte de quatre mois, apprend soudain que son enfant est mort. Elle choisit le silence et décide de n'en parler à personne.",
+        "en": "Nahal who is four months pregnant suddenly finds out that her child is dead. She chose silence and decides not to talk with anybody about that."
+      },
+      "synopsis": {
+        "fr": "Nahal, enceinte de quatre mois, apprend soudain que son enfant est mort. Elle choisit le silence et décide de n'en parler à personne.",
+        "en": "Nahal who is four months pregnant suddenly finds out that her child is dead. She chose silence and decides not to talk with anybody about that."
+      },
+      "duration": "88 min",
+      "genre": {
+        "fr": "Fiction",
+        "en": "Fiction"
+      },
+      "director": "Hamed Rajabi",
+      "crew": [
+        {
+          "name": "Majid Barzegar (Rainy Pictures)",
+          "role": "Production",
+          "image": ""
+        },
+        {
+          "name": "Saeed Armand",
+          "role": "Production",
+          "image": ""
+        }
+      ],
+      "pressReviews": [
+        {
+          "id": "1768139867890",
+          "title": "A MINOR LEAP DOWN",
+          "source": "cineuropa",
+          "url": "https://cineuropa.org/en/film/283867/",
+          "language": "en"
+        }
+      ],
+      "buyLinks": [
+        {
+          "id": "1768140232126",
+          "platform": "AMAZON",
+          "url": "https://www.amazon.com/...",
+          "logo": "https://javafilms.fr/wp-content/themes/javafilms/assets/images/amazon-video.png"
+        }
+      ],
+      "customSections": [
+        {
+          "id": "1767921925960",
+          "title": {
+            "fr": "Festival",
+            "en": "Festival"
+          },
+          "content": {
+            "fr": "Thessaloniki FF (Greece), Visions du Réel (Switzerland)...",
+            "en": "Thessaloniki FF (Greece), Visions du Réel (Switzerland)..."
+          }
+        }
+      ]
+    }
+  ]
+}

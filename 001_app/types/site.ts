@@ -6,18 +6,44 @@ export interface CrewMember {
   image: string
 }
 
+export interface CustomSection {
+  id: string
+  title: TranslatableText
+  content: TranslatableText
+}
+
+export interface PressReview {
+  id: string
+  title: string
+  source: string
+  url: string
+  language: 'fr' | 'en'
+}
+
+export interface BuyLink {
+  id: string
+  platform: string
+  url: string
+  logo?: string
+}
+
 export interface Film {
   slug: string
   title: TranslatableText
   year: number | string
   poster: string
+  backdrop?: string // Image paysage immersive pour le background
   trailer?: string
   description?: TranslatableText
   synopsis: TranslatableText
+  synopsisTitle?: TranslatableText
+  customSections?: CustomSection[]
   duration?: string
   genre?: TranslatableText
   director?: string
   crew?: CrewMember[]
+  pressReviews?: PressReview[]
+  buyLinks?: BuyLink[]
 }
 
 export interface Typography {
@@ -79,9 +105,15 @@ export interface ContactSettings {
   phone?: string
 }
 
+export interface LegalNotice {
+  title: TranslatableText
+  content: TranslatableText
+}
+
 export interface FooterSettings {
   copyright?: string
   links?: Array<{ label: string; href: string }>
+  legalNotices?: LegalNotice[]
 }
 
 export interface SocialLinks {
