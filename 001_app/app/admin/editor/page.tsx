@@ -121,6 +121,19 @@ export default function EditorPage() {
     })
   }
 
+  // Helper pour obtenir une valeur imbriquée avec fallback
+  const getNestedValue = (obj: any, path: string[], fallback: any = ''): any => {
+    let current = obj
+    for (const key of path) {
+      if (current && typeof current === 'object' && key in current) {
+        current = current[key]
+      } else {
+        return fallback
+      }
+    }
+    return current ?? fallback
+  }
+
   // Fonctions de gestion des works
   const handleCreateWork = async () => {
     if (!siteId) return
@@ -650,7 +663,7 @@ export default function EditorPage() {
                             <label className="block text-xs text-white/40 mb-2">Français</label>
                             <input
                               type="text"
-                              value={settings.works?.title?.fr || ''}
+                              value={getNestedValue(settings, ['works', 'title', 'fr'], 'Nos Films')}
                               onChange={(e) => updateSettings(['works', 'title', 'fr'], e.target.value)}
                               placeholder="Nos Films"
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
@@ -660,7 +673,7 @@ export default function EditorPage() {
                             <label className="block text-xs text-white/40 mb-2">English</label>
                             <input
                               type="text"
-                              value={settings.works?.title?.en || ''}
+                              value={getNestedValue(settings, ['works', 'title', 'en'], 'Our Films')}
                               onChange={(e) => updateSettings(['works', 'title', 'en'], e.target.value)}
                               placeholder="Our Films"
                               className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
