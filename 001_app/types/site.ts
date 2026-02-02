@@ -98,11 +98,19 @@ export interface NewsSettings {
   articles: NewsArticle[]
 }
 
+export interface SocialLink {
+  id: string
+  platform: string
+  url: string
+  icon: string // URL de l'icône ou nom de l'icône
+}
+
 export interface ContactSettings {
   email: string
   address?: string
   mapEmbed?: string
   phone?: string
+  socialLinks?: SocialLink[]
 }
 
 export interface LegalNotice {

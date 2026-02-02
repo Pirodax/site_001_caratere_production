@@ -3,12 +3,20 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 
+interface SocialLink {
+  id: string
+  platform: string
+  url: string
+  icon: string
+}
+
 interface ContactCinemaProps {
   data: {
     email: string
     address?: string
     mapEmbed?: string
     phone?: string
+    socialLinks?: SocialLink[]
   }
   theme: {
     primary: string
@@ -104,6 +112,46 @@ export function ContactCinema({ data, theme }: ContactCinemaProps) {
                 >
                   {data.phone}
                 </a>
+              )}
+
+              {/* Social Links */}
+              {data.socialLinks && data.socialLinks.length > 0 && (
+                <div className="flex justify-center gap-5 pt-4">
+                  {data.socialLinks.map((link) => (
+                    <div key={link.id} className="group relative">
+                      <motion.a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:opacity-80 transition-opacity"
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {link.icon ? (
+                          <img
+                            src={link.icon}
+                            alt={link.platform}
+                            className="w-10 h-10 object-contain"
+                          />
+                        ) : (
+                          <span
+                            className="inline-flex items-center justify-center w-12 h-12 rounded-full border text-sm font-medium"
+                            style={{ borderColor: theme.accent, color: theme.accent }}
+                          >
+                            {link.platform.substring(0, 2).toUpperCase()}
+                          </span>
+                        )}
+                      </motion.a>
+                      {/* Tooltip */}
+                      <span
+                        className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none"
+                        style={{ backgroundColor: theme.accent, color: theme.primary }}
+                      >
+                        {link.platform}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 

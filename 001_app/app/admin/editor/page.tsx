@@ -1616,6 +1616,96 @@ export default function EditorPage() {
                       placeholder="https://..."
                     />
                   </div>
+
+                  {/* Section Réseaux Sociaux */}
+                  <div className="border-t border-white/10 pt-6 mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-semibold text-white">Réseaux Sociaux</h3>
+                      <button
+                        onClick={() => {
+                          const newLink = {
+                            id: Date.now().toString(),
+                            platform: '',
+                            url: '',
+                            icon: ''
+                          }
+                          const links = settings.contact.socialLinks || []
+                          updateSettings(['contact', 'socialLinks'], [...links, newLink])
+                        }}
+                        className="px-4 py-2 bg-white text-black rounded-lg hover:bg-white/90 transition-colors font-semibold"
+                      >
+                        + Ajouter un réseau
+                      </button>
+                    </div>
+
+                    {settings.contact.socialLinks && settings.contact.socialLinks.length > 0 ? (
+                      <div className="space-y-4">
+                        {settings.contact.socialLinks.map((link, index) => (
+                          <div key={link.id} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                            <div className="flex justify-between items-start mb-4">
+                              <span className="text-white font-medium">Réseau {index + 1}</span>
+                              <button
+                                onClick={() => {
+                                  const links = settings.contact.socialLinks?.filter((_, i) => i !== index) || []
+                                  updateSettings(['contact', 'socialLinks'], links)
+                                }}
+                                className="text-red-400 hover:text-red-300 text-sm"
+                              >
+                                Supprimer
+                              </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div>
+                                <label className="block text-xs text-white/40 mb-2">Nom du réseau</label>
+                                <input
+                                  type="text"
+                                  placeholder="Instagram, Facebook, etc."
+                                  value={link.platform}
+                                  onChange={(e) => {
+                                    const links = [...(settings.contact.socialLinks || [])]
+                                    links[index] = { ...links[index], platform: e.target.value }
+                                    updateSettings(['contact', 'socialLinks'], links)
+                                  }}
+                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs text-white/40 mb-2">URL du profil</label>
+                                <input
+                                  type="url"
+                                  placeholder="https://instagram.com/..."
+                                  value={link.url}
+                                  onChange={(e) => {
+                                    const links = [...(settings.contact.socialLinks || [])]
+                                    links[index] = { ...links[index], url: e.target.value }
+                                    updateSettings(['contact', 'socialLinks'], links)
+                                  }}
+                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs text-white/40 mb-2">URL de l&apos;icône</label>
+                                <input
+                                  type="url"
+                                  placeholder="https://... ou laisser vide"
+                                  value={link.icon}
+                                  onChange={(e) => {
+                                    const links = [...(settings.contact.socialLinks || [])]
+                                    links[index] = { ...links[index], icon: e.target.value }
+                                    updateSettings(['contact', 'socialLinks'], links)
+                                  }}
+                                  className="w-full px-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:border-white/40"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-white/40 text-sm">Aucun réseau social ajouté</p>
+                    )}
+                  </div>
                 </div>
               )}
 

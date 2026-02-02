@@ -17,9 +17,10 @@ interface NavbarCinemaProps {
     text: string
   }
   logo?: string
+  newsVisible?: boolean
 }
 
-export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
+export function NavbarCinema({ theme, logo, newsVisible }: NavbarCinemaProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { language, setLanguage } = useLanguage()
@@ -50,6 +51,7 @@ export function NavbarCinema({ theme, logo }: NavbarCinemaProps) {
     { labelKey: 'home' as const, id: 'home' },
     { labelKey: 'about' as const, id: 'about' },
     { labelKey: 'films' as const, id: 'films' },
+    ...(newsVisible ? [{ labelKey: 'news' as const, id: 'news' }] : []),
     { labelKey: 'contact' as const, id: 'contact' },
   ]
 

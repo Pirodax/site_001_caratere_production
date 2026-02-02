@@ -5,6 +5,7 @@ export const uiTranslations = {
   home: { fr: 'Accueil', en: 'Home' },
   about: { fr: 'À propos', en: 'About' },
   films: { fr: 'Films', en: 'Films' },
+  news: { fr: 'Actualités', en: 'News' },
   contact: { fr: 'Contact', en: 'Contact' },
 
   // Boutons

@@ -11,6 +11,31 @@ interface NewsProps {
   news: NewsSettings
 }
 
+// Fonction pour convertir les URLs en liens cliquables
+function renderTextWithLinks(text: string): React.ReactNode {
+  // Regex pour détecter les URLs
+  const urlRegex = /(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/g
+  const parts = text.split(urlRegex)
+
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-300 underline transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {part}
+        </a>
+      )
+    }
+    return part
+  })
+}
+
 export default function News({ news }: NewsProps) {
   const { language } = useLanguage()
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null)
@@ -56,7 +81,7 @@ export default function News({ news }: NewsProps) {
   })
 
   return (
-    <section className="relative py-24 bg-black">
+    <section id="news" className="relative py-24 bg-black">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Titre de la section - Aligné comme About et Works */}
         <motion.h2
@@ -198,10 +223,11 @@ export default function News({ news }: NewsProps) {
                 {/* Contenu complet */}
                 <div className="prose prose-invert prose-lg max-w-none">
                   <p className="text-white/90 text-lg leading-relaxed whitespace-pre-wrap">
-                    {selectedArticle.content
-                      ? t(selectedArticle.content, language)
-                      : t(selectedArticle.excerpt, language)
-                    }
+                    {renderTextWithLinks(
+                      selectedArticle.content
+                        ? t(selectedArticle.content, language)
+                        : t(selectedArticle.excerpt, language)
+                    )}
                   </p>
                 </div>
               </div>

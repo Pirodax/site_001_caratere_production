@@ -64,7 +64,7 @@ export default async function Home() {
       <FontLoader typography={settings.theme?.typography} />
 
       <div className="w-full">
-        <NavbarCinema theme={settings.theme} logo={settings.logo || settings.siteName} />
+        <NavbarCinema theme={settings.theme} logo={settings.logo || settings.siteName} newsVisible={settings.news?.visible} />
         <HeroVideo data={settings.hero} theme={settings.theme} />
         <AboutCinema data={settings.about} theme={settings.theme} />
         <Works data={worksData} theme={settings.theme} />
