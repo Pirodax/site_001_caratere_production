@@ -61,6 +61,14 @@ export default function EditorPage() {
         return
       }
 
+      // Vérifier que l'utilisateur est bien le propriétaire autorisé de CE déploiement
+      const allowedEmail = process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAIL
+      if (allowedEmail && user.email !== allowedEmail) {
+        await supabase.auth.signOut()
+        router.push('/')
+        return
+      }
+
       setUser(user)
 
       // Récupérer le site de l'utilisateur

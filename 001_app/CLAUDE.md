@@ -181,7 +181,7 @@ export { NavbarCinema, HeroVideo, AboutCinema, ... } from './template_cinema/...
 **IMPORTANT**: In Next.js 15+, `params` in dynamic routes is a Promise:
 
 ```typescript
-// ❌ OLD (Next.js 14)
+
 export default function Page({ params }: { params: { slug: string } }) {
   const id = params.slug
 }

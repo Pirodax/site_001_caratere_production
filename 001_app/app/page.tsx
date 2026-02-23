@@ -15,15 +15,35 @@ export const dynamic = 'force-dynamic'
 export default async function Home() {
   const supabase = await createClient()
 
-  // Récupérer les settings du site (le premier site pour l'instant)
-  const { data: site } = await supabase
-    .from('sites')
-    .select('settings, id')
-    .limit(1)
-    .maybeSingle()
+  // Récupérer le site par son ID fixe (défini dans .env.local par déploiement)
+  // Si pas défini, fallback sur le premier site (rétrocompatibilité)
+  const siteIdEnv = process.env.NEXT_PUBLIC_SITE_ID
+  const siteQuery = supabase.from('sites').select('settings, id')
+  const { data: site } = await (siteIdEnv
+    ? siteQuery.eq('id', siteIdEnv).maybeSingle()
+    : siteQuery.limit(1).maybeSingle())
 
-  // Utiliser les settings de la DB ou les defaults
-  const settings: SiteSettings = site?.settings as SiteSettings || siteDefaults
+  // Deep merge : defaults en base, valeurs DB par-dessus, champ par champ
+  // Gère les settings manquants (null), vides ({}) ou partiels ({ theme: { primary } sans accent })
+  const raw = (site?.settings || {}) as Partial<SiteSettings>
+  const settings: SiteSettings = {
+    siteName: raw.siteName || siteDefaults.siteName,
+    logo: raw.logo || siteDefaults.logo,
+    theme: {
+      ...siteDefaults.theme,
+      ...(raw.theme || {}),
+      typography: {
+        ...siteDefaults.theme.typography,
+        ...(raw.theme?.typography || {}),
+      },
+    },
+    hero: { ...siteDefaults.hero, ...(raw.hero || {}) },
+    about: { ...siteDefaults.about, ...(raw.about || {}) },
+    works: raw.works || siteDefaults.works,
+    news: raw.news ?? siteDefaults.news,
+    contact: { ...siteDefaults.contact, ...(raw.contact || {}) },
+    footer: { ...siteDefaults.footer, ...(raw.footer || {}) },
+  }
   const siteId = site?.id
 
   // Récupérer les works depuis la table works

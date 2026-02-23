@@ -41,6 +41,14 @@ export async function proxy(request: NextRequest) {
       redirectUrl.pathname = '/admin'
       return NextResponse.redirect(redirectUrl)
     }
+
+    // Vérifier que l'email connecté est bien le propriétaire autorisé de ce déploiement
+    const allowedEmail = process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAIL
+    if (allowedEmail && user.email !== allowedEmail) {
+      const redirectUrl = request.nextUrl.clone()
+      redirectUrl.pathname = '/'
+      return NextResponse.redirect(redirectUrl)
+    }
   }
 
   // Si l'utilisateur est connecté et essaie d'accéder à /admin, rediriger vers le dashboard
