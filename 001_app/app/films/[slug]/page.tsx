@@ -82,13 +82,25 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       const supabase = createClient()
 
       // Récupérer le work
-      const { data: workData, error } = await supabase
+      // Chercher par slug d'abord (URL lisible), fallback sur l'ID (rétrocompatibilité)
+      const siteId = process.env.NEXT_PUBLIC_SITE_ID
+      let { data: workData } = await supabase
         .from('works')
         .select('*')
-        .eq('id', slug)
+        .eq('settings->>slug', slug)
+        .eq('site_id', siteId)
         .maybeSingle()
 
-      if (error || !workData) {
+      if (!workData) {
+        const { data: byId } = await supabase
+          .from('works')
+          .select('*')
+          .eq('id', slug)
+          .maybeSingle()
+        workData = byId
+      }
+
+      if (!workData) {
         setLoading(false)
         return
       }
@@ -132,6 +144,15 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
   }
 
   const film = work.settings
+
+  // Résoudre la bande-annonce selon la langue (FR/EN avec fallback)
+  const activeTrailer = (() => {
+    if (film.trailerFr || film.trailerEn) {
+      if (language === 'fr') return film.trailerFr || film.trailerEn || ''
+      return film.trailerEn || film.trailerFr || ''
+    }
+    return film.trailer || ''
+  })()
 
   // Fonction pour convertir une URL YouTube en URL embed
   const getEmbedUrl = (url: string) => {
@@ -235,7 +256,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
 
             {/* Boutons d'action */}
             <div className="flex flex-wrap gap-4">
-              {film.trailer && film.trailer !== '' && (
+              {activeTrailer !== '' && (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -485,7 +506,7 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
       )}
 
       {/* Modal Bande-annonce */}
-      {showTrailer && film.trailer && film.trailer !== '' && (
+      {showTrailer && activeTrailer !== '' && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -509,16 +530,16 @@ export default function FilmPage({ params }: { params: Promise<{ slug: string }>
             </button>
 
             {/* Vidéo - Support YouTube, Vimeo et fichiers directs */}
-            {isDirectVideo(film.trailer) ? (
+            {isDirectVideo(activeTrailer) ? (
               <video
-                src={film.trailer}
+                src={activeTrailer}
                 controls
                 autoPlay
                 className="w-full h-full rounded-lg"
               />
             ) : (
               <iframe
-                src={getEmbedUrl(film.trailer) || ''}
+                src={getEmbedUrl(activeTrailer) || ''}
                 className="w-full h-full rounded-lg"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
