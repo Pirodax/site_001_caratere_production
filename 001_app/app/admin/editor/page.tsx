@@ -703,7 +703,14 @@ export default function EditorPage() {
                               key={work.id}
                               whileHover={{ scale: 1.02 }}
                               className="bg-white/5 border border-white/10 rounded-lg overflow-hidden cursor-pointer"
-                              onClick={() => setEditingWork(work)}
+                              onClick={() => setEditingWork({
+                                ...work,
+                                settings: {
+                                  ...work.settings,
+                                  trailerFr: work.settings.trailerFr || work.settings.trailer || '',
+                                  trailerEn: work.settings.trailerEn || work.settings.trailer || '',
+                                }
+                              })}
                             >
                               {work.settings.poster && (
                                 <img
@@ -795,6 +802,32 @@ export default function EditorPage() {
                               />
                             </div>
                           </div>
+                        </div>
+
+                        {/* Slug */}
+                        <div>
+                          <label className="block text-sm text-white/60 mb-2">Slug (URL du film)</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={editingWork.settings.slug || ''}
+                              onChange={(e) => updateWorkField(['slug'], e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-'))}
+                              className="flex-1 px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40 font-mono text-sm"
+                              placeholder="mon-film-exemple"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const title = editingWork.settings.title?.en || editingWork.settings.title?.fr || ''
+                                const generated = title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                                updateWorkField(['slug'], generated)
+                              }}
+                              className="px-3 py-2 bg-white/10 text-white/60 hover:text-white hover:bg-white/20 rounded-lg text-xs transition-colors whitespace-nowrap"
+                            >
+                              Générer
+                            </button>
+                          </div>
+                          <p className="text-xs text-white/30 mt-2">Utilisé dans l'URL : /films/<span className="text-white/50">{editingWork.settings.slug || 'mon-film'}</span></p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -920,14 +953,30 @@ export default function EditorPage() {
                         />
 
                         <div>
-                          <label className="block text-sm text-white/60 mb-2">URL de la bande-annonce (optionnel)</label>
-                          <input
-                            type="text"
-                            value={editingWork.settings.trailer || ''}
-                            onChange={(e) => updateWorkField(['trailer'], e.target.value)}
-                            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
-                            placeholder="https://..."
-                          />
+                          <label className="block text-sm text-white/60 mb-3">Bandes-annonces (optionnel)</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Bande-annonce FR</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.trailerFr || ''}
+                                onChange={(e) => updateWorkField(['trailerFr'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="https://youtube.com/..."
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-white/40 mb-2">Bande-annonce EN</label>
+                              <input
+                                type="text"
+                                value={editingWork.settings.trailerEn || ''}
+                                onChange={(e) => updateWorkField(['trailerEn'], e.target.value)}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-white/40"
+                                placeholder="https://youtube.com/..."
+                              />
+                            </div>
+                          </div>
+                          <p className="text-xs text-white/30 mt-2">Si une seule langue est renseignée, elle sera utilisée pour les deux.</p>
                         </div>
 
                         {/* Description FR/EN */}
@@ -1901,6 +1950,7 @@ export default function EditorPage() {
                       </p>
                     </div>
                   </div>
+
                 </div>
               )}
 

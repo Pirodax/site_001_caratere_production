@@ -34,6 +34,8 @@ export interface Film {
   poster: string | { fr?: string; en?: string } // Support bilingue pour affiches
   backdrop?: string // Image paysage immersive pour le background
   trailer?: string
+  trailerFr?: string
+  trailerEn?: string
   description?: TranslatableText
   synopsis: TranslatableText
   synopsisTitle?: TranslatableText

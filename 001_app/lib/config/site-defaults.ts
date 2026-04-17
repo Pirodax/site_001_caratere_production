@@ -19,6 +19,8 @@ export const defaultFilms: Film[] = [
       en: 'Complete film synopsis. A captivating story that explores themes of life, love, and redemption through the eyes of deeply human characters.'
     },
     trailer: '',
+    trailerFr: '',
+    trailerEn: '',
     duration: '120 min',
     genre: {
       fr: 'Drame',

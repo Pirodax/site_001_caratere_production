@@ -69,6 +69,7 @@ export default async function Home() {
     if (works && works.length > 0) {
       worksData.items = works.map(work => ({
         id: work.id,
+        slug: work.settings.slug || null,
         title: typeof work.settings.title === 'string' ? work.settings.title : work.settings.title?.fr || '',
         year: String(work.settings.year),
         image: work.settings.poster,
@@ -86,12 +87,12 @@ export default async function Home() {
       <div className="w-full">
         <NavbarCinema theme={settings.theme} logo={settings.logo || settings.siteName} newsVisible={settings.news?.visible} />
         <HeroVideo data={settings.hero} theme={settings.theme} />
-        <AboutCinema data={settings.about} theme={settings.theme} />
-        <Works data={worksData} theme={settings.theme} />
 
         {/* Section Actualités (uniquement si visible) */}
         {settings.news && <News news={settings.news} />}
 
+        <Works data={worksData} theme={settings.theme} />
+        <AboutCinema data={settings.about} theme={settings.theme} />
         <ContactCinema data={settings.contact} theme={settings.theme} />
       </div>
       <FooterCinema data={settings.footer} theme={settings.theme} />

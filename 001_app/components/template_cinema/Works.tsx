@@ -22,6 +22,7 @@ interface CrewMember {
 
 interface WorkItem {
   id?: string
+  slug?: string | null
   title: string
   year: string
   image: string | { fr?: string; en?: string }
@@ -82,7 +83,7 @@ export function Works({ data, theme }: WorksProps) {
           {/* Works grid - 2 columns on mobile, 4 on desktop */}
           <div className="grid gap-4 md:gap-5 grid-cols-2 lg:grid-cols-4">
             {validItems.map((item, index) => (
-              <Link key={index} href={`/films/${item.id}`}>
+              <Link key={index} href={`/films/${item.slug || item.id}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
